@@ -1,6 +1,7 @@
 NAME = minishell
 CC = cc
-CFLAGS =  -Wextra -Wall -g 
+CFLAGS =  -Wextra -Wall -g
+LIBS = -lreadline
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 HEADERS = $(wildcard *.h)
@@ -9,7 +10,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
