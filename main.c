@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-/*
-What does the main do here?
-a. It runs the prompt in a loop
-b. Also make sure to handle signals
-c. run the lexer
-d. run the parser
-e. run the executor
-*/
-=======
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -95,4 +85,3 @@ int	tokens(char *string)
 	//5. quotes also have to be handled 
 	//
 }
->>>>>>> git@github.com-sammygluck/minishell.git/master
