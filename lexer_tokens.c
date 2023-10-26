@@ -102,11 +102,16 @@ the behaviour when quotes are active will differ
 char *word_string(char *string, int *i)
 {
     int j;
+    int n;
 
     j = *i;
     while(string[j])
     {
-        if (is_space(string[j]))
-            j++;
+        if (is_token(string[j], j) || is_space(string[j]));
+            break ;
+        j++;
     }
+    n = j - *i;
+    *i = j;
+    return (strndup(&string[*i], n));//this might be a mind bender and very likely also incorrect
 }
