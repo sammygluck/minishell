@@ -61,6 +61,7 @@ void add_token_to_list(t_token **token_list, t_token *token) //not sure if it's 
 void add_token(char *string, int *i, int type, t_token **head)
 {
     char *string_to_add;
+    t_token *token;
 
     //if it's a token stringtoadd = tokentype
     //if it's a word; stringtoadd = begin of word until end of word
@@ -69,7 +70,9 @@ void add_token(char *string, int *i, int type, t_token **head)
     if (type > 0 && type < 6)
         string_to_add = token_string(type, i);
     if (type > 5)
-        string_to_add = word_string(string, i);        
+        string_to_add = word_string(string, i); 
+    token = create_token(string_to_add, type);
+    add_token_to_list(head, token);
 }
 
 //this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
