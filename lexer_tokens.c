@@ -56,3 +56,57 @@ void add_token_to_list(t_token **token_list, t_token *token) //not sure if it's 
         head = head->next;
     head->next = token;
 }
+
+/*as of now returns nothing but in future returns int for success or failure*/
+void add_token(char *string, int *i, int type, t_token **head)
+{
+    char *string_to_add;
+
+    //if it's a token stringtoadd = tokentype
+    //if it's a word; stringtoadd = begin of word until end of word
+    //by quotes, well have to do begin of word until end of word - adjusted
+    
+    if (type > 0 && type < 6)
+        string_to_add = token_string(type, i);
+    if (type > 5)
+        string_to_add = word_string(string, i);        
+}
+
+//this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
+// but make sure to free it afterwards
+//replace strdup with ft_strdup
+char *token_string(int type, int *i)
+{
+    if (type == 1 || type == 2) 
+        *i += 2; //check if this is possible
+    else
+        *i += 1; //check if this is possible
+    if (type == 1) 
+        return (strdup(">>"));
+    if (type == 2) 
+        return (strdup("<<"));
+    if (type == 3)
+        return (strdup("|"));
+    if (type == 4)
+        return (strdup(">"));
+    if (type == 5)
+        return (strdup("<"));
+}
+
+/*
+the idea of this function is to extract the string beginning from the i part until it reaches
+a space, token or null byte;
+return value: pointer to extracted string
+the behaviour when quotes are active will differ
+*/
+char *word_string(char *string, int *i)
+{
+    int j;
+
+    j = *i;
+    while(string[j])
+    {
+        if (is_space(string[j]))
+            j++;
+    }
+}

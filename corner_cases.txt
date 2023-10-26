@@ -1,0 +1,2 @@
+1. What happens when you've got three or more consecutive tokens ||| >>> <<< etc. ?
+2. In cases where the input redirect is on another place than it's usual place (i.e. how do we arrange the redirects)
