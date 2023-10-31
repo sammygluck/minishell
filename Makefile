@@ -24,4 +24,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
->>>>>>> git@github.com-sammygluck/minishell.git/master
+
