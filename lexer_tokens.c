@@ -1,17 +1,5 @@
 #include <minishell.h>
 
-int ft_strlen(char *string)
-{
-    int i;
-
-    i = 0;
-    if (!string)
-        return (i);    
-    while(string[i])
-        i++;
-    return (i);
-}
-
 /*
 returns a pointer to a new token node;
 arguments: a string and a type of token;
@@ -26,7 +14,10 @@ t_token *create_token(char *string, int type)
         return (NULL);
     token->string = ft_strdup(string);
     if (!token->string)
+    {
+        free(token);
         return (NULL);
+    }
     //either type gets verified here or earlier not sure yet
     token->type = type;
     token->next = NULL;
@@ -57,6 +48,56 @@ void add_token_to_list(t_token **token_list, t_token *token) //not sure if it's 
     head->next = token;
 }
 
+//this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
+// but make sure to free it afterwards
+//replace strdup with ft_strdup
+char *token_string(int type, int *i)
+{
+    if (type == 1 || type == 2) 
+        *i += 2; //check if this is possible
+    else
+        *i += 1; //check if this is possible
+    if (type == 1) 
+        return (ft_strdup(">>"));
+    else if (type == 2) 
+        return (ft_strdup("<<"));
+    else if (type == 3)
+        return (ft_strdup("|"));
+    else if (type == 4)
+        return (ft_strdup(">"));
+    else if (type == 5)
+        return (ft_strdup("<"));
+    else 
+        return (NULL);
+}
+
+/*
+the idea of this function is to extract the string beginning from the i part until it reaches
+a space, token or null byte;
+return value: pointer to extracted string
+the behaviour when quotes are active will differ
+*/
+char *word_string(char *string, int *i)
+{
+    int j;
+    int chars_to_copy;
+    char *result;
+
+    if (!string || !i)
+        return (NULL);
+    j = *i;
+    while(string[j])
+    {
+        if (is_token(string[j], j) || is_space(string[j]))
+            break ;
+        j++;
+    }
+    chars_to_copy = j - *i;
+    result = strndup(&string[*i], chars_to_copy);
+    *i = j;
+    return (result);
+}
+
 /*as of now returns nothing but in future returns int for success or failure*/
 void add_token(char *string, int *i, int type, t_token **head)
 {
@@ -73,48 +114,5 @@ void add_token(char *string, int *i, int type, t_token **head)
         string_to_add = word_string(string, i); 
     token = create_token(string_to_add, type);
     add_token_to_list(head, token);
-}
-
-//this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
-// but make sure to free it afterwards
-//replace strdup with ft_strdup
-char *token_string(int type, int *i)
-{
-    if (type == 1 || type == 2) 
-        *i += 2; //check if this is possible
-    else
-        *i += 1; //check if this is possible
-    if (type == 1) 
-        return (strdup(">>"));
-    if (type == 2) 
-        return (strdup("<<"));
-    if (type == 3)
-        return (strdup("|"));
-    if (type == 4)
-        return (strdup(">"));
-    if (type == 5)
-        return (strdup("<"));
-}
-
-/*
-the idea of this function is to extract the string beginning from the i part until it reaches
-a space, token or null byte;
-return value: pointer to extracted string
-the behaviour when quotes are active will differ
-*/
-char *word_string(char *string, int *i)
-{
-    int j;
-    int n;
-
-    j = *i;
-    while(string[j])
-    {
-        if (is_token(string[j], j) || is_space(string[j]));
-            break ;
-        j++;
-    }
-    n = j - *i;
-    *i = j;
-    return (strndup(&string[*i], n));//this might be a mind bender and very likely also incorrect
+    free(string_to_add);
 }

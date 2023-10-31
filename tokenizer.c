@@ -2,7 +2,7 @@
 
 int is_space(char c)
 {
-    if (c == ' ' || c == '  ')
+    if (c == ' ' || c == '\t')
         return (1);
     return (0);
 }
@@ -33,8 +33,12 @@ t_token *tokenizer(char *string)
     token_head = NULL;
     while (string[i])
     {
-        if (is_space(string[i++]))
+        //if is quote, handle quote behaviour
+        if (is_space(string[i]))
+        {
+            i++;
             continue ;
+        }
         token_nr = is_token(string, i);
         if (token_nr)
         {
