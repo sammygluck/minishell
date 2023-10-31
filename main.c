@@ -27,6 +27,7 @@ int	main(void)
 		add_history(input);
 		printf("You entered: %s\n", input);
 		token_head = tokenizer(input);
+		print_list(token_head);
 		free(input);
 	}
 	return (0);

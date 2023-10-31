@@ -116,3 +116,14 @@ void add_token(char *string, int *i, int type, t_token **head)
     add_token_to_list(head, token);
     free(string_to_add);
 }
+
+void print_list(t_token *head)
+{
+    if (!head)
+        return;
+    while(head)
+    {
+        printf("%s\n", head->string);
+        head = head->next;
+    }
+}

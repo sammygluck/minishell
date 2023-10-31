@@ -52,3 +52,4 @@ char *ft_strndup(const char *s, size_t n)
     new_string[i] = '\0';
     return(new_string);
 }
+
