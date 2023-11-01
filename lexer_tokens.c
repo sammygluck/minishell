@@ -88,7 +88,7 @@ char *word_string(char *string, int *i)
     j = *i;
     while(string[j])
     {
-        if (is_token(string[j], j) || is_space(string[j]))
+        if (is_token(string, j) || is_space(string[j]))
             break ;
         j++;
     }

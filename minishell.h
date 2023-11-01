@@ -7,21 +7,28 @@
 # include <string.h> //remove maybe
 # include <stddef.h>
 # include <limits.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 
 typedef struct s_token {
     char    *string;
     int     type;
-    t_token *next;
+    struct s_token *next;
 }   t_token;
 
 //tokenizer
+t_token *tokenizer(char *string);
 void add_token(char *string, int *i, int type, t_token **head);
 char *word_string(char *string, int *i);
 char *token_string(int type, int *i);
 void add_token_to_list(t_token **token_list, t_token *token);
 t_token *create_token(char *string, int type);
 void print_list(t_token *head);
+int is_token(char *string, int position);
+int is_space(char c);
+
 
 
 //libft tmp

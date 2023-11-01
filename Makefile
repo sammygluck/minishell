@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS =  -Wextra -Wall -g
+CFLAGS = -I. -Wextra -Wall -g
 LIBS = -lreadline
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
