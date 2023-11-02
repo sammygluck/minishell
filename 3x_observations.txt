@@ -1,0 +1,22 @@
+1. the file after the redirect symbol is the one to use
+2. if  you have a redirect and a pipe, the redirect takes precedence
+3. with multiple redirects on the same command, the last one is going to be the one used
+    but the first one's file is still going to be created
+4. in this case: ls | > outfile
+    outfile is created but empty
+5. in this case: cat > out |
+    it returns a weird type of prompt
+6. no input returns an error:
+    bash: syntax error near unexpected token `newline'
+7. in this case: | command  
+    bash: syntax error near unexpected token `|'
+8. in this case: command > > outfile
+    bash: syntax error near unexpected token `>'
+9. in this case: command | | command2/outfile
+    bash: syntax error near unexpected token `>'
+10. in this case: command1 | command2 | | command3 (or any other bash syntax error)
+    even earlier commands aren't executed, so both 1 and 2 aren't executed
+11. in this case: command ">" outfile
+    ">" get treated as an argument and not as a redirect
+12. in this case: command ||| command2
+    the error is only displayed once
