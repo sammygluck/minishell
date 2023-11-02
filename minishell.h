@@ -16,6 +16,7 @@ typedef struct s_token {
     char    *string;
     int     type;
     struct s_token *next;
+    struct s_token *previous;
 }   t_token;
 
 //tokenizer
