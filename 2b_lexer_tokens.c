@@ -21,6 +21,7 @@ t_token *create_token(char *string, int type)
     //either type gets verified here or earlier not sure yet
     token->type = type;
     token->next = NULL;
+    token->previous = NULL;
     return (token);    
 }
 
@@ -46,6 +47,7 @@ void add_token_to_list(t_token **token_list, t_token *token) //not sure if it's 
     while (head->next)
         head = head->next;
     head->next = token;
+    head->next->previous = head;
 }
 
 //this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
