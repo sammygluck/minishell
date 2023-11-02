@@ -1,4 +1,3 @@
-/* 
 We've just created our most basic lexer, now let's move on to the parser:
 1. We get a linked list with all the parsed words and also indicating the type.
 2. We must be able to create commandsd that will be robust in all cases
@@ -8,7 +7,8 @@ We've just created our most basic lexer, now let's move on to the parser:
 One of the ways of building up to more complicated cases, is to begin with easier cases and slowly build on
 top of that. So let's give ourselves excercises that reflect that. Let's begin with super simple:
 lets start with basic cases
-basic case: 
+
+1.basic redirect: 
 command < infile > outfile
 
 MY_ANSWER:
@@ -35,4 +35,24 @@ for each command:
     set the input fd to 'in'
     set the output fd to 'out' (write mode)
     execute with execve
-*/
+
+2. basic pipe
+command1 | command2
+
+MY_ANSWER:
+code:
+while we're iterating over the list
+    if the string is a word
+        save as command
+    if the string is a '|'
+        make sure that there is a command before and after
+        set the output of the previous command to the pipe
+        set the input of the next command to the pipe
+
+3. redirect + pipes
+command <infile | command2 > outfile
+
+MY_ANSWER:
+code:
+
+        
