@@ -126,6 +126,7 @@ void print_list(t_token *head)
     while(head)
     {
         printf("%s\n", head->string);
+        printf("%i\n", head->type);
         head = head->next;
     }
 }
