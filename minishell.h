@@ -11,8 +11,18 @@
 # include <readline/history.h>
 
 
+typedef enum e_symbol 
+{
+    STRING,
+    D_GREATER,
+    D_SMALLER,
+    PIPE,
+    GREATER,
+    SMALLER,
+} t_symbol;
 
-typedef struct s_token {
+typedef struct s_token 
+{
     char    *string;
     int     type;
     struct s_token *next;

@@ -20,3 +20,5 @@
     ">" get treated as an argument and not as a redirect
 12. in this case: command ||| command2
     the error is only displayed once
+
+check multiple commands with no permission input, output
