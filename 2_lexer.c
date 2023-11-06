@@ -10,16 +10,16 @@ int is_space(char c)
 int is_token(char *string, int position)
 {
     if(string[position] == '>' && string[position + 1] == '>')
-        return (1);
+        return (D_GREATER);
     if (string[position] == '<' && string[position + 1] == '<')
-        return (2);
+        return (D_SMALLER);
     if (string[position] == '|')
-        return (3);
+        return (PIPE);
     if (string[position] == '>')
-        return (4);
+        return (GREATER);
     if (string[position] == '<')
-        return (5);
-    return (0);
+        return (SMALLER);
+    return (STRING);
 }
 
 t_token *tokenizer(char *string)
