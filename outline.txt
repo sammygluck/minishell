@@ -4,15 +4,15 @@
     a. quotes '>' -> string; "|" -> string 
         i. single quotes: '$' -> doesn't get interpreted 
         ii. double quotes: "$" -> does get interpreted
--> goal expander: command table
-4. executor
+4. parser -> goal parser: command table
+5. executor
 
-5. heredoc 
+6. heredoc 
     command < inputfile
     command <<MY_THINGthis is my inputMY_THING
-6. signals
+7. signals
     ctrl-c 
-7. built-ins
+8. built-ins
     pwd/cd/ls/export
 
 handle ctrl-c
