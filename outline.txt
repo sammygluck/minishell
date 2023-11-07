@@ -1,0 +1,20 @@
+1. main -> command > outputfile | <inputfile command | command
+2. lexer -> command-word >-redirect outputfile-word |-pipe
+3. expander -> dealing (i.e expanding the $ sign)
+    a. quotes '>' -> string; "|" -> string 
+        i. single quotes: '$' -> doesn't get interpreted 
+        ii. double quotes: "$" -> does get interpreted
+-> goal expander: command table
+4. executor
+
+5. heredoc 
+    command < inputfile
+    command <<MY_THINGthis is my inputMY_THING
+6. signals
+    ctrl-c 
+7. built-ins
+    pwd/cd/ls/export
+
+handle ctrl-c
+action1
+action2

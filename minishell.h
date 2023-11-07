@@ -9,6 +9,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <libft/libft.h>
 
 
 typedef enum e_symbol 
@@ -43,8 +44,6 @@ int is_space(char c);
 
 
 //libft tmp
-int ft_strlen(char *string);
-char	*ft_strdup(const char *s);
 char *ft_strndup(const char *s, size_t n);
 
 
