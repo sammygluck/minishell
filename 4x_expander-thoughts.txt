@@ -1,3 +1,11 @@
+so we have some rules regarding expansion:
+1. If the $ sign is followed by a word:
+     1. if the $VAR is in the env list, print the value stored in the variable.
+     2.if it isn't, take it as a string
+2. if it isn't followed by anything, just print the $ sign literally
+
+Am I missing some rules?
+
 Your outlined rules cover some fundamental cases of the `$` expansion behavior. However, there are more intricacies to consider when working with shells, especially something feature-rich like `bash`. Here's an expanded set of rules:
 
 1. **Variable Expansion**:
