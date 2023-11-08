@@ -15,11 +15,13 @@
 typedef enum e_symbol 
 {
     STRING,
-    D_GREATER,
+    D_GREATER, 
     D_SMALLER,
     PIPE,
     GREATER,
     SMALLER,
+    S_QUOTE_STRING,
+    D_QUOTE_STRING,
 } t_symbol;
 
 typedef struct s_token 
@@ -40,11 +42,5 @@ t_token *create_token(char *string, int type);
 void print_list(t_token *head);
 int is_token(char *string, int position);
 int is_space(char c);
-
-
-
-//libft tmp
-char *ft_strndup(const char *s, size_t n);
-
 
 #endif

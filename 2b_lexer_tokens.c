@@ -100,6 +100,7 @@ char *word_string(char *string, int *i)
     return (result);
 }
 
+
 /*as of now returns nothing but in future returns int for success or failure*/
 void add_token(char *string, int *i, int type, t_token **head)
 {
@@ -110,7 +111,7 @@ void add_token(char *string, int *i, int type, t_token **head)
     //if it's a word; stringtoadd = begin of word until end of word
     //by quotes, well have to do begin of word until end of word - adjusted
     
-    if (type > 0 && type < 6)
+    if (type > STRING && type <= SMALLER)
         string_to_add = token_string(type, i);
     if (type > 5)
         string_to_add = word_string(string, i); 
