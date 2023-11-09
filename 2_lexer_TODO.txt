@@ -1,3 +1,18 @@
 1. Handle quotes
     function to check if it's a quote
     
+Thoughts:
+Until now I thought that finding a quote is necessary in the
+beginning of the word
+As a result, I made finding a quote a seperate token
+
+But, what if you have a quote within a word?
+This question made me reevaluate the parsing of the lexer quote function.
+
+It's clear that quotes play a role both in the lexing stage and in the expanding stage.
+In the lexing stage: we can't chop up words if they're stuck together by quotes.
+In the expanding stage: we have to ignore the $ sign in cases of single quotes.
+
+Hence, cleaning the quotes, will probably only happen in the expanding stage.
+
+---------------------------------------

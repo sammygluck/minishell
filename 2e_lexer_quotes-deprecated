@@ -5,14 +5,7 @@ void handle_quotes();
 int find_second_quote();
 char *extract_string();
 
-int is_quote(char character)
-{
-    if (character == '\'')
-        return (S_QUOTE_STRING);
-    else if (character == '\"')
-        return (D_QUOTE_STRING);
-    return (0);
-}
+
 
 void handle_quotes(char *string, int *i, int type, t_token **head)
 {
