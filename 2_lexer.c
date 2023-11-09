@@ -46,9 +46,10 @@ t_token *tokenizer(char *string)
             continue ;
         }
         //WORK OUT
-        if (is_quote(string[i]))
+        token_nr = is_quote(string[i]);
+        if (token_nr)
         {
-            handle_quote();
+            handle_quotes(string, &i, token_nr, &token_head);
             continue;
         }
         else //add a string ; are there other options around??? what about quotes???

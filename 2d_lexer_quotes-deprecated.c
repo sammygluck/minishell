@@ -1,0 +1,65 @@
+#include <minishell.h>
+
+int is_quote();
+void handle_quotes();
+int find_second_quote();
+char *extract_string();
+
+int is_quote(char character)
+{
+    if (character == '\'')
+        return (S_QUOTE_STRING);
+    else if (character == '\"')
+        return (D_QUOTE_STRING);
+    return (0);
+}
+
+void handle_quotes(char *string, int *i, int type, t_token **head)
+{
+    char *string_to_add;
+    t_token *token;
+    int second_quote;
+    //check if there is a matching quote, return index of matching quote
+    second_quote = find_second_quote(string, *i, type);
+    if (!second_quote)
+        printf("didn't find matching quote\n");
+        //if not report as error
+    string_to_add = extract_string(string, beg, end);
+    create_token(string_to_add, type);
+    add_token_to_list(head, token);
+    free(string_to_add);
+    //make sure: increment the i
+    //return value?
+}
+
+int find_second_quote(char *string, int i, int type)
+{
+    char quote;
+    int j;
+    //args: current str pos., quote type, str pos?
+    // condense the following lines to string[i]?
+    j = i + 1;
+    if (type == S_QUOTE_STRING)
+        quote = '\'';
+    else if (type == D_QUOTE_STRING)
+        quote = '\"';
+    while (string[j] != '\0' && string[j] != quote)
+        j++;
+    if (string[j] == quote)
+        return (j);
+    //should I return 0 or -1 here?
+    return (0);
+}
+
+char *extract_string(char *string, int start, int end)
+{
+    int i;
+    int j;
+    //either use ft_strdup, ftstrndup
+    //or malloc strlen of string to extract
+    //extract string
+    //make sure the quotes are/aren't there anymore
+    //return the string
+    //make sure to free all necessary things
+    //check for errors
+}

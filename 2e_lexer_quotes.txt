@@ -1,0 +1,5 @@
+Until now I thought that finding a quote is necessary in the
+beginning of the word
+As a result, I made finding a quote a seperate token
+
+But, what if you have a quote within a word
