@@ -90,6 +90,12 @@ char *word_string(char *string, int *i)
     j = *i;
     while(string[j])
     {
+        //if quote if found update j to be the ending quote
+        //if (is_quote(string[j]))    
+        {
+            //j++ quote style
+            //break;
+        }
         if (is_token(string, j) || is_space(string[j]))
             break ;
         j++;
@@ -109,8 +115,7 @@ void add_token(char *string, int *i, int type, t_token **head)
 
     //if it's a token stringtoadd = tokentype
     //if it's a word; stringtoadd = begin of word until end of word
-    //by quotes, well have to do begin of word until end of word - adjusted
-    
+    //edit: quotes need to be dealt within word   
     if (type > STRING && type <= SMALLER)
         string_to_add = token_string(type, i);
     if (type > 5)
