@@ -3,6 +3,7 @@
 void add_token(char *string, int *i, int type, t_token **head);
 char *token_string(int type, int *i);
 char *word_string(char *string, int *i);
+int handle_quotes(char *string, int j, int *is_quoted, char *quote_type);
 
 /*as of now returns nothing but in future returns int for success or failure*/
 void add_token(char *string, int *i, int type, t_token **head)
@@ -53,20 +54,20 @@ char *word_string(char *string, int *i)
 {
     int j;
     int chars_to_copy;
+    int is_quoted;
+    char quote_type;
     char *result;
 
+    is_quoted = 0;
+    quote_type = '\0';
     if (!string || !i)
         return (NULL);
     j = *i;
     while(string[j])
     {
-        //if quote if found update j to be the ending quote
-        //if (is_quote(string[j]))    
-        {
-            //j++ quote style
-            //break;
-        }
-        if (is_token(string, j) || is_space(string[j]))
+        if (handle_quotes(string, j, &is_quoted, &quote_type))
+            return (NULL); //error note
+        if (!is_quoted && (is_token(string, j) || is_space(string[j])))
             break ;
         j++;
     }
@@ -75,4 +76,32 @@ char *word_string(char *string, int *i)
     *i = j;
     return (result);
 }
+
+int handle_quotes(char *string, int j, int *is_quoted, char *quote_type)
+{
+    char current_char;
+    char next_char;
+
+    current_char = string[j];
+    next_char = string[j+1];
+    if (is_quote(current_char))
+    {
+        if (!(*is_quoted))
+        {
+            *is_quoted = 1;
+            *quote_type = current_char;
+        }
+        else if (current_char == *quote_type)
+            *is_quoted = 0;
+    }
+    if (next_char == '\0' && (*is_quoted))
+    {
+        printf("Syntax error: missing closing quote\n");//error note, location
+        return (-1);
+    }
+    return (0);
+}
+
+
+
 
