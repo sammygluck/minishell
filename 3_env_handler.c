@@ -15,11 +15,6 @@ typedef struct s_env_var {
     struct s_env_var *next;
 } t_env_var;
 
-typedef struct s_env {
-    t_env_var *variables;
-    int count;
-} t_env;
-
 t_env_var *environment_var_handler(char **env)
 {
     int i;
