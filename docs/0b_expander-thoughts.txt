@@ -1,0 +1,13 @@
+so we have some rules regarding expansion:
+1. If the $ sign is followed by a word:
+     1. if the $VAR is in the env list, print the value stored in the variable.
+     2.if it isn't, take it as a string
+2. if it isn't followed by anything, just print the $ sign literally
+
+
+
+
+
+
+
+
