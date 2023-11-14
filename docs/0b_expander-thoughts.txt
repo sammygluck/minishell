@@ -4,7 +4,24 @@ so we have some rules regarding expansion:
      2.if it isn't, take it as a string
 2. if it isn't followed by anything, just print the $ sign literally
 
+//lexer_tokens -> expanded_lexer_tokens
+/*
+$ = $
+$? = exit code
+$VAR = the value in the var
+$NO_EXIST = empty
+$'string' = string
+$'$hello' = echo the string '$hello'
+$"$TRUE_VAR" = var
 
+*/
+
+//step 1: identify $'' and extract '', leave the quotes, remove $
+//step 2: identify $ and expand
+//example: $'$'$'$'$
+//while going over string
+    //single quotes: remove quotes, leave dollar
+    //double quotes: remove quotes, expand dollar
 
 
 
