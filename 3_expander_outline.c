@@ -1,6 +1,18 @@
 #include <minishell.h>
 
 /*
+    I've divided the expander in three parts:
+    1. Initial clean, which removes the $ sign from $'string' places
+    2. Expand $VAR correctly and replace the $VAR with the string it represents
+    3. Remove quotes to be removed
+
+    part 1. is complete
+    part 2. is outlined below
+    part 3. has yet to be done
+*/
+
+
+/*
 GOAL: replace string with other string
 STEP 1: figure out the main loop
 */
