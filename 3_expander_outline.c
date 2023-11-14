@@ -19,25 +19,30 @@ STEP 1: figure out the main loop
 
 /*
 STEP 1: main loop
+
 struct_begin_end;
 init struct;
-
 done = is_there_stuff_to_replace(struct_begin_end);
 while (done)
     to_replace = extract(begin, end, string);
     replace_string = make_replace_string(env_var, to_replace)
     new_string = replace(old_string, replace_string, begin_end);
-    done = is_there_stuff_to_replace(struct_begin_end);
+    done = is_there_stuff_to_replace(struct_begin_end, new_string);
+    free(to_replace);
+    free(replace_string);
+    old_string = new_string;
+    free(old_string);
+return (new_string);
 */
 
 /*
-STEP 2: is_there_stuff_to_replace(struct_begin_end);
+STEP 2: is_there_stuff_to_replace(struct_begin_end, new_string);
 
 begin = begin value;
 end = end value;
 
-new_begin = find_begin_value();
-new_end = find_end_value();
+new_begin = find_begin_value(new_string, last_end_value);
+new_end = find_end_value(new_string, begin_value);
 
 */
 
@@ -69,7 +74,9 @@ find_end_value(string, begin_value)
 }
 
 c. 
-in_single_quote(string, current_place)//need to find suitable solution.
+in_single_quote(string, current_place)
+//need to find suitable solution. probably modification of in_quote
+//needs to be able to return 1/0 given a string and an index
 
 */
 
