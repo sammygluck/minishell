@@ -39,8 +39,9 @@ char *word_string(char *string, int *i);
 char *token_string(int type, int *i);
 void add_token_to_list(t_token **token_list, t_token *token);
 t_token *create_token(char *string, int type);
-void print_list(t_token *head);
-int is_token(char *string, int position);
+int is_quote(char character);
 int is_space(char c);
+int is_token(char *string, int position);
+void print_list(t_token *head);
 
 #endif

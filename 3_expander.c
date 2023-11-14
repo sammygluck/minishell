@@ -46,3 +46,4 @@ char *initial_clean(char *string)
     new_string[j] = '\0';
     return (new_string);
 }
+
