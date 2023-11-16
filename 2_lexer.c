@@ -1,26 +1,6 @@
 #include <minishell.h>
 
-int is_space(char c)
-{
-    if (c == ' ' || c == '  ')
-        return (1);
-    return (0);
-}
-
-int is_token(char *string, int position)
-{
-    if(string[position] == '>' && string[position + 1] == '>')
-        return (1);
-    if (string[position] == '<' && string[position + 1] == '<')
-        return (2);
-    if (string[position] == '|')
-        return (3);
-    if (string[position] == '>')
-        return (4);
-    if (string[position] == '<')
-        return (5);
-    return (0);
-}
+t_token *tokenizer(char *string);
 
 t_token *tokenizer(char *string)
 {
@@ -33,8 +13,12 @@ t_token *tokenizer(char *string)
     token_head = NULL;
     while (string[i])
     {
-        if (is_space(string[i++]))
+        //if is quote, handle quote behaviour
+        if (is_space(string[i]))
+        {
+            i++;
             continue ;
+        }
         token_nr = is_token(string, i);
         if (token_nr)
         {
@@ -49,3 +33,5 @@ t_token *tokenizer(char *string)
     }
     return (token_head);
 }
+
+

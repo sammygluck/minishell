@@ -1,0 +1,4 @@
+1. difference between EOF & 'EOF'
+    a. either way '' get removed
+    b. with '' the text doesn't get expanded
+2. 

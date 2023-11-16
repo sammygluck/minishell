@@ -1,0 +1,41 @@
+Am I missing some rules?
+
+Your outlined rules cover some fundamental cases of the `$` expansion behavior. However, there are more intricacies to consider when working with shells, especially something feature-rich like `bash`. Here's an expanded set of rules:
+
+1. **Variable Expansion**:
+   - If the `$` sign is followed by a word (sequence of alphanumeric characters or underscores, beginning with an alphabetical character or underscore):
+     1. If `VAR` exists in the environment list or as a shell variable, replace `$VAR` with its value.
+     2. If it doesn't exist, replace `$VAR` with an empty string (unless the shell is set to treat undefined variables as an error).
+  
+2. **Literal `$`**:
+   - If the `$` is followed by a character that doesn't start a valid variable name, treat the `$` literally.
+
+3. **Special Variables**:
+   - `$?` gives the exit status of the last command.
+   - `$#` gives the number of positional parameters.
+   - `$$` provides the process ID of the shell.
+   - `$0`, `$1`, ... give the script name and positional parameters, respectively.
+   ... and so on.
+
+4. **Command Substitution**:
+   - `$(COMMAND)` or `` `COMMAND` ``: Replace with the output of `COMMAND`.
+
+5. **Arithmetic Expansion**:
+   - `$((EXPRESSION))`: Evaluate the arithmetic expression and replace it with its result.
+
+6. **Array Expansion** (in shells like bash):
+   - `${ARRAY[@]}` or `${ARRAY[*]}`: Expand to the values of the array.
+   - `${#ARRAY[@]}`: Expand to the length of the array.
+   
+7. **String Manipulation** (in shells like bash):
+   - `${VAR:offset:length}`: Substring expansion.
+   - `${VAR#pattern}`: Remove matching prefix pattern.
+   - `${VAR##pattern}`: Remove longest matching prefix pattern.
+   - `${VAR%pattern}`: Remove matching suffix pattern.
+   - `${VAR%%pattern}`: Remove longest matching suffix pattern.
+   ... and other string manipulations.
+
+8. **Default Values**:
+   - `${VAR:-default}`: Use `default` if `VAR` is unset or null.
+   - `${VAR:=default}`: Assign `default` to `VAR` if `VAR` is unset or null and then use `default`.
+   
