@@ -91,7 +91,9 @@ STEP 5: make_replace_string
 
 make_replace_string(extracted, env_list)
 {
-    if after $ is ?
+    if no chars after $ (i.e. is space or '\0')
+        return ($);
+    else  if after $ is ?
         replace string = exit_code
     else
         check if VAR exist in env_list
