@@ -118,3 +118,15 @@ char *word_string(char *string, int *i)
     *i = j;
     return (strndup(&string[*i], n));//this might be a mind bender and very likely also incorrect
 }
+
+/*
+simple function to print the list of tokens
+*/
+void print_list(t_token *head)
+{
+    while (head)
+    {
+        printf("%s\n", head->string);
+        head = head->next;
+    }
+}
