@@ -13,13 +13,7 @@
 //extract the strings from $"string"
 //if $-sign is followed by a quote
 //find second quote and remove dollar sign
-t_token *expander(t_token **token_head, t_env_var *var_head)
-{
-    
-    //when reassigning, make sure to free all old ones
-    //for each token->name ; two passes
-    
-}
+
 
 char *initial_clean(char *string)
 {
