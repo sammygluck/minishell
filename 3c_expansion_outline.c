@@ -104,6 +104,20 @@ make_replace_string(extracted, env_list)
 
 }
 */
+/*
+var extractor(string, env_list)
+{
+    head = env_list;
+    while(head->next)
+    {
+        if (ft_strcmp(head->name, &string[1]))
+            return (ft_strdup(head->value));
+        head = head->next;
+    }
+    return (ft_strdup(""));
+}
+
+*/
 
 /*
 STEP 6: replace string between beginning and end
@@ -111,8 +125,8 @@ STEP 6: replace string between beginning and end
 replace(old_string, to_replace, begin_end)
 {
     new_string = malloc(strlen(old_string) + strlen(to_replace))
-    copy until $
-    //while(i < begin)
+    //copy until $
+    while(i < begin)
         new_string[j] = old_string[i]
     while(i >= begin && <= end)
         i++
