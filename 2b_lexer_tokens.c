@@ -3,9 +3,18 @@
 void add_token(char *string, int *i, int type, t_token **head);
 char *token_string(int type, int *i);
 char *word_string(char *string, int *i);
-int handle_quotes(char *string, int j, int *is_quoted, char *quote_type);
+int find_word_end(char *string, int start_index, t_quote *q_struct);
+int check_quote_error(t_quote *q_struct);
 
-/*as of now returns nothing but in future returns int for success or failure*/
+/*
+ADD TOKEN:
+This function takes our string at the index we left off with from the previous addition to our list.
+Based on our assesment in the parent function, we're either adding a token or a string.
+If it's a token we'll not just add the token, but we'll also idenitfy the token-type and create and add this token to the list.
+If it's a string, we'll have to add the string until the string ends. This will vary on whether this string has quotes or not.
+
+Return value: since failure over here would be a malloc failure and malloc failures are going to exit the program, I've left it at void.
+*/
 void add_token(char *string, int *i, int type, t_token **head)
 {
     char *string_to_add;
@@ -16,6 +25,8 @@ void add_token(char *string, int *i, int type, t_token **head)
         string_to_add = token_string(type, i);
     if (type > 5)
         string_to_add = word_string(string, i); 
+    if (!string_to_add)
+        printf("Error: creating string_to_add in lexer failed\n");//to be remove after
     token = create_token(string_to_add, type);
     add_token_to_list(head, token);
     free(string_to_add);
@@ -47,60 +58,106 @@ char *token_string(int type, int *i)
 /*
 the idea of this function is to extract the string beginning from the i part until it reaches
 a space, token or null byte;
+We've also implemented quote support, so that:
+a. it doesn't consider space, token etc. to be valid seperator within a quote
+b. it checks for the appearance of the closing quote
 return value: pointer to extracted string
-the behaviour when quotes are active will differ
 */
+
 char *word_string(char *string, int *i)
 {
     int j;
     int chars_to_copy;
-    int is_quoted;
-    char quote_type;
+    t_quote q_struct;
     char *result;
 
-    is_quoted = 0;
-    quote_type = '\0';
     if (!string || !i)
         return (NULL);
-    j = *i;
-    while(string[j])
-    {
-        if (handle_quotes(string, j, &is_quoted, &quote_type))
-            return (NULL); //error note
-        if (!is_quoted && (is_token(string, j) || is_space(string[j])))
-            break ;
-        j++;
-    }
+    init_quote(&q_struct);
+    j = find_word_end(string, *i, &q_struct);
+    if (check_quote_error(&q_struct))
+        return (NULL);
     chars_to_copy = j - *i;
     result = strndup(&string[*i], chars_to_copy);
     *i = j;
     return (result);
 }
 
-int handle_quotes(char *string, int j, int *is_quoted, char *quote_type)
+int find_word_end(char *string, int start_index, t_quote *q_struct)
 {
-    char current_char;
-    char next_char;
-
-    current_char = string[j];
-    next_char = string[j+1];
-    if (is_quote(current_char))
+    int j = start_index;
+    while (string[j])
     {
-        if (!(*is_quoted))
-        {
-            *is_quoted = 1;
-            *quote_type = current_char;
-        }
-        else if (current_char == *quote_type)
-            *is_quoted = 0;
+        is_in_quote(string[j], q_struct);
+        if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
+            break;
+        j++;
     }
-    if (next_char == '\0' && (*is_quoted))
-    {
-        printf("Syntax error: missing closing quote\n");//error note, location
-        return (-1);
-    }
-    return (0);
+    return (j);
 }
+
+int check_quote_error(t_quote *q_struct)
+{
+    if (q_struct->in_quote)
+    {
+        printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
+        return (1); // Error found
+    }
+    return (0); // No error
+}
+
+
+//The OG functions
+// char *word_string(char *string, int *i)
+// {
+//     int j;
+//     int chars_to_copy;
+//     int is_quoted;
+//     char quote_type;
+//     char *result;
+
+//     is_quoted = 0;
+//     quote_type = '\0';
+//     if (!string || !i)
+//         return (NULL);
+//     j = *i;
+//     while(string[j])
+//     {
+//         if (handle_quotes(string, j, &is_quoted, &quote_type))
+//             return (NULL); //error note
+//         if (!is_quoted && (is_token(string, j) || is_space(string[j])))
+//             break ;
+//         j++;
+//     }
+//     chars_to_copy = j - *i;
+//     result = strndup(&string[*i], chars_to_copy);
+//     *i = j;
+//     return (result);
+// }
+// int handle_quotes(char *string, int j, int *is_quoted, char *quote_type)
+// {
+//     char current_char;
+//     char next_char;
+
+//     current_char = string[j];
+//     next_char = string[j+1];
+//     if (is_quote(current_char))
+//     {
+//         if (!(*is_quoted))
+//         {
+//             *is_quoted = 1;
+//             *quote_type = current_char;
+//         }
+//         else if (current_char == *quote_type)
+//             *is_quoted = 0;
+//     }
+//     if (next_char == '\0' && (*is_quoted))
+//     {
+//         printf("Syntax error: missing closing quote\n");//error note, location
+//         return (-1);
+//     }
+//     return (0);
+// }
 
 
 

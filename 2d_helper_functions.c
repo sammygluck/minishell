@@ -10,6 +10,8 @@ void print_list(t_token *head);
 
 int is_quote(char character)
 {
+    if (!character)
+        return (0);
     if (character == '\'')
         return (S_QUOTE_STRING);
     else if (character == '\"')

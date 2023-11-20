@@ -2,6 +2,15 @@
 
 t_token *tokenizer(char *string);
 
+/*
+This is the 'main' from the lexer.
+It returns the head of a tokenlist. 
+The procedure is: 
+    while we're iterating over the string
+    create tokens/strings
+    and add each new token to a linked list
+*/
+
 t_token *tokenizer(char *string)
 {
     int i;
@@ -13,23 +22,13 @@ t_token *tokenizer(char *string)
     token_head = NULL;
     while (string[i])
     {
-        //if is quote, handle quote behaviour
-        if (is_space(string[i]))
-        {
-            i++;
-            continue ;
-        }
         token_nr = is_token(string, i);
-        if (token_nr)
-        {
+        if (is_space(string[i]))
+            i++;
+        else if (token_nr)
             add_token(string, &i, token_nr, &token_head);
-            continue ;
-        }
-        else //add a string ; are there other options around??? what about quotes???
-        {
+        else
             add_token(string, &i, 6, &token_head);
-            continue ;
-        }
     }
     return (token_head);
 }

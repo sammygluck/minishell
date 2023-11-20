@@ -56,20 +56,3 @@ void free_token_list(t_token **head)
 //free old head and all in it
 //do this as long as there is head
 
-// int	is_char(char to_check, char against)
-// {
-// 	if (to_check == against)
-// 		return (1);
-// 	return (0);
-// }
-
-// int	tokens(char *string)
-// {
-// 	//what is considered a token??
-// 	//1. a word
-// 	//2. a pipe
-// 	//3. a double << or a single >>
-// 	//4. a single < or a single >
-// 	//5. quotes also have to be handled 
-// 	//
-// }
