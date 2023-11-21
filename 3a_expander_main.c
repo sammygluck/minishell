@@ -1,5 +1,6 @@
 #include <minishell.h>
 
+void expander(t_token **token_head, t_env_var *env_head);
 /*
     outline:
     for each lexer string, unless heredoc -> replace old one with expanded one
@@ -7,10 +8,41 @@
 
 */
 
-t_token *expander(t_token **token_head, t_env_var *var_head)
+void expander(t_token **token_head, t_env_var *env_head)
 {
+    t_token *head;
+    char *tmp;
+    char *new_string;
 
-    //when reassigning, make sure to free all old ones
-    //for each token->name ; two passes
-    
+    head = *token_head;
+    //for each string in the token list
+    while(head)
+    {
+        if (head->type == STRING)
+        {
+        //pass it to the first clean
+            tmp = head->string;
+            new_string = initial_clean(head->string);
+        //free old
+            free(tmp)
+            head->string = new_string;
+        //pass it to the second clean
+            tmp = head->string;
+            new_string = expanded(tmp, env_head);
+        //free old
+            free(tmp);
+            head->string = new_string;
+        //pass it to the third clean
+            tmp = head->string;
+            new_string = third_clean(tmp);
+        //free old
+            free(tmp);
+            head->string = new_string;
+        }
+        //heredocs
+        //if head->next && head->next->
+        //skip tokens
+        head = head->next;
+        //freeing: parent/child?    
+    }
 }

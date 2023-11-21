@@ -6,21 +6,20 @@ void add_token_to_list(t_token **token_list, t_token *token);
 /*
 returns a pointer to a new token node;
 arguments: a string and a type of token;
-in case of error returns NULL;
+malloc errors are handled in ft_malloc;
 */
 t_token *create_token(char *string, int type)
 {
     t_token *token;
 
-    token = malloc(sizeof(t_token));
-    if (!token)
-        return (NULL);
+    token = ft_malloc(sizeof(t_token));
     token->string = ft_strdup(string);
-    if (!token->string)
-    {
-        free(token);
-        return (NULL);
-    }
+    //before ft_malloc
+    // if (!token->string)
+    // {
+    //     free(token);
+    //     return (NULL);
+    // }
     //either type gets verified here or earlier not sure yet
     token->type = type;
     token->next = NULL;

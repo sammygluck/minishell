@@ -6,7 +6,7 @@ typedef struct s_begin_end
     int end;
 } t_begin_end;
 
-char *expanded(char *string, t_env_var env_list)
+char *expanded(char *string, t_env_var *env_list)
 {
     t_begin_end values;
     int we_done;
@@ -85,10 +85,10 @@ char *extract(char *string, int begin, int end)
     return (extracted);
 }
 
-char *make_replace_string(t_env_var env_list, char *to_replace)
+char *make_replace_string(t_env_var *env_list, char *to_replace)
 {
     //if can't use return and a function on the same line, create var and at each stage set it to what needs to be
-    if(to_replace[0] == '$' && (to_replace[1] == '\0' || is_space(to_replace[1]));
+    if(to_replace[0] == '$' && (to_replace[1] == '\0' || is_space(to_replace[1])));
         return (ft_strdup("$"));
     else if (to_replace[0] == '$' && to_replace[1] == '?')
         printf("exit code: \n");//to handle

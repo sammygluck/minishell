@@ -14,6 +14,8 @@
 //if $-sign is followed by a quote
 //find second quote and remove dollar sign
 
+char *initial_clean(char *string);
+
 char *initial_clean(char *string)
 {
     int i;

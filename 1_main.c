@@ -14,10 +14,17 @@
 // int	is_char(char to_check, char against);
 void free_token_list(t_token **head);
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	t_token *token_head;
+	t_token *tmp;
+	t_env_var *envs;
+
+	envs = environment_var_handler(env);
+	if (argc > 1)
+		printf("Minishell: too many arguments\n");
+	(void) argv;
 
 	int i = 0;
 	while (i < 2)
@@ -28,6 +35,7 @@ int	main(void)
 		add_history(input);
 		printf("You entered: %s\n", input);
 		token_head = tokenizer(input);
+		expander(&token_head, envs);
 		print_list(token_head);
 		free(input);
 		free_token_list(&token_head);
