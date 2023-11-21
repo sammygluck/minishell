@@ -9,12 +9,6 @@
 // find_env_var();
 // modify_env_var();
 
-typedef struct s_env_var {
-    char *name;
-    char *value;
-    struct s_env_var *next;
-} t_env_var;
-
 t_env_var *environment_var_handler(char **env)
 {
     int i;

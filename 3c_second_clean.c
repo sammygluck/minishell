@@ -1,11 +1,5 @@
 #include <minishell.h>
 
-typedef struct s_begin_end 
-{
-    int begin;
-    int end;
-} t_begin_end;
-
 char *expanded(char *string, t_env_var *env_list)
 {
     t_begin_end values;

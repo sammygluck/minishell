@@ -1,14 +1,4 @@
 #include <minishell.h>
-        // if (is_quote(string[i]) && in_quote == 0)
-        //     in_quote = is_quote(string[i]);
-        // else if (is_quote(string[i]) && in_quote > 0 && is_quote(string[i]) == in_quote)
-        //     in_quote = 0;
-
-typedef struct s_quote
-{
-    int in_quote;
-    char    quote_type;
-} t_quote;
 
 void init_quote(t_quote *q_struct)
 {

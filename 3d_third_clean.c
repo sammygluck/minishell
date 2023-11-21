@@ -1,17 +1,5 @@
 #include <minishell.h>
 
-
-/*
-Outline quote remover
-*/
-
-/*
-STEP 1: outline
-
-while string
-    copy all characters except those that are quotes not in quoted parts
-*/
-
 char *third_clean(char *string)
 {
     t_quote q_struct;
