@@ -82,7 +82,7 @@ char *extract(char *string, int begin, int end)
 char *make_replace_string(t_env_var *env_list, char *to_replace)
 {
     //if can't use return and a function on the same line, create var and at each stage set it to what needs to be
-    if(to_replace[0] == '$' && (to_replace[1] == '\0' || is_space(to_replace[1])));
+    if(to_replace[0] == '$' && (to_replace[1] == '\0' || is_space(to_replace[1])))
         return (ft_strdup("$"));
     else if (to_replace[0] == '$' && to_replace[1] == '?')
         printf("exit code: \n");//to handle
@@ -97,7 +97,7 @@ char *var_extractor(char *string, t_env_var *env_head)
     head = env_head;
     while(head)
     {
-        if(!ft_strcmp(head->name, &string[1]))
+        if(!ft_strcmp(head->name, &string[1], ft_strlen(&string[1]))) //ft_strlen check
             return(ft_strdup(head->value));
         head = head->next;
     }
