@@ -18,7 +18,6 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	t_token *token_head;
-	t_token *tmp;
 	t_env_var *envs;
 
 	envs = environment_var_handler(env);
