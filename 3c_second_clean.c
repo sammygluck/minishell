@@ -24,6 +24,7 @@ char *expanded(char *string, t_env_var *env_list)
         string = tmp;
         we_done = stuff_to_replace(string, &values);
     }
+    printf("string %s\n", string);
     return (string);
 }
 
