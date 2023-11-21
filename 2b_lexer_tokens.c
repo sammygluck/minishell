@@ -26,7 +26,10 @@ void add_token(char *string, int *i, int type, t_token **head)
     if (type > 5)
         string_to_add = word_string(string, i); 
     if (!string_to_add)
+    {
         printf("Error: creating string_to_add in lexer failed\n");//to be remove after
+        exit(EXIT_FAILURE);//perhaps do signal something or get back to prompt
+    }
     token = create_token(string_to_add, type);
     add_token_to_list(head, token);
     free(string_to_add);
