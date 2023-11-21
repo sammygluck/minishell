@@ -9,17 +9,17 @@ char *expanded(char *string, t_env_var *env_list)
     char *tmp;
 
     init_begin_end(&values);
-    we_done = stuff_to_replace(string, values);
+    we_done = stuff_to_replace(string, &values);
     while(!we_done)
     {
-        to_replace = extract(values.begin, values.end, string);
+        to_replace = extract(string, values.begin, values.end);
         replace_with = make_replace_string(env_list, to_replace);
         tmp = replace(string, replace_with, values);
         free(to_replace);
         free(replace_with);
         free(string);
         string = tmp;
-        we_done = stuff_to_replace(string, values);
+        we_done = stuff_to_replace(string, &values);
     }
     return (string);
 }
