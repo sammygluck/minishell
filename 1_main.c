@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **env)
 		expander(&token_head, envs);
 		print_list(token_head);
 		free(input);
-		free_token_list(&token_head);
+		//free_token_list(&token_head);
 		i++;
 	}
 	return (0);
