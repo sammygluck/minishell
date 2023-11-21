@@ -32,6 +32,25 @@ typedef struct s_token
     struct s_token *previous;
 }   t_token;
 
+typedef struct s_begin_end 
+{
+    int begin;
+    int end;
+} t_begin_end;
+
+typedef struct s_quote
+{
+    int in_quote;
+    char    quote_type;
+} t_quote;
+
+typedef struct s_env_var {
+    char *name;
+    char *value;
+    struct s_env_var *next;
+} t_env_var;
+
+
 //1 main
 void free_token_list(t_token **head);
 
@@ -62,11 +81,6 @@ void expander(t_token **token_head, t_env_var *env_head);
 char *initial_clean(char *string);
 
 //3c second clean
-typedef struct s_begin_end 
-{
-    int begin;
-    int end;
-} t_begin_end;
 
 char *expanded(char *string, t_env_var *env_list);
 void init_begin_end(t_begin_end *values);
@@ -82,11 +96,6 @@ char *replace(char *old_string, char *to_replace, t_begin_end v);
 char *third_clean(char *string);
 
 //3e env handler
-typedef struct s_env_var {
-    char *name;
-    char *value;
-    struct s_env_var *next;
-} t_env_var;
 
 t_env_var *environment_var_handler(char **env);
 t_env_var *create_env_var(char *current_env);
@@ -95,11 +104,6 @@ char *extract_var_value(char *current_env);
 void add_env_var(t_env_var **env_head, t_env_var *env_var);
 
 //3f quote handler
-typedef struct s_quote
-{
-    int in_quote;
-    char    quote_type;
-} t_quote;
 
 void init_quote(t_quote *q_struct);
 int is_in_quote(char current_chr, t_quote *q_struct);
