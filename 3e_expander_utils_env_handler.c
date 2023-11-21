@@ -72,7 +72,7 @@ char *extract_var_value(char *current_env)
 
     len = 0;
     while (current_env[len] && current_env[len] != '=')
-        len++
+        len++;
     if (current_env[len] == '=')
         len++;
     else 
