@@ -110,7 +110,7 @@ char *replace(char *old_string, char *to_replace, t_begin_end v)
     int i;
     int j;
 
-    new_string = ft_malloc(ft_strlen(old_string) - (v.end - v.begin + 1) + ft_strlen(to_replace) + 1);
+    new_string = ft_malloc(ft_strlen(old_string) - (v.end - v.begin) + ft_strlen(to_replace) + 1);
     i = 0;
     j = 0;
     while (i < v.begin)
