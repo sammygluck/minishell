@@ -18,7 +18,7 @@ void expander(t_token **token_head, t_env_var *env_head)
     //for each string in the token list
     while(head)
     {
-        if (head->type == STRING)
+        if (head->type == 6) //why isn't it 0?
         {
         //pass it to the first clean
             tmp = head->string;
