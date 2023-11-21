@@ -34,10 +34,10 @@ int	main(int argc, char **argv, char **env)
 		add_history(input);
 		printf("You entered: %s\n", input);
 		token_head = tokenizer(input);
-		expander(&token_head, envs);
+		//expander(&token_head, envs);
 		print_list(token_head);
 		free(input);
-		//free_token_list(&token_head);
+		free_token_list(&token_head);
 		i++;
 	}
 	return (0);
