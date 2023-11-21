@@ -10,7 +10,7 @@ char *expanded(char *string, t_env_var *env_list)
 
     init_begin_end(&values);
     we_done = stuff_to_replace(string, &values);
-    while(we_done)
+    while(!we_done)
     {
         printf("stuff to replace values begin->%i; end->%i\n", values.begin, values.end);
         to_replace = extract(string, values.begin, values.end);
