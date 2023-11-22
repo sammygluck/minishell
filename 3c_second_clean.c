@@ -79,7 +79,7 @@ char *extract(char *string, int begin, int end)
     n = end - begin;
     //if n = 0;
     //return (NULL);
-    extracted = ft_strndup(&string[begin], n + 1);
+    extracted = ft_strndup(&string[begin], n);
     return (extracted);
 }
 
