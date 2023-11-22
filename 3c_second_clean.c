@@ -37,8 +37,8 @@ void init_begin_end(t_begin_end *values)
 int stuff_to_replace(char *string, t_begin_end *values)
 {
     //check if changed if yes return there is work to be done WERK AAN DE WINKEL!! :)
-    values->begin = 0;
-    values->end = 0;
+    // values->begin = 0;
+    // values->end = 0;
     values->begin = find_begin(string, values->end);
     if (values->begin == -1)
         return (0);
@@ -111,21 +111,22 @@ char *var_extractor(char *string, t_env_var *env_head)
     return (ft_strdup(""));    
 }
 
-char *replace(char *old_string, char *to_replace, t_begin_end v)
+char *replace(char *old_string, char *to_replace, t_begin_end *v)
 {
     char *new_string;
     int i;
     int j;
 
-    new_string = ft_malloc(ft_strlen(old_string) - (v.end - v.begin) + ft_strlen(to_replace) + 1);
+    new_string = ft_malloc(ft_strlen(old_string) - (v->end - v->begin) + ft_strlen(to_replace) + 1);
     i = 0;
     j = 0;
-    while (i < v.begin)
+    while (i < v->begin)
         new_string[j++] = old_string[i++];
     i = 0;
     while(to_replace[i])
         new_string[j++] = to_replace[i++];
-    i = v.end;
+    i = v->end;
+    v->end = v->begin + i;
     while (old_string[i])
         new_string[j++] = old_string[i++];
     new_string[j] = '\0';
