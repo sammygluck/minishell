@@ -90,7 +90,7 @@ int find_end(char *string, int begin);
 char *extract(char *string, int begin, int end);
 char *make_replace_string(t_env_var *env_list, char *to_replace);
 char *var_extractor(char *string, t_env_var *env_head);
-char *replace(char *old_string, char *to_replace, t_begin_end v);
+char *replace(char *old_string, char *to_replace, t_begin_end *v);
 
 //3d third clean
 char *third_clean(char *string);
