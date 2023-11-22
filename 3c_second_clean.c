@@ -68,7 +68,7 @@ int find_end(char *string, int begin)
         if (is_space(string[begin]) || string[begin] == '$')
             return (begin);
         if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
-            return (begin);
+            return (begin + 1);
         begin++;
     }
     return (begin);
