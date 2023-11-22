@@ -28,10 +28,10 @@ void expander(t_token **token_head, t_env_var *env_head)
             head->string = new_string;
         //pass it to the second clean
             //tmp = head->string;
-            new_string = expanded(head->string, env_head);
+    //        new_string = expanded(head->string, env_head);
             //free(tmp);
-            if (new_string)
-                head->string = new_string;
+    //        if (new_string)
+    //            head->string = new_string;
         //free old
         // //pass it to the third clean
         //     tmp = head->string;
