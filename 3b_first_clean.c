@@ -31,7 +31,7 @@ char *initial_clean(char *string)
     {
         is_in_quote(string[i], &q_struct); // Update quote state
         // Skip the character following '$' if it's a quote and not in a quote
-        if (string[i] == '$' && is_quote(string[i + 1]) && !q_struct.in_quote)
+        if (string[i] == '$' && is_quote(string[i + 1]) && !is_in_any_quote(string, i))
             i++;
         new_string[j++] = string[i];
         i++;
