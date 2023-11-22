@@ -109,5 +109,6 @@ void init_quote(t_quote *q_struct);
 int is_in_quote(char current_chr, t_quote *q_struct);
 int is_in_any_quote(const char *str, int index);
 int is_in_single_quote(const char *str, int index);
+int is_in_double_quote(const char *str, int index);
 
 #endif
