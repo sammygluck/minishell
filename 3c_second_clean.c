@@ -64,7 +64,7 @@ int find_end(char *string, int begin)
 {
     while(string[begin])
     {
-        if (is_space(string[begin]) || string[begin + 1] == '\0' || string[begin] == '$')
+        if (is_space(string[begin]) || string[begin + 1] == '\0' || string[begin + 1] == '$')
             return (begin);
         begin++;
     }
