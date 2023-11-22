@@ -122,7 +122,7 @@ char *replace(char *old_string, char *to_replace, t_begin_end v)
     i = 0;
     while(to_replace[i])
         new_string[j++] = to_replace[i++];
-    i = v.end + 1;
+    i = v.end;
     while (old_string[i])
         new_string[j++] = old_string[i++];
     new_string[j] = '\0';
