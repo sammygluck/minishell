@@ -90,7 +90,7 @@ char *make_replace_string(t_env_var *env_list, char *to_replace)
 {
     //if can't use return and a function on the same line, create var and at each stage set it to what needs to be
     if(to_replace[0] == '$' && (to_replace[1] == '\0' || is_space(to_replace[1])))
-        return (ft_strdup("$"));
+        return (ft_strdup("'$'"));
     // else if (to_replace[0] == '$' && to_replace[1] == '?')
     //     printf("exit code: \n");//to handle
     else
