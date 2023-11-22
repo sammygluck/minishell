@@ -69,7 +69,7 @@ int find_end(char *string, int begin)
             return (begin);
         begin++;
     }
-    return (0);
+    return (begin);
 }
 
 char *extract(char *string, int begin, int end)
