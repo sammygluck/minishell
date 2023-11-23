@@ -33,12 +33,12 @@ void expander(t_token **token_head, t_env_var *env_head)
             if (new_string)
                 head->string = new_string;
         //free old
-        // //pass it to the third clean
-        //     tmp = head->string;
-        //     new_string = third_clean(tmp);
-        // //free old
-        //     free(tmp);
-        //     head->string = new_string;
+        //pass it to the third clean
+            tmp = head->string;
+            new_string = third_clean(tmp);
+        //free old
+            free(tmp);
+            head->string = new_string;
         }
         //heredocs
         //if head->next && head->next->

@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 	(void) argv;
 
 	int i = 0;
-	while (i < 2)
+	while (i < 4)
 	{
 		input = readline("This is a test prompt> ");
 		if (!input)

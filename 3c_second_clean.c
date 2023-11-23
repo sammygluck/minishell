@@ -63,12 +63,14 @@ int find_begin(char *string, int end)
 int find_end(char *string, int begin)
 {
     begin++;
+    if (is_space(string[begin]) || string[begin] == '"')
+        return (begin - 1);
     while(string[begin])
     {
         if (is_space(string[begin]) || string[begin] == '$')
             return (begin);
         if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
-            return (begin);
+            return (begin + 1);
         begin++;
     }
     return (begin);
