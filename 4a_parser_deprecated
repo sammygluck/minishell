@@ -1,0 +1,126 @@
+#include <minishell.h>
+
+typedef struct s_redir 
+{
+    int type;
+    char *file;
+    struct s_redir *next;
+}
+
+typedef struct s_cmd
+{
+    int argc;
+    char **argv;
+    t_redir *redir;
+    int cmd_nr;
+    struct s_cmd *next;
+} t_cmd;
+
+t_cmd *parser(t_token *lexer_head)
+{
+    t_token *head;
+    t_cmd *cmd_tail;
+    t_cmd *cmd_head;
+    t_cmd *cmd;
+
+    cmd_head = NULL;
+    head = lexer_head;
+    while (head)
+    {
+        cmd = init_cmd(); //create cmd token
+        add_cmd_to_list(&cmd_head); //add to list
+        cmd_tail = last_cmd(); //extract the one we want to edit
+        if (head->type == PIPE)
+            update_cmds();
+        else if (head->type == 6)//i.e. string
+            add_to_argv(&cmd_tail, head->string);
+        else if (head->type >= 1 && head->type <= 5)
+            add_to_redir(&cmd_tail, head->string, type);
+
+    }
+}
+
+t_cmd *init_cmd(int cmd_nr)
+{
+    t_cmd *cmd;
+
+    cmd->argc = 0;
+    cmd->argv = NULL;
+    cmd->redir = NULL;
+    cmd->next = NULL;
+//    cmd->cmd_nr =
+    return (cmd);
+}
+
+void add_cmd_to_list(t_cmd **cmd_head, t_cmd *cmd)
+{
+    t_cmd *head;
+
+    if (!cmd_head || !cmd)
+        exit(EXIT_FAILURE);
+    head = *cmd_head;
+    if (!head)
+        *cmd_head = cmd;
+    else
+    {
+        while (head->next)
+            head = head->next;
+        head->next = cmd;
+    }
+}
+
+t_cmd *last_cmd(t_cmd *cmd_head)
+{
+    if (!cmd_head)
+        return (NULL);
+    while(cmd_head->next)
+        cmd_head = cmd_head->next;
+    return (cmd_head);
+}
+
+void update_cmds()
+{
+
+};
+
+void add_to_argv(t_cmd *cmd, char *string)
+{
+    int i;
+
+    if (!cmd || !string)
+        printf("ERROR: add_to_argv\n"); //handle error
+    i = cmd->argc;
+    cmd->argv = realloc_array(cmd->argv);
+    cmd->argv[i] = ft_strdup(string);
+    cmd->argc++;
+}
+
+void add_to_redir(t_cmd *cmd, int type, char *string)
+{
+    t_redir *head;
+
+    if (!cmd || !string)
+        printf("ERROR: add_to_redir\n");//handle error
+    head = cmd->redir;
+    if (!head)
+        cmd->redir = new_redir_node(type, string);
+    else
+    {
+        while(head->next)
+            head = head->next;
+        head->next = new_redir_node(type, string);
+    }
+}
+
+t_redir *new_redir_node(int type, char *string)
+{
+    t_redir *node;
+
+    //if (string == NULL)
+    //  handle error
+    node = ft_malloc(sizeof(t_redir));
+    node->type = type;
+    node->file = ft_strdup(string);
+    node->next = NULL;
+    return (node);
+}
