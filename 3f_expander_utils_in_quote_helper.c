@@ -18,27 +18,31 @@ int is_in_quote(char current_chr, t_quote *q_struct)
     return (q_struct->in_quote);
 }
 
-//what follows is chatGPT generated functions:
 int is_in_any_quote(const char *str, int index)
 {
     t_quote q_struct;
-    init_quote(&q_struct);
+    int i;
 
-    for (int i = 0; i <= index; i++)
+    init_quote(&q_struct);
+    i = 0;
+    while(i <= index)
     {
         if (str[i] == '\0')
             break;
         is_in_quote(str[i], &q_struct);
+        i++;
     }
-    return q_struct.in_quote;
+    return (q_struct.in_quote);
 }
-//this also chatGPT
+
 int is_in_single_quote(const char *str, int index)
 {
     t_quote q_struct;
-    init_quote(&q_struct);
+    int i;
 
-    for (int i = 0; i <= index; i++)
+    init_quote(&q_struct);
+    i = 0;
+    while (i <= index)
     {
         if (str[i] == '\0')
             break;
@@ -49,16 +53,19 @@ int is_in_single_quote(const char *str, int index)
         }
         else if (str[i] == '\'' && q_struct.in_quote == 1 && q_struct.quote_type == '\'')
             q_struct.in_quote = 0;
+        i++;
     }
-    return (q_struct.in_quote && q_struct.quote_type == '\'');
+    return (q_struct.in_quote && q_struct.quote_type == '\''); //does this need to be fixed?
 }
 
 int is_in_double_quote(const char *str, int index)
 {
     t_quote q_struct;
-    init_quote(&q_struct);
+    int i;
 
-    for (int i = 0; i <= index; i++)
+    init_quote(&q_struct);
+    i = 0;
+    while (i <= index)
     {
         if (str[i] == '\0')
             break;
@@ -69,6 +76,7 @@ int is_in_double_quote(const char *str, int index)
         }
         else if (str[i] == '"' && q_struct.in_quote == 1 && q_struct.quote_type == '"')
             q_struct.in_quote = 0;
+        i++;
     }
-    return (q_struct.in_quote && q_struct.quote_type == '"');
+    return (q_struct.in_quote && q_struct.quote_type == '"'); //does this need to change?
 }

@@ -50,6 +50,22 @@ typedef struct s_env_var {
     struct s_env_var *next;
 } t_env_var;
 
+typedef struct s_redir 
+{
+    int type;
+    char *file;
+    struct s_redir *next;
+} t_redir;
+
+typedef struct s_cmd
+{
+    int argc;
+    char **argv;
+    t_redir *redir;
+    int cmd_nr;
+    struct s_cmd *next;
+} t_cmd;
+
 
 //1 main
 void free_token_list(t_token **head);
@@ -110,5 +126,19 @@ int is_in_quote(char current_chr, t_quote *q_struct);
 int is_in_any_quote(const char *str, int index);
 int is_in_single_quote(const char *str, int index);
 int is_in_double_quote(const char *str, int index);
+
+//4a parser
+t_cmd *parser(t_token *lexer_head);
+t_cmd *parse_command(t_token **current);
+t_cmd *init_cmd(); //might change
+void add_argument_to_command(t_cmd *command, char *arg);
+void append_command(t_cmd **commands, t_cmd *new_cmd);
+int is_redirection_token(t_token *token);
+void parse_redirection(t_token **current, t_cmd *command);
+t_redir *create_redirection_node(t_token **current);
+void append_redirection(t_cmd *command, t_redir *new_redir);
+
+//4b realloc array
+char **realloc_array(char **argv);
 
 #endif
