@@ -1,21 +1,5 @@
 #include <minishell.h>
 
-typedef struct s_redir 
-{
-    int type;
-    char *file;
-    struct s_redir *next;
-} t_redir;
-
-typedef struct s_cmd
-{
-    int argc;
-    char **argv;
-    t_redir *redir;
-    int cmd_nr;
-    struct s_cmd *next;
-} t_cmd;
-
 t_cmd *parser(t_token *lexer_head)
 {
     t_token *current;
@@ -61,6 +45,7 @@ t_cmd *init_cmd()
     command->argv = NULL;
     command->redir = NULL;
     command->next = NULL;
+    //add command number
     return (command);
 }
 

@@ -37,7 +37,7 @@ void add_token_to_list(t_token **token_list, t_token *token) //not sure if it's 
 
     //first check if there is a valid pointer to token_list or token
     if (!token_list || !token)
-        return ;
+        return ; //shouldn't I exit?
     //check if there are already any nodes in our list, otherwise set token to head and return
     if (!*token_list)
     {
