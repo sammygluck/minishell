@@ -1,0 +1,13 @@
+
+Source/from: https://github.com/maiadegraaf/minishell#executor
+
+Steps executor (very high level
+1. confirm the return from the parser
+2. count the number of commands
+-> the commands are handled by different functions so a distinction needs to made between regular commands 
+and builtins
+-> if successful; the executor will execute all commands seperated by the pipes
+
+
+Questions
+2. minishell loop?
