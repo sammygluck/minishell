@@ -85,7 +85,7 @@ void print_command_table(t_cmd *cmd) {
         printf("Arguments Count: %d\n", cmd->argc);
         printf("Arguments: ");
         for (int i = 0; i < cmd->argc; ++i) {
-            printf("%s ", cmd->argv[i]);
+            printf("[\"%s\"] ", cmd->argv[i]);
         }
         printf("\nRedirections:\n");
         print_redirections(cmd->redir);
