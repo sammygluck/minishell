@@ -5,22 +5,24 @@ t_cmd *parser(t_token *lexer_head)
     t_token *current;
     t_cmd *commands;
     t_cmd *new_cmd;
+    int cmd_nr;
 
     current = lexer_head;
     commands = NULL;
+    cmd_nr = 0;
     while (current)
-    {
-        new_cmd = parse_command(&current);
+    {   cmd_nr++;
+        new_cmd = parse_command(&current, cmd_nr);
         append_command(&commands, new_cmd); 
     }
     return (commands);
 }
 
-t_cmd *parse_command(t_token **current)
+t_cmd *parse_command(t_token **current, int cmd_nr)
 {
     t_cmd *command;
 
-    command = init_cmd(); 
+    command = init_cmd(cmd_nr); 
     while (*current && (*current)->type != PIPE)
     {
         if (is_redirection_token(*current))
@@ -36,7 +38,7 @@ t_cmd *parse_command(t_token **current)
     return (command);
 }
 
-t_cmd *init_cmd()
+t_cmd *init_cmd(int cmd_nr)
 {
     t_cmd *command;
 
@@ -45,7 +47,7 @@ t_cmd *init_cmd()
     command->argv = NULL;
     command->redir = NULL;
     command->next = NULL;
-    //add command number
+    command->cmd_nr = cmd_nr;
     return (command);
 }
 

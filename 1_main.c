@@ -81,7 +81,7 @@ void print_command_table(t_cmd *cmd) {
     printf("Command Table:\n");
     printf("-------------------------------------------------\n");
     while (cmd != NULL) {
-        //printf("Command Number: %d\n", cmd->cmd_nr);
+        printf("Command Number: %d\n", cmd->cmd_nr);
         printf("Arguments Count: %d\n", cmd->argc);
         printf("Arguments: ");
         for (int i = 0; i < cmd->argc; ++i) {
