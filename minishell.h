@@ -139,6 +139,6 @@ t_redir *create_redirection_node(t_token **current);
 void append_redirection(t_cmd *command, t_redir *new_redir);
 
 //4b realloc array
-char **realloc_array(char **argv);
+char **realloc_array(char **argv, int argc);
 
 #endif

@@ -51,7 +51,7 @@ t_cmd *init_cmd()
 
 void add_argument_to_command(t_cmd *command, char *arg)
 {
-  command->argv = realloc_array(command->argv);
+  command->argv = realloc_array(command->argv, command->argc);
   command->argv[command->argc] = ft_strdup(arg);
   command->argv[command->argc + 1] = NULL;
   command->argc++;    
@@ -125,4 +125,9 @@ void append_redirection(t_cmd *command, t_redir *new_redir)
         last_redir->next = new_redir;
     }
 }
+
+// void print_command_table(t_cmd *command)
+// {
+
+// }
 
