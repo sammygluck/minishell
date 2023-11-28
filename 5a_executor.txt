@@ -11,3 +11,12 @@ and builtins
 
 Questions
 2. minishell loop?
+
+start: int executor(t_cmd *cmds)
+
+- while loop that loops through the different cmds in the t_cmd struct
+- if struct t_cmd *next != 0 >> this means that there is/are pipes 
+	-> init pipe 
+	-> fork to create child processes
+- close the write end of the pipe
+
