@@ -14,58 +14,67 @@
 
 typedef enum e_symbol 
 {
-    STRING,
-    D_GREATER, 
-    D_SMALLER,
-    PIPE,
-    GREATER,
-    SMALLER,
-    S_QUOTE_STRING,
-    D_QUOTE_STRING,
+	STRING,
+	D_GREATER, 
+	D_SMALLER,
+	PIPE,
+	GREATER,
+	SMALLER,
+	S_QUOTE_STRING,
+	D_QUOTE_STRING,
 } t_symbol;
 
 typedef struct s_token 
 {
-    char    *string;
-    int     type;
-    struct s_token *next;
-    struct s_token *previous;
+	char    *string;
+	int     type;
+	struct s_token *next;
+	struct s_token *previous;
 }   t_token;
 
 typedef struct s_begin_end 
 {
-    int begin;
-    int end;
+	int begin;
+	int end;
 } t_begin_end;
 
 typedef struct s_quote
 {
-    int in_quote;
-    char    quote_type;
+	int in_quote;
+	char    quote_type;
 } t_quote;
 
 typedef struct s_env_var {
-    char *name;
-    char *value;
-    struct s_env_var *next;
+	char *name;
+	char *value;
+	struct s_env_var *next;
 } t_env_var;
 
 typedef struct s_redir 
 {
-    int type;
-    char *file;
-    struct s_redir *next;
+	int type;
+	char *file;
+	struct s_redir *next;
 } t_redir;
 
 typedef struct s_cmd
 {
-    int argc;
-    char **argv;
-    t_redir *redir;
-    int cmd_nr;
-    struct s_cmd *next;
+	int argc;
+	char **argv;
+	t_redir *redir;
+	int cmd_nr;
+	struct s_cmd *next;
 } t_cmd;
 
+typedef	struct	s_process
+{
+	int		fd_in; // the fd of the input file; if any
+	int		fd_out; // the fd of the output file; if any
+	int		status; // to keep track of the status of the last child
+	int		pfd[2]; // to store the pipe fd's
+	char	**paths;
+	char	**envp;
+}	t_process;
 
 //1 main
 void free_token_list(t_token **head);
@@ -140,5 +149,15 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 
 //4b realloc array
 char **realloc_array(char **argv);
+
+
+// 5a executor functions
+int		executor(t_cmd *ptr, t_env_var *envs, char **env);
+int		retrieve_path_var_env(t_env_var *head, t_process *p);
+char	**create_paths_array(char *path);
+void	run_pipe(char **cmdargs, t_process *p);
+
+// 5b executor utils functions
+void	free_array(char **array);
 
 #endif
