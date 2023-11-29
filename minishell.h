@@ -138,8 +138,8 @@ int is_in_double_quote(const char *str, int index);
 
 //4a parser
 t_cmd *parser(t_token *lexer_head);
-t_cmd *parse_command(t_token **current);
-t_cmd *init_cmd(); //might change
+t_cmd *parse_command(t_token **current, int cmd_nr);
+t_cmd *init_cmd(int cmd_nr);
 void add_argument_to_command(t_cmd *command, char *arg);
 void append_command(t_cmd **commands, t_cmd *new_cmd);
 int is_redirection_token(t_token *token);
@@ -148,7 +148,7 @@ t_redir *create_redirection_node(t_token **current);
 void append_redirection(t_cmd *command, t_redir *new_redir);
 
 //4b realloc array
-char **realloc_array(char **argv);
+char **realloc_array(char **argv, int argc);
 
 
 // 5a executor functions

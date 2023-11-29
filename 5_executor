@@ -1,0 +1,32 @@
+//CHALLENGE 1:
+//REDIRECTIONS IN & OUT
+//DEALING WITH MULTIPLE REDIRECTS
+
+//CHALLENGE 2:
+//PATH EXPANSION RELATIVE VS ABSOLUTE
+
+//CHALLENGE 3:
+//BUILTIN VS EXTERNAL COMMANDS
+
+//CHALLENGE 4:
+//ACCESS DENIED & FILE DOESN'T EXIST
+//IN BOTH COMMANDS & IN/OUT-FILES
+
+//CHALLENGE 5:
+//HEREDOC
+
+//CHALLENGE 6:
+//CONTROL FLOW
+
+//CHALLENGE 7:
+//ERROR HANDLING
+
+//CHALLENGE 8:
+//
+
+/*
+for me personally I'm finding the actual control flow to be the hardest
+mental challenge for me?
+Questions such as, execute all commands at once or one at a time?
+Or 
+*/
