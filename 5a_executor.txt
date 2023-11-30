@@ -12,11 +12,49 @@ and builtins
 Questions
 2. minishell loop?
 
-start: int executor(t_cmd *cmds)
+start: int executor
 
+*redirections:
+- loop through cmd nodes and check for redirections
+	> count the number of (input/output) redirections
+
+*multiple commands
 - while loop that loops through the different cmds in the t_cmd struct
 - if struct t_cmd *next != 0 >> this means that there is/are pipes 
 	-> init pipe 
 	-> fork to create child processes
 - close the write end of the pipe
 
+some ideas:
+
+#define MAXARGS 10
+struct exec_cmd {
+	int type;
+	char *argv[maxargs]; > this a 2D array with pointers to the cmd args
+	char *eargv[maxargs]; > this a pointer to the end of the argv list 
+	// maxargs is fixed size = 10
+}
+
+struct redirec_cmd {
+	int type;
+	struct cmd *cmd;
+	char *file;
+	char *efile;
+	int mode;
+	int fd;
+}
+
+struct pipe_cmd >> it takes as input a pointer to the left cmd and a pointer to the right command 
+{
+	int type;
+	struct cmd *left;
+	struct cmd *right;
+}
+
+// execute cmd function never returns
+
+void runcmd(struct cmd *cmd)
+{
+	int p[2]
+	
+}

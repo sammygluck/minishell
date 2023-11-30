@@ -1,57 +1,5 @@
 #include "minishell.h"
 
-void	execute_cmd(char **cmds, t_process *p)
-{
-	int		i;
-	char	*tmp; // path to binary to check by the access system call
-
-	i = 0;
-	while (p->paths[i])
-	{
-		tmp = ft_strjoin(p->paths[i], cmds[0]);
-		if (!tmp)
-			exit (1);
-		if (access(tmp, X_OK) == 0)
-		{
-			execve(tmp, cmds, p->envp);
-			perror("execve error");
-			exit (1); // TO DO: check if the function ever comes here
-		}
-		free(tmp);
-		i++;
-	}
-	ft_putstr_fd("executor: command not found: ", 2);
-	ft_putendl_fd(cmds[0], 2);
-	exit (127);
-}
-
-void	run_pipe(char **cmdargs, t_process *p)
-{
-	pid_t		child; // to store the process id of the child processes
-	
-	if (pipe(p->pfd) == -1) // create the pipe and check for errors
-	{
-		perror("Pipe error");
-		exit(1);
-	}
-	child = fork(); // init fork
-	if (child == -1) // child/fork error
-	{
-		perror("fork error");
-		exit(1);
-	}
-	if (child == 0)
-	{
-		close(p->pfd[0]); // close READ END of the pipe
-		dup2(p->pfd[1], STDOUT_FILENO); 
-		execute_cmd(cmdargs, p);
-	}
-	else // parent
-	{
-		close(p->pfd[1]); // close WRITE END of the pipe
-		dup2(p->pfd[0], STDIN_FILENO);
-	}
-}
 char	**create_paths_array(char *path)
 {
 	int		i;
@@ -74,51 +22,76 @@ char	**create_paths_array(char *path)
 	return (paths);
 }
 
-int	retrieve_path_var_env(t_env_var *head, t_process *p)
+int	retrieve_path_var_env(t_process *p)
 {
-	t_env_var	*current;
+	char	*tmp;
+	char	*path;
+	int		i;
 
-	current = head;
-	while (current) // Q: is this right condition in the while loop?
+	tmp = getenv("PATH");
+	if (!tmp)
+		return (0);
+	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
+	if (!path)
+		return (0);
+	i = 0;
+	while (tmp[i])
 	{
-		if (ft_strncmp(current->name, "PATH", ft_strlen("PATH")) == 0)
-		{
-			p->paths = create_paths_array(current->value);
-			if (!p->paths)
-			{
-				printf("Error in the find_path function");
-				return (0);
-			}
-			break ;
-		}
-		current = current->next;
+		path[i] = tmp[i];
+		i++;
 	}
+	path[i] = '\0';
+	p->paths = create_paths_array(path);
+	if (!p->paths)
+		return (0);
 	return (1);
 }
-
-int	executor(t_cmd *ptr, t_env_var *envs, char **env)
+t_process	*init_process_struct(char **env)
 {
-	t_cmd		*current;
-	t_process	p;
+	t_process	*p;
 
-	p.envp = env;
-	if (!p.envp)
+	p = ft_malloc(sizeof(t_process));
+	p->fd_in = -1;
+	p->fd_out = -1;
+	p->status = -1;
+	p->paths = NULL;
+	p->envp = env;
+	return (p);
+}
+
+int	executor(t_cmd *command, char **env)
+{
+	t_cmd		*current_cmd;
+	t_process	*p;
+
+
+	// check if the command exists
+	if (command == 0)
+		return (0); // TO DO: needs to be adjusted to where the function needs to exit
+
+	p = init_process_struct(env);
+
+	// check if there is a redirection and handle the different cases from there
+	if (command->redir)
 	{
-		printf("env error");
-		return (0);
+		check_redirection_type(); 
 	}
+
 	// retrieve the env path to locate the binaries
-	if (!retrieve_path_var_env(envs, &p))
+	if (!retrieve_path_var_env(p))
 		return (0);
 
 	// loop through the nodes with the different commands
-	current = ptr;
-	while (current->next != NULL)
+	current_cmd = command;
+	while (current_cmd)
 	{
 		// check if there is another command after the current one
-		if (current->next)
-			run_pipe(current->argv, &p);
-		current = current->next;
+		if (current_cmd->next)
+			run_pipe(current_cmd->argv, p);
+		else
+			break ;
+		current_cmd = current_cmd->next;
 	}
+	execute_cmd(current_cmd->argv, p);
 	return (1);
 }

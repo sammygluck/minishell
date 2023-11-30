@@ -30,12 +30,15 @@ int	main(int argc, char **argv, char **env)
 		parsed = parser(token_head);
 		print_command_table(parsed);
 		//print_list(token_head);
+		executor(parsed, env);
 		free(input);
 		free_token_list(&token_head);
 		i++;
 	}
 	return (0);
 }
+
+
 
 void free_token_list(t_token **head)
 {

@@ -14,14 +14,14 @@
 
 typedef enum e_symbol 
 {
-	STRING,
-	D_GREATER, 
-	D_SMALLER,
-	PIPE,
-	GREATER,
-	SMALLER,
-	S_QUOTE_STRING,
-	D_QUOTE_STRING,
+	STRING,		// 0 
+	D_GREATER,	// 1 - redirection '>>'
+	D_SMALLER,	// 2 - redirection '<<'
+	PIPE,		// 3
+	GREATER,	// 4 - redirection '>'
+	SMALLER,	// 5 - redirection '<'
+	S_QUOTE_STRING, // 6
+	D_QUOTE_STRING, // 7
 } t_symbol;
 
 typedef struct s_token 
@@ -52,9 +52,9 @@ typedef struct s_env_var {
 
 typedef struct s_redir 
 {
-	int type;
-	char *file;
-	struct s_redir *next;
+	int type; // see type in enum 
+	char *file; // the string that is saved in the node after the redirection node
+	struct s_redir *next; // the node after the node with the file name, this is the next next node
 } t_redir;
 
 typedef struct s_cmd
@@ -152,12 +152,19 @@ char **realloc_array(char **argv, int argc);
 
 
 // 5a executor functions
-int		executor(t_cmd *ptr, t_env_var *envs, char **env);
-int		retrieve_path_var_env(t_env_var *head, t_process *p);
+int		executor(t_cmd *ptr, char **env);
+t_process	*init_process_struct(char **env);
+int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
-void	run_pipe(char **cmdargs, t_process *p);
+//int		retrieve_path_var_env(t_env_var *head, t_process *p);
 
 // 5b executor utils functions
 void	free_array(char **array);
+
+// 5c main pipe function 
+void	run_pipe(char **cmdargs, t_process *p);
+
+// 5e execute command function
+void	execute_cmd(char **cmds, t_process *p);
 
 #endif
