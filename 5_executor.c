@@ -1,38 +1,13 @@
 #include "minishell.h"
 
-// > and >> are used to redirect output from a program into a file.
-// > (GREATER) truncates --> type 1 open_file 
-// >> (D_GREATER) appends --> type 2 open_file
-
-void	redirect_output(t_cmd *command, t_process *p)
-{
-	if (command->redir->type == GREATER)
-		p->fd_out = open_file(command->redir->file, 1);
-	else
-		p->fd_out = open_file(command->redir->file, 2);
-	if (dup2(p->fd_out, STDOUT_FILENO) < 0)
-	{
-		perror("dup2() in redirect output error");
-		exit (1);
-	}
-}
-
-void	check_redirection_type(t_cmd *command, t_process *p)
-{
-	if (command->redir->type == GREATER || command->redir->type == D_GREATER)
-		redirect_output(command, p);
-	else
-		printf("Other redirection type");
-}
-
 t_process	*init_process_struct(char **env)
 {
 	t_process	*p;
 
 	p = ft_malloc(sizeof(t_process));
-	p->fd_in = -1;
-	p->fd_out = -1;
-	p->status = -1;
+	p->fd_in = -1; // TO DO: remove?
+	p->fd_out = -1; // TO DO: remove?
+	p->status = -1; // TO DO: remove?
 	p->paths = NULL;
 	p->envp = env;
 	return (p);
@@ -59,14 +34,12 @@ int	executor(t_cmd *command, char **env)
 	//printf("current_cmd: %s\n", command->argv[0]);
 	while (current_cmd)
 	{
-		// handle first left side of the pipe
 		// check if there is a redirection and handle the different cases from there
 		if (command->redir)
 			check_redirection_type(command, p); 
-
-		// check if there is another command after the current one
+		// check if there is a pipe
 		if (current_cmd->next)
-			run_pipe(current_cmd->argv, p);
+			run_pipe(command, p);
 		else
 			break ;
 		current_cmd = current_cmd->next;

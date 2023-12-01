@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	run_pipe(char **cmdargs, t_process *p)
+void	run_pipe(t_cmd *command, t_process *p)
 {
 	pid_t		child; // to store the process id of the child processes
 	
@@ -19,7 +19,7 @@ void	run_pipe(char **cmdargs, t_process *p)
 	{
 		close(p->pfd[0]); // close READ END of the pipe
 		dup2(p->pfd[1], STDOUT_FILENO); 
-		execute_cmd(cmdargs, p);
+		execute_cmd(command->argv, p);
 	}
 	else // parent
 	{

@@ -162,7 +162,7 @@ void	free_array(char **array);
 int		open_file(char *file, int file_type);
 
 // 5c main pipe function 
-void	run_pipe(char **cmdargs, t_process *p);
+void	run_pipe(t_cmd *command, t_process *p);
 
 // 5d execute command function
 void	execute_cmd(char **cmds, t_process *p);
@@ -170,5 +170,9 @@ void	execute_cmd(char **cmds, t_process *p);
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
+
+// 5f redirection functions
+void	redirect_output(t_cmd *command, t_process *p);
+void	check_redirection_type(t_cmd *command, t_process *p);
 
 #endif
