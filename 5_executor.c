@@ -1,51 +1,30 @@
 #include "minishell.h"
 
-char	**create_paths_array(char *path)
-{
-	int		i;
-	char	**paths; // 2D array with different paths to binaries
+// > and >> are used to redirect output from a program into a file.
+// > (GREATER) truncates --> type 1 open_file 
+// >> (D_GREATER) appends --> type 2 open_file
 
-	paths = ft_split(path, ':');
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
+void	redirect_output(t_cmd *command, t_process *p)
+{
+	if (command->redir->type == GREATER)
+		p->fd_out = open_file(command->redir->file, 1);
+	else
+		p->fd_out = open_file(command->redir->file, 2);
+	if (dup2(p->fd_out, STDOUT_FILENO) < 0)
 	{
-		paths[i] = ft_strjoin(paths[i], "/");
-		if (!paths[i])
-		{
-			free_array(paths);
-			return (NULL);
-		}
-		i++;
+		perror("dup2() in redirect output error");
+		exit (1);
 	}
-	return (paths);
 }
 
-int	retrieve_path_var_env(t_process *p)
+void	check_redirection_type(t_cmd *command, t_process *p)
 {
-	char	*tmp;
-	char	*path;
-	int		i;
-
-	tmp = getenv("PATH");
-	if (!tmp)
-		return (0);
-	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
-	if (!path)
-		return (0);
-	i = 0;
-	while (tmp[i])
-	{
-		path[i] = tmp[i];
-		i++;
-	}
-	path[i] = '\0';
-	p->paths = create_paths_array(path);
-	if (!p->paths)
-		return (0);
-	return (1);
+	if (command->redir->type == GREATER || command->redir->type == D_GREATER)
+		redirect_output(command, p);
+	else
+		printf("Other redirection type");
 }
+
 t_process	*init_process_struct(char **env)
 {
 	t_process	*p;
@@ -64,18 +43,12 @@ int	executor(t_cmd *command, char **env)
 	t_cmd		*current_cmd;
 	t_process	*p;
 
-
 	// check if the command exists
 	if (command == 0)
 		return (0); // TO DO: needs to be adjusted to where the function needs to exit
 
+	// init the process struct
 	p = init_process_struct(env);
-
-	// check if there is a redirection and handle the different cases from there
-	if (command->redir)
-	{
-		check_redirection_type(); 
-	}
 
 	// retrieve the env path to locate the binaries
 	if (!retrieve_path_var_env(p))
@@ -83,8 +56,14 @@ int	executor(t_cmd *command, char **env)
 
 	// loop through the nodes with the different commands
 	current_cmd = command;
+	//printf("current_cmd: %s\n", command->argv[0]);
 	while (current_cmd)
 	{
+		// handle first left side of the pipe
+		// check if there is a redirection and handle the different cases from there
+		if (command->redir)
+			check_redirection_type(command, p); 
+
 		// check if there is another command after the current one
 		if (current_cmd->next)
 			run_pipe(current_cmd->argv, p);

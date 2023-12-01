@@ -7,6 +7,7 @@
 # include <string.h> //remove maybe
 # include <stddef.h>
 # include <limits.h>
+# include <fcntl.h> // open syscall
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <libft/libft.h>
@@ -150,21 +151,24 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 //4b realloc array
 char **realloc_array(char **argv, int argc);
 
-
 // 5a executor functions
 int		executor(t_cmd *ptr, char **env);
 t_process	*init_process_struct(char **env);
-int		retrieve_path_var_env(t_process *p);
-char	**create_paths_array(char *path);
-//int		retrieve_path_var_env(t_env_var *head, t_process *p);
+void	check_redirection_type(t_cmd *command, t_process *p);
+void	redirect_output(t_cmd *command, t_process *p);
 
 // 5b executor utils functions
 void	free_array(char **array);
+int		open_file(char *file, int file_type);
 
 // 5c main pipe function 
 void	run_pipe(char **cmdargs, t_process *p);
 
-// 5e execute command function
+// 5d execute command function
 void	execute_cmd(char **cmds, t_process *p);
+
+// 5e retrieve path from env and create 2d array of different directories for paths
+int		retrieve_path_var_env(t_process *p);
+char	**create_paths_array(char *path);
 
 #endif
