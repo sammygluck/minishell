@@ -21,14 +21,14 @@ t_env_var *environment_var_handler(char **env)
     while (env[i])
     {
         current_env = env[i];
-        new_env = create_env_var(current_env);
+        new_env = create_env_var(current_env, i);
         add_env_var(&var_head, new_env);
         i++;
     }
     return (var_head);
 }
 
-t_env_var *create_env_var(char *current_env)
+t_env_var *create_env_var(char *current_env, int i)
 {
     t_env_var *env_var;
 
@@ -36,19 +36,9 @@ t_env_var *create_env_var(char *current_env)
     //malloc
     env_var = ft_malloc(sizeof(t_env_var));
     //extract strings
-    env_var->name = extract_var_name(current_env); //consider using ft_malloc for strndup & strdup
-    if (!env_var->name)
-    {
-        free(env_var);
-        return (NULL); //or exit
-    }
+    env_var->name = extract_var_name(current_env); 
     env_var->value = extract_var_value(current_env);
-    if (!env_var->value)
-    {
-        free(env_var->name);
-        free(env_var);
-        return(NULL);//or exit 
-    }
+    env_var->index = i;
     env_var->next = NULL;
     return (env_var);
 }
