@@ -20,3 +20,20 @@
 6. End of echo command implementation.
 
 */
+
+ft_echo()
+{
+   flag_n;
+   int i;
+
+   i = 0;
+   flag_n = (first_argument_is_n);
+   if flag_n
+      i++;
+   while (arguments)
+      printf(arugment)
+   if flag_n
+      printf("\n");
+   return (0);
+
+}

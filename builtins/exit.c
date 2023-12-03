@@ -21,3 +21,24 @@
 4. End of exit command implementation.
 
 */
+
+int ft_exit()
+{
+    if no argument provided
+        final_exit(last_exit_status);
+    else if more than 1 argument
+        error: too many arguments
+        do not exit shell
+    else if 1 argument 
+        if valid number //what is a valid number for exit code??
+            final_exit(valid_number)
+        if not valid number
+            error but do not exit
+}
+
+void final_exit(exit_number)
+{
+    cleanup;
+    printf("exit\n");
+    exit(exit_status);
+}

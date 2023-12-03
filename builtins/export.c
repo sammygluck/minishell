@@ -31,3 +31,26 @@
 5. End of export command implementation.
 
 */
+
+int main(void)
+{
+    //argvector
+    if (!arguments)
+        modified_ft_env();//print all
+    if (arguments)
+        for each argument
+            if(is_right_format) //i.e. key=value
+                update //i.e. seperate the key from value and update t_env list & char **env
+            if(!right_format)
+                error for this argument    
+}
+
+update(key=value string)
+{
+    if key exist
+        update the key value pair
+    if it does not exist
+        create new env node
+        add to env list
+        mirror the char **env list
+}
