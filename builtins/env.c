@@ -23,3 +23,21 @@
 5. End of env command implementation.
 
 */
+
+int ft_env(t_env *env)//parameters?
+{
+    t_env *head;
+
+    head = env;
+    if (!env) //also check if there are arguments and failure on more parameters should they come up
+    {
+        printf("no env variables\n");
+        return (1);
+    }
+    while (head)
+    {
+        printf("%s=%s\n", env->value, env->string); //check for correctness also I can just print char **array
+        head = head->next;
+    }
+    return (0);   
+}

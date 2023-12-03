@@ -21,3 +21,16 @@
 6. End of pwd command implementation.
 
 */
+
+int ft_pwd(void) // do I need to add other parameters??
+{
+   char buffer[PATH_MAX];
+
+   if (!getcwd(buffer, PATH_MAX))
+   {
+      perror("pwd error");
+      return (1);
+   }
+   printf("%s\n", buffer);
+   return (0);
+}

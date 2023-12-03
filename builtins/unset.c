@@ -25,3 +25,15 @@
 6. End of unset command implementation.
 
 */
+
+int ft_unset(void)
+{
+    if no arguments 
+        return 0
+    for each argument   
+        find arg in env list
+            if found
+                set the value to NULL/or -1 i.e. make it dormant + free memory
+                resize the char **env array //i'm thinking of setting an index in the t_env for this and skipping that index when copying
+            
+}
