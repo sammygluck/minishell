@@ -3,7 +3,7 @@
 void	execute_cmd(char **cmds, t_process *p)
 {
 	int		i;
-	char	*tmp; // path to binary to check by the access system call
+	char	*tmp; // path to binaries to check by the access system call
 
 	i = 0;
 	while (p->paths[i])

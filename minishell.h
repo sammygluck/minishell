@@ -162,7 +162,7 @@ void	free_array(char **array);
 int		open_file(char *file, int file_type);
 
 // 5c main pipe function 
-void	run_pipe(t_cmd *command, t_process *p);
+void	fork_handler(t_cmd *command, t_process *p);
 
 // 5d execute command function
 void	execute_cmd(char **cmds, t_process *p);

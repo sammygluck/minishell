@@ -31,19 +31,18 @@ int	executor(t_cmd *command, char **env)
 
 	// loop through the nodes with the different commands
 	current_cmd = command;
-	//printf("current_cmd: %s\n", command->argv[0]);
 	while (current_cmd)
 	{
 		// check if there is a redirection and handle the different cases from there
 		if (command->redir)
-			check_redirection_type(command, p); 
+			check_redirection_type(command, p);
+
 		// check if there is a pipe
 		if (current_cmd->next)
-			run_pipe(command, p);
-		else
-			break ;
+			pipe(p->pfd);
+		fork_handler(command, p);
 		current_cmd = current_cmd->next;
 	}
-	execute_cmd(current_cmd->argv, p);
+	// execute_cmd(current_cmd->argv, p);
 	return (1);
 }
