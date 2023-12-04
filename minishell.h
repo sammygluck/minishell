@@ -12,6 +12,13 @@
 # include <readline/history.h>
 # include <libft/libft.h>
 
+typedef int io[2];
+# define CURRENT 0
+# define PREVIOUS 1
+# define ERROR -1
+# define CHILD 0
+# define READ 0
+# define WRITE 1
 
 typedef enum e_symbol 
 {
@@ -73,6 +80,7 @@ typedef	struct	s_process
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
 	int		pfd[2]; // to store the pipe fd's
+	int		total_cmds;
 	char	**paths;
 	char	**envp;
 }	t_process;
@@ -153,7 +161,6 @@ char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
 int		executor(t_cmd *ptr, char **env);
-t_process	*init_process_struct(char **env);
 void	check_redirection_type(t_cmd *command, t_process *p);
 void	redirect_output(t_cmd *command, t_process *p);
 
@@ -162,7 +169,10 @@ void	free_array(char **array);
 int		open_file(char *file, int file_type);
 
 // 5c main pipe function 
-void	fork_handler(t_cmd *command, t_process *p);
+//void	fork_handler(t_cmd *command, t_process *p);
+int connect_commands(t_cmd *command, io pipes[2], int pipe_count, t_process *p);
+void close_pipe(t_cmd *command, io pipes[2], int pipe_count, t_process *p);
+void alternate_pipes(int **pipes);
 
 // 5d execute command function
 void	execute_cmd(char **cmds, t_process *p);
@@ -172,7 +182,7 @@ int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
 
 // 5f redirection functions
-void	redirect_output(t_cmd *command, t_process *p);
-void	check_redirection_type(t_cmd *command, t_process *p);
+int	redirect_in(t_cmd *command, t_process *p);
+int		redirect_out(t_cmd *command, t_process *p);
 
 #endif

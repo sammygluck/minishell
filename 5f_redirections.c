@@ -1,28 +1,61 @@
 #include "minishell.h"
 
-// > and >> are used to redirect output from a program into a file.
-// > (GREATER) truncates --> type 1 in open_file 
-// >> (D_GREATER) appends --> type 2  in open_file
-
-void	redirect_output(t_cmd *command, t_process *p)
+static void	redirect_input_from(t_cmd *command, t_process *p)
 {
-	if (command->redir->type == GREATER)
-		p->fd_out = open_file(command->redir->file, 1);
-	else
-		p->fd_out = open_file(command->redir->file, 2);
+
+	if (p->fd_in)
+		close(p->fd_in);
+	p->fd_in = open_file(command->redir->file, 0);
+	if (p->fd_in == ERROR)
+	{
+		perror(command->redir->file);
+		exit(1);
+	}
+	dup2(p->fd_in, STDIN_FILENO);
+	close(p->fd_in);
 }
 
-void	check_redirection_type(t_cmd *command, t_process *p)
+int	redirect_in(t_cmd *command, t_process *p)
 {
 	t_cmd	*current_cmd;
 
 	current_cmd = command;
 	while (current_cmd->redir)
 	{
-		if (command->redir->type == GREATER || command->redir->type == D_GREATER)
-			redirect_output(command, p);
-		else
-			printf("Other redirection type");
+		if (current_cmd->redir->type == SMALLER)
+			redirect_input_from(command, p);
 		current_cmd->redir = current_cmd->redir->next;
 	}
+	return (1);
 }
+
+// > and >> are used to redirect output from a program into a file.
+// > (GREATER) truncates --> type 1 in open_file 
+// >> (D_GREATER) appends --> type 2  in open_file
+
+static void	redirect_output_to(t_cmd *command, t_process *p)
+{
+	if (p->fd_out)
+		close(p->fd_out);
+	if (command->redir && command->redir->type == GREATER)
+		p->fd_out = open_file(command->redir->file, 1);
+	else
+		p->fd_out = open_file(command->redir->file, 2);
+	dup2(p->fd_out, STDOUT_FILENO);
+	close(p->fd_out);
+}
+
+int	redirect_out(t_cmd *command, t_process *p)
+{
+	t_cmd	*current_cmd;
+
+	current_cmd = command;
+	while (current_cmd->redir)
+	{
+		if (current_cmd->redir->type == GREATER || current_cmd->redir->type == D_GREATER)
+			redirect_output_to(command, p);
+		current_cmd->redir = current_cmd->redir->next;
+	}
+	return (1);
+}
+
