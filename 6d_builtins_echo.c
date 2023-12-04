@@ -21,19 +21,26 @@
 
 */
 
-ft_echo()
+int ft_echo(char **argv)//fix parameters
 {
-   flag_n;
-   int i;
+    int flag_n;
+    int i;
 
-   i = 0;
-   flag_n = (first_argument_is_n);
-   if flag_n
-      i++;
-   while (arguments)
-      printf(arugment)
-   if flag_n
-      printf("\n");
-   return (0);
-
+    flag_n = 0;
+    i = 1;
+    if (argv[i] && ft_strncmp(argv[i], "-n", 3) == 0) 
+    {
+        flag_n = 1;
+        i++;
+    }
+    while (argv[i]) 
+    {
+        printf("%s", argv[i]);
+        if (argv[i + 1]) 
+            printf(" "); 
+        i++;
+    }
+    if (!flag_n) 
+        printf("\n");
+    return (0);
 }
