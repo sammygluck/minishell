@@ -17,8 +17,8 @@ int	main(int argc, char **argv, char **env)
 		printf("Minishell: too many arguments\n");
 	(void) argv;
 
-	int i = 0;
-	while (i < 4)
+	//int i = 0;
+	while (1)
 	{
 		input = readline("This is a test prompt> ");
 		if (!input)
@@ -30,10 +30,10 @@ int	main(int argc, char **argv, char **env)
 		parsed = parser(token_head);
 		print_command_table(parsed);
 		//print_list(token_head);
-		executor(parsed, env);
+		executor(&parsed, env);
 		free(input);
 		free_token_list(&token_head);
-		i++;
+		//i++;
 	}
 	return (0);
 }
