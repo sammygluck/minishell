@@ -162,20 +162,17 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
-int	executor(t_cmd **command, char **env);
-void	check_redirection_type(t_cmd *command, t_process *p);
-void	redirect_output(t_cmd *command, t_process *p);
+void	executor(t_cmd **command, char **env);
 
 // 5b executor utils functions
 void	free_array(char **array);
-int		open_file(char *file, int file_type);
 void	exit_error(const char *source);
+int		open_file(char *file, int file_type);
 
-// 5c main pipe function 
-//void	fork_handler(t_cmd *command, t_process *p);
-int connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
-void close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
-void alternate_pipes(int **pipes);
+// 5c connect commands with pipe functions
+int		connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
+void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
+void	alternate_pipes(int **pipes);
 
 // 5d execute command function
 void	execute_cmd(char **cmds, t_process *p);

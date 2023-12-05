@@ -6,10 +6,7 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 		close(p->fd_in);
 	p->fd_in = open_file(redirection->file, 0);
 	if (p->fd_in == ERROR)
-	{
-		perror(redirection->file);
-		exit(1);
-	}
+		exit_error(redirection->file);
 	dup2(p->fd_in, STDIN_FILENO);
 	close(p->fd_in);
 }
@@ -36,6 +33,8 @@ static void	redirect_output_to(t_redir *redirection, t_process *p)
 		p->fd_out = open_file(redirection->file, 1);
 	else
 		p->fd_out = open_file(redirection->file, 2);
+	if (p->fd_out == ERROR)
+		exit_error(redirection->file);
 	dup2(p->fd_out, STDOUT_FILENO);
 	close(p->fd_out);
 }

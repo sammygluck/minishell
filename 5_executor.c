@@ -50,7 +50,7 @@ static t_process	*init_process_struct(char **env)
 	return (p);
 }
 
-int	executor(t_cmd **command, char **env)
+void	executor(t_cmd **command, char **env)
 {
 	t_cmd			*current_cmd;
 	t_process		*p;
@@ -58,7 +58,7 @@ int	executor(t_cmd **command, char **env)
 	int				is_child_process;
 
 	if (*command == 0)
-		return (0);
+		exit(1);
 	p = init_process_struct(env);
 	command_pipe_count(*command, p);
 	current_cmd = *command;
@@ -76,6 +76,5 @@ int	executor(t_cmd **command, char **env)
 		else
 			break ;
 	}
-	return (1);
 }
 

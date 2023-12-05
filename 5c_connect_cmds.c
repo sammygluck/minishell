@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*
-    This function is to connect the commands via pipes.
+    This function is to connect the commands via pipes using dup2.
     If there are pipes, it checks if the current command is the last in the pipeline 
 	or not and performs the following redirections:
         If it's the last command or not the first command, 
@@ -25,8 +25,8 @@ int	connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *
 
 /*
     This function closes the pipes created following the same principles as the connect_commands function
-    If there are pipes, it checks if the current command is the last in the pipeline 
-	or not and performs the following redirections:
+    If there are pipes, it checks if the current command is the last in the pipeline or not 
+	and performs the following redirections:
         If it's the last command or not the first command, it closes the read end of the previous pipe.
         If it's the first command or not the last command, it closes the write end of the current pipe.
 */
@@ -41,6 +41,10 @@ void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
 			close(pipes[CURRENT][WRITE]);
 	}
 }
+/*
+	This function is used to swap the pipes array to maintain the correct references 
+	to the current and previous pipes during command execution.
+*/
 
 void	alternate_pipes(int **pipes)
 {
