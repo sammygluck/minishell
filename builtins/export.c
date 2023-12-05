@@ -31,18 +31,25 @@
 5. End of export command implementation.
 
 */
+#include <minishell.h>
 
 int main(void)
 {
-    //argvector
+    int i;
+
+    i = 1;
     if (!arguments)
-        modified_ft_env();//print all
-    if (arguments)
-        for each argument
-            if(is_right_format) //i.e. key=value
-                update //i.e. seperate the key from value and update t_env list & char **env
-            if(!right_format)
-                error for this argument    
+        printf("error ft_export\n");
+    if (!argv[i]) // or not argv[i]
+        modified_ft_env();//make sure to set the right parameter
+    while (argv[i])
+    {
+        if(is_right_format(argv[i])) //i.e. key=value -> valid identifier issue
+            update //i.e. seperate the key from value and update t_env list & char **env
+        if(!right_format) //is this necessary?
+            error for this argument or skip this 
+        i++;
+    }
 }
 
 update(key=value string)
@@ -53,4 +60,80 @@ update(key=value string)
         create new env node
         add to env list
         mirror the char **env list
+}
+
+void modified_ft_env(t_env_var *env)//parameters + check again if works
+{
+    t_env_var *head;
+
+    head = env;
+    if (!env) 
+        return ;
+    while (head)
+    {
+        printf("declare -x %s=\"%s\"\n", env->value, env->string); 
+        head = head->next;
+    }
+    return (0);   
+}
+
+int is_right_format(char *string)
+{
+    
+    if (!valid_identifiers(string))
+        return (0);
+    if (!has_equal_sign(string))
+        return (0);
+    return (1);
+}
+
+
+int valid_identifiers(char *string)
+{
+    int i = 0;
+
+    if (!string || string[0] == '\0')
+    {
+        printf("Error: Empty string or null pointer\n");
+        return (0);
+    }
+    // Check first character
+    if (!is_alpha_under(string[i]))
+    {
+        printf("Error: First character is not a valid identifier\n");
+        return (0);
+    }
+    i++;
+    while (string[i] && string[i] != '=')
+    {
+        if (!is_alpha_under(string[i]) && !is_digit(string[i]))
+        {
+            printf("Error: Invalid character in identifier\n");
+            return (0);
+        }
+        i++;
+    }
+    return (1);
+}
+
+int has_equal_sign(char *string)
+{
+    int i;
+
+    i = 0;
+    while (string[i])
+    {
+        if (string[i] == '=')
+            return (1);
+    }
+    printf("Error: '=' not found in the string\n");
+    return (0);
+}
+
+int is_alpha_under(char c)
+{
+    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+        return (1);
+    else
+        return (0);
 }

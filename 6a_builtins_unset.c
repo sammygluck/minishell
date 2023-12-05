@@ -25,6 +25,9 @@
 6. End of unset command implementation.
 
 */
+
+#include <minishell.h>
+
 int ft_unset(void) //double check everything!!
 {
     int i;
