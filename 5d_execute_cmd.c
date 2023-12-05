@@ -5,6 +5,8 @@ void	execute_cmd(char **cmds, t_process *p)
 	int		i;
 	char	*tmp; // path to binaries to check by the access system call
 
+	if (!retrieve_path_var_env(p))
+		exit(1);
 	i = 0;
 	while (p->paths[i])
 	{

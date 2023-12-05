@@ -12,6 +12,12 @@ void	free_array(char **array)
 	free(array);
 }
 
+void exit_error(const char *source)
+{
+	perror(source);
+	exit(EXIT_FAILURE);
+}
+
 int	open_file(char *file, int file_type)
 {
 	int fd;

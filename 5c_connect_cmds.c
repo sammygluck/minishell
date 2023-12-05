@@ -11,13 +11,13 @@
     It returns 1 to indicate success.
 */
 
-int	connect_commands(t_cmd *command, io pipes[2], int pipe_count, t_process *p)
+int	connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
-		if (command->cmd_nr == p->total_cmds || command->cmd_nr != 1)
+		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 			dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
-		if (command->cmd_nr == 1 || command->cmd_nr != p->total_cmds)
+		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
 			dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
 	}
 	return (1);
@@ -31,13 +31,13 @@ int	connect_commands(t_cmd *command, io pipes[2], int pipe_count, t_process *p)
         If it's the first command or not the last command, it closes the write end of the current pipe.
 */
 
-void	close_pipe(t_cmd *command, io pipes[2], int pipe_count, t_process *p)
+void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
-		if (command->cmd_nr == p->total_cmds || command->cmd_nr != 1)
+		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 			close(pipes[PREVIOUS][READ]);
-		if (command->cmd_nr == 1 || command->cmd_nr != p->total_cmds)
+		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
 			close(pipes[CURRENT][WRITE]);
 	}
 }

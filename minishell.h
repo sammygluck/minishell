@@ -12,13 +12,14 @@
 # include <readline/history.h>
 # include <libft/libft.h>
 
-typedef int io[2];
 # define CURRENT 0
 # define PREVIOUS 1
 # define ERROR -1
 # define CHILD 0
 # define READ 0
 # define WRITE 1
+
+typedef int shift[2];
 
 typedef enum e_symbol 
 {
@@ -80,7 +81,8 @@ typedef	struct	s_process
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
 	int		pfd[2]; // to store the pipe fd's
-	int		total_cmds;
+	int		pipe_count;
+	int		cmds_count;
 	char	**paths;
 	char	**envp;
 }	t_process;
@@ -167,11 +169,12 @@ void	redirect_output(t_cmd *command, t_process *p);
 // 5b executor utils functions
 void	free_array(char **array);
 int		open_file(char *file, int file_type);
+void	exit_error(const char *source);
 
 // 5c main pipe function 
 //void	fork_handler(t_cmd *command, t_process *p);
-int connect_commands(t_cmd *command, io pipes[2], int pipe_count, t_process *p);
-void close_pipe(t_cmd *command, io pipes[2], int pipe_count, t_process *p);
+int connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
+void close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
 void alternate_pipes(int **pipes);
 
 // 5d execute command function

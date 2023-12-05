@@ -28,12 +28,6 @@ int	redirect_in(t_cmd *command, t_process *p)
 	return (1);
 }
 
-/* 
-	> and >> are used to redirect output from a program into a file.
- 	> (GREATER) truncates --> type 1 in open_file 
-	>> (D_GREATER) appends --> type 2  in open_file
-*/
-
 static void	redirect_output_to(t_redir *redirection, t_process *p)
 {
 	if (p->fd_out)
