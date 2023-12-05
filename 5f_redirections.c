@@ -36,8 +36,6 @@ int	redirect_in(t_cmd *command, t_process *p)
 
 static void	redirect_output_to(t_redir *redirection, t_process *p)
 {
-	//static int	fd_out;
-
 	if (p->fd_out)
 		close(p->fd_out);
 	if (redirection && redirection->type == GREATER)

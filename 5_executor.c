@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-static int fork_pipe_redirect(t_cmd	**command, io pipes[2], int pipe_count, t_process *p)
+static int fork_pipe_redirect(t_cmd	*command, io pipes[2], int pipe_count, t_process *p)
 {
 	pid_t	child;
 	
 	child = fork();
 	if (child == 0)
 	{
-		if (redirect_in(*command, p) && 
-			connect_commands(*command, pipes, pipe_count, p) && 
-			redirect_out(*command, p))
+		if (redirect_in(command, p) && 
+			connect_commands(command, pipes, pipe_count, p) && 
+			redirect_out(command, p))
 			return (1);
 	}
 	else // parent
@@ -70,7 +70,7 @@ int	executor(t_cmd **command, char **env)
 			perror("pipe() error");
 			exit (1);
 		}
-		is_child_process = fork_pipe_redirect(&current_cmd, pipes, pipe_count, p);
+		is_child_process = fork_pipe_redirect(current_cmd, pipes, pipe_count, p);
 		if (is_child_process)
 			execute_cmd(current_cmd->argv, p);
 		close_pipe(current_cmd, pipes, pipe_count, p);
