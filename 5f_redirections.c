@@ -1,14 +1,13 @@
 #include "minishell.h"
 
-static void	redirect_input_from(t_cmd *command, t_process *p)
+static void	redirect_input_from(t_redir *redirection, t_process *p)
 {
-
 	if (p->fd_in)
 		close(p->fd_in);
-	p->fd_in = open_file(command->redir->file, 0);
+	p->fd_in = open_file(redirection->file, 0);
 	if (p->fd_in == ERROR)
 	{
-		perror(command->redir->file);
+		perror(redirection->file);
 		exit(1);
 	}
 	dup2(p->fd_in, STDIN_FILENO);
@@ -17,45 +16,48 @@ static void	redirect_input_from(t_cmd *command, t_process *p)
 
 int	redirect_in(t_cmd *command, t_process *p)
 {
-	t_cmd	*current_cmd;
+	t_redir	*redirection;
 
-	current_cmd = command;
-	while (current_cmd->redir)
+	redirection = command->redir;
+	while (redirection)
 	{
-		if (current_cmd->redir->type == SMALLER)
-			redirect_input_from(command, p);
-		current_cmd->redir = current_cmd->redir->next;
+		if (redirection->type == SMALLER)
+			redirect_input_from(redirection, p);
+		redirection = redirection->next;
 	}
 	return (1);
 }
 
-// > and >> are used to redirect output from a program into a file.
-// > (GREATER) truncates --> type 1 in open_file 
-// >> (D_GREATER) appends --> type 2  in open_file
+/* 
+	> and >> are used to redirect output from a program into a file.
+ 	> (GREATER) truncates --> type 1 in open_file 
+	>> (D_GREATER) appends --> type 2  in open_file
+*/
 
-static void	redirect_output_to(t_cmd *command, t_process *p)
+static void	redirect_output_to(t_redir *redirection, t_process *p)
 {
+	//static int	fd_out;
+
 	if (p->fd_out)
 		close(p->fd_out);
-	if (command->redir && command->redir->type == GREATER)
-		p->fd_out = open_file(command->redir->file, 1);
+	if (redirection && redirection->type == GREATER)
+		p->fd_out = open_file(redirection->file, 1);
 	else
-		p->fd_out = open_file(command->redir->file, 2);
+		p->fd_out = open_file(redirection->file, 2);
 	dup2(p->fd_out, STDOUT_FILENO);
 	close(p->fd_out);
 }
 
 int	redirect_out(t_cmd *command, t_process *p)
 {
-	t_cmd	*current_cmd;
+	t_redir	*redirection;
 
-	current_cmd = command;
-	while (current_cmd->redir)
+	redirection = command->redir;
+	while (redirection)
 	{
-		if (current_cmd->redir->type == GREATER || current_cmd->redir->type == D_GREATER)
-			redirect_output_to(command, p);
-		current_cmd->redir = current_cmd->redir->next;
+		if (redirection->type == GREATER || redirection->type == D_GREATER)
+			redirect_output_to(redirection, p);
+		redirection = redirection->next;
 	}
 	return (1);
 }
-

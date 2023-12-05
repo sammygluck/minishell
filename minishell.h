@@ -160,7 +160,7 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
-int		executor(t_cmd *ptr, char **env);
+int	executor(t_cmd **command, char **env);
 void	check_redirection_type(t_cmd *command, t_process *p);
 void	redirect_output(t_cmd *command, t_process *p);
 
@@ -183,6 +183,6 @@ char	**create_paths_array(char *path);
 
 // 5f redirection functions
 int	redirect_in(t_cmd *command, t_process *p);
-int		redirect_out(t_cmd *command, t_process *p);
+int	redirect_out(t_cmd *command, t_process *p);
 
 #endif
