@@ -48,9 +48,5 @@ void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
 
 void	alternate_pipes(int **pipes)
 {
-	int	*pipe_current;
-
-	pipe_current = pipes[CURRENT];
-	pipes[CURRENT] = pipes[PREVIOUS];
-	pipes[PREVIOUS] = pipe_current;
+	// switch between the pipes
 }

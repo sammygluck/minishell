@@ -55,7 +55,7 @@ void	executor(t_cmd **command, char **env)
 	t_cmd			*current_cmd;
 	t_process		*p;
 	static shift	pipes[2];
-	int				is_child_process;
+	int				child_process;
 
 	if (*command == 0)
 		exit(1);
@@ -66,11 +66,11 @@ void	executor(t_cmd **command, char **env)
 	{
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe");
-		is_child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
-		if (is_child_process)
+		child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
+		if (child_process)
 			execute_cmd(current_cmd->argv, p);
 		close_pipe(current_cmd, pipes, p->pipe_count, p);
-		alternate_pipes((int **)pipes);
+		//alternate_pipes();
 		if (current_cmd->next)
 			current_cmd = current_cmd->next;
 		else
