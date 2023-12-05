@@ -23,10 +23,11 @@
 5. End of env command implementation.
 
 */
+#include <minishell.h>
 
-int ft_env(t_env *env)//parameters?
+int ft_env(t_env_var *env)//parameters?
 {
-    t_env *head;
+    t_env_var *head;
 
     head = env;
     if (!env) //also check if there are arguments and failure on more parameters should they come up
