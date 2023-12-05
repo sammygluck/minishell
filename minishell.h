@@ -182,7 +182,7 @@ int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
 
 // 5f redirection functions
-int	redirect_in(t_cmd *command, t_process *p);
-int	redirect_out(t_cmd *command, t_process *p);
+int	input_redirect(t_cmd *command, t_process *p);
+int	output_redirect(t_cmd *command, t_process *p);
 
 #endif

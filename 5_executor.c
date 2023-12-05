@@ -9,9 +9,9 @@ static int fork_pipe_redirect(t_cmd	*command, shift pipes[2], int pipe_count, t_
 		exit_error("fork");
 	if (child == 0)
 	{
-		if (redirect_in(command, p) && 
+		if (input_redirect(command, p) && 
 			connect_commands(command, pipes, pipe_count, p) && 
-			redirect_out(command, p))
+			output_redirect(command, p))
 			return (1);
 	}
 	else // parent
@@ -70,7 +70,7 @@ void	executor(t_cmd **command, char **env)
 		if (child_process)
 			execute_cmd(current_cmd->argv, p);
 		close_pipe(current_cmd, pipes, p->pipe_count, p);
-		//alternate_pipes();
+		//alternate_pipes(); needs to switch between the current and previous pipe
 		if (current_cmd->next)
 			current_cmd = current_cmd->next;
 		else

@@ -11,7 +11,7 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 	close(p->fd_in);
 }
 
-int	redirect_in(t_cmd *command, t_process *p)
+int	input_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 
@@ -39,7 +39,7 @@ static void	redirect_output_to(t_redir *redirection, t_process *p)
 	close(p->fd_out);
 }
 
-int	redirect_out(t_cmd *command, t_process *p)
+int	output_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 
