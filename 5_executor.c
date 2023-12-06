@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int fork_pipe_redirect(t_cmd	*command, shift pipes[2], int pipe_count, t_process *p)
+static int	fork_pipe_redirect(t_cmd *command, int *pipes[2], int pipe_count, t_process *p)
 {
 	pid_t	child;
 	
@@ -54,23 +54,25 @@ void	executor(t_cmd **command, char **env)
 {
 	t_cmd			*current_cmd;
 	t_process		*p;
-	static shift	pipes[2];
+	static int		*pipes[2];
 	int				child_process;
 
 	if (*command == 0)
 		exit(1);
 	p = init_process_struct(env);
 	command_pipe_count(*command, p);
+	pipes[CURRENT] = p->fds;
 	current_cmd = *command;
 	while (current_cmd)
 	{
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe");
+		printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 		child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
 		if (child_process)
 			execute_cmd(current_cmd->argv, p);
 		close_pipe(current_cmd, pipes, p->pipe_count, p);
-		//alternate_pipes(); needs to switch between the current and previous pipe
+		swap(pipes); //needs to switch between the current and previous pipe
 		if (current_cmd->next)
 			current_cmd = current_cmd->next;
 		else

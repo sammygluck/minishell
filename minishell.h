@@ -19,7 +19,7 @@
 # define READ 0
 # define WRITE 1
 
-typedef int shift[2];
+//typedef int shift[2];
 
 typedef enum e_symbol 
 {
@@ -80,7 +80,7 @@ typedef	struct	s_process
 	int		fd_in; // the fd of the input file; if any
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
-	int		pfd[2]; // to store the pipe fd's
+	int		fds[2]; // to store the pipe fd's
 	int		pipe_count;
 	int		cmds_count;
 	char	**paths;
@@ -170,9 +170,9 @@ void	exit_error(const char *source);
 int		open_file(char *file, int file_type);
 
 // 5c connect commands with pipe functions
-int		connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
-void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
-void	alternate_pipes(int **pipes);
+int		connect_commands(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
+void	close_pipe(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
+void	swap(int **pipes);
 
 // 5d execute command function
 void	execute_cmd(char **cmds, t_process *p);

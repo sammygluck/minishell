@@ -11,7 +11,7 @@
     It returns 1 to indicate success.
 */
 
-int	connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
+int	connect_commands(t_cmd *command, int *pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
@@ -31,7 +31,7 @@ int	connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *
         If it's the first command or not the last command, it closes the write end of the current pipe.
 */
 
-void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
+void	close_pipe(t_cmd *command, int *pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
@@ -46,7 +46,12 @@ void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p)
 	to the current and previous pipes during command execution.
 */
 
-void	alternate_pipes(int **pipes)
+void	swap(int **pipes)
 {
-	// switch between the pipes
+	int	*current_pipe;
+
+	current_pipe = NULL;
+	current_pipe = pipes[CURRENT];
+	pipes[CURRENT] = pipes[PREVIOUS];
+	pipes[PREVIOUS] = current_pipe;
 }
