@@ -29,3 +29,7 @@ Some tests:
 --> no output on terminal
 - ls | > output
 --> output file should be created but nothing written in file
+
+
+concerns:
+- the opened fd's > are they all properly closed once command line input is executed?

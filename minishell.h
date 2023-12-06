@@ -19,7 +19,7 @@
 # define READ 0
 # define WRITE 1
 
-typedef int shift[2];
+typedef int fds[2];
 
 typedef enum e_symbol 
 {
@@ -169,8 +169,8 @@ void	exit_error(const char *source);
 int		open_file(char *file, int file_type);
 
 // 5c connect commands with pipe functions
-int		connect_commands(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
-void	close_pipe(t_cmd *command, shift pipes[2], int pipe_count, t_process *p);
+int		connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
+void	close_pipe(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
 // int	connect_commands(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
 // void	close_pipe(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
 void	swap(int **pipes);
