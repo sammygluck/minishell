@@ -62,7 +62,6 @@ void	executor(t_cmd **command, char **env)
 	p = init_process_struct(env);
 	command_pipe_count(*command, p);
 	current_cmd = *command;
-	printf("the number of pipes: %i\n", p->pipe_count);
 	while (current_cmd)
 	{	
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
@@ -78,6 +77,7 @@ void	executor(t_cmd **command, char **env)
 			break ;
 	}
 }
+//printf("the number of pipes: %i\n", p->pipe_count);
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the command to check: %s\n", current_cmd->argv[0]);
