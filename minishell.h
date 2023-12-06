@@ -171,8 +171,6 @@ int		open_file(char *file, int file_type);
 // 5c connect commands with pipe functions
 int		connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
 void	close_pipe(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
-// int	connect_commands(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
-// void	close_pipe(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function

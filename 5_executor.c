@@ -52,17 +52,16 @@ static t_process	*init_process_struct(char **env)
 
 void	executor(t_cmd **command, char **env)
 {
-	t_cmd			*current_cmd;
-	t_process		*p;
+	t_cmd		*current_cmd;
+	t_process	*p;
 	static fds	pipes[2];
-	int				child_process;
+	int			child_process;
 
 	if (*command == 0)
 		exit(1);
 	p = init_process_struct(env);
 	command_pipe_count(*command, p);
 	current_cmd = *command;
-	printf("the number of pipes: %i\n", p->pipe_count);
 	while (current_cmd)
 	{	
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
@@ -78,11 +77,3 @@ void	executor(t_cmd **command, char **env)
 			break ;
 	}
 }
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("the command to check: %s\n", current_cmd->argv[0]);
-//printf("OK - after child process\n");
-//printf("OK - after execute cmd\n");
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("OK - fork_pipe\n");
