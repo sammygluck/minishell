@@ -77,3 +77,11 @@ void	executor(t_cmd **command, char **env)
 			break ;
 	}
 }
+//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+//printf("the command to check: %s\n", current_cmd->argv[0]);
+//printf("OK - after child process\n");
+//printf("OK - after execute cmd\n");
+//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+//printf("OK - fork_pipe\n");
