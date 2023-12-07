@@ -12,9 +12,12 @@ void	free_array(char **array)
 	free(array);
 }
 
-void exit_error(const char *source)
+void exit_error(char *source, int type)
 {
-	perror(source);
+	if (type) // system call with ERRNO set
+		perror(source);
+	else
+		ft_putstr_fd(source, 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -28,7 +31,9 @@ int	open_file(char *file, int file_type)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644); // TO DO: check if right file permissions
 	if (file_type == 2)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644); // TO DO: check if right file permissions
-	if (fd == -1)
+	if (file_type == 3)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777); // TO DO: check if right file permissions
+	if (fd == ERROR)
 	{
 		perror(file);
 		exit(1); // Q: exit failure ok?

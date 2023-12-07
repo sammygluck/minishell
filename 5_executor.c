@@ -6,7 +6,7 @@ static int	fork_pipe_redirect(t_cmd *command, fds pipes[2], int pipe_count, t_pr
 	
 	child = fork();
 	if (child == ERROR)
-		exit_error("fork");
+		exit_error("fork", 1);
 	if (child == 0)
 	{
 		if (input_redirect(command, p) && 
@@ -65,7 +65,7 @@ void	executor(t_cmd **command, char **env)
 	while (current_cmd)
 	{	
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
-			exit_error("pipe");
+			exit_error("pipe", 1);
 		child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
 		if (child_process)
 			execute_cmd(current_cmd->argv, p);

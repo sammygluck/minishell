@@ -1,4 +1,22 @@
 1. difference between EOF & 'EOF'
     a. either way '' get removed
-    b. with '' the text doesn't get expanded
-2. 
+    b. with '' and "" the text doesn't get expanded >> no dynamic content
+2. leading whitespace before delimiter doesn't count
+    cat << EOF works the same as
+    cat <<EOF
+    cat <<      EOF
+
+from GNU Bash:
+
+No parameter and variable expansion, command substitution, arithmetic expansion, or filename expansion is performed on word. 
+If any part of word is quoted, 
+    > the delimiter is the result of quote removal on word, 
+    > and the lines in the here-document are not expanded. 
+If word is unquoted, all lines of the here-document are subjected 
+- to parameter expansion,
+- command substitution, and 
+- arithmetic expansion, 
+the character sequence \newline is ignored, and ‘\’ must be used to quote the characters ‘\’, ‘$’, and ‘`’. 
+
+some tests:
+- cat <<EOF > out | grep "this" > check

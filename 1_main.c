@@ -20,15 +20,15 @@ int	main(int argc, char **argv, char **env)
 	//int i = 0;
 	while (1)
 	{
-		input = readline("This is a test prompt> ");
+		input = readline("minishell> ");
 		if (!input)
 			break ;
 		add_history(input);
-		printf("You entered: %s\n", input);
+		//printf("You entered: %s\n", input);
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
-		print_command_table(parsed);
+		//print_command_table(parsed);
 		//print_list(token_head);
 		executor(&parsed, env);
 		free(input);

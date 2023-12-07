@@ -165,10 +165,10 @@ void	executor(t_cmd **command, char **env);
 
 // 5b executor utils functions
 void	free_array(char **array);
-void	exit_error(const char *source);
+void	exit_error(char *source, int type);
 int		open_file(char *file, int file_type);
 
-// 5c connect commands with pipe functions
+// 5c connect commands with dup2
 int		connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
 void	close_pipe(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
 void	swap(int **pipes);
@@ -183,5 +183,8 @@ char	**create_paths_array(char *path);
 // 5f redirection functions
 int	input_redirect(t_cmd *command, t_process *p);
 int	output_redirect(t_cmd *command, t_process *p);
+
+// 5g heredoc functions
+void	heredoc_handler(char *delimiter, t_process *p);
 
 #endif
