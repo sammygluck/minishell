@@ -134,7 +134,7 @@ char *third_clean(char *string);
 //3e env handler
 
 t_env_var *environment_var_handler(char **env);
-t_env_var *create_env_var(char *current_env, int i);
+t_env_var *create_env_var(char *current_env);
 char *extract_var_name(char *current_env);
 char *extract_var_value(char *current_env);
 void add_env_var(t_env_var **env_head, t_env_var *env_var);
