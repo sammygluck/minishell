@@ -37,7 +37,9 @@ int ft_env(t_env_var *env)//parameters?
     }
     while (head)
     {
-        printf("%s=%s\n", env->value, env->string); //check for correctness also I can just print char **array
+        if (head->value == NULL)
+            continue;
+        printf("%s=%s\n", head->name, head->value); //check for correctness also I can just print char **array
         head = head->next;
     }
     return (0);   
