@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-static int	is_builtin(char **cmds)
+static int	is_builtin(char *command)
 {
-	if (ft_strncmp(cmds[0], "echo", ft_strlen("echo")) == 0)
+	if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
 		return (1);
-	else if (ft_strncmp(cmds[0], "cd", ft_strlen("cd")) == 0)
+	else if (ft_strncmp(command, "cd", ft_strlen("cd")) == 0)
 		return (1);
-	else if (ft_strncmp(cmds[0], "pwd", ft_strlen("pwd")) == 0)
+	else if (ft_strncmp(command, "pwd", ft_strlen("pwd")) == 0)
 		return (1);
-	else if (ft_strncmp(cmds[0], "export", ft_strlen("export")) == 0)
+	else if (ft_strncmp(command, "export", ft_strlen("export")) == 0)
 		return (1);
-	else if (ft_strncmp(cmds[0], "unset", ft_strlen("unset")) == 0)
+	else if (ft_strncmp(command, "unset", ft_strlen("unset")) == 0)
 		return (1);
-	else if (ft_strncmp(cmds[0], "env", ft_strlen("env")) == 0)
+	else if (ft_strncmp(command, "env", ft_strlen("env")) == 0)
 		return (1);
-	else if (ft_strncmp(cmds[0], "exit", ft_strlen("exit")) == 0)
+	else if (ft_strncmp(command, "exit", ft_strlen("exit")) == 0)
 		return (1);
 	return (0);
 }
@@ -25,7 +25,7 @@ void	execute_cmd(char **cmds, t_process *p)
 
 	if (!retrieve_path_var_env(p))
 		exit(1);
-	if (is_builtin(cmds))
+	if (is_builtin(cmds[0]))
 	{
 		printf("this is a builtin function - TBC\n");
 		exit (1);
