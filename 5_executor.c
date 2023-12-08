@@ -43,6 +43,8 @@ static t_process	*init_process_struct(char **env)
 	p->fd_in = -1; // TO DO: remove?
 	p->fd_out = -1; // TO DO: remove?
 	p->status = -1; // TO DO: remove?
+	p->quotes = 0; // to use for heredoc?
+	p->hd = 0;
 	p->pipe_count = 0;
 	p->cmds_count = 0;
 	p->paths = NULL;
@@ -59,7 +61,7 @@ void	executor(t_cmd **command, char **env)
 
 	if (*command == 0)
 		exit(1);
-	p = init_process_struct(env);
+	p = init_process_struct(env); 
 	command_pipe_count(*command, p);
 	current_cmd = *command;
 	while (current_cmd)
@@ -69,14 +71,13 @@ void	executor(t_cmd **command, char **env)
 		child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
 		if (child_process)
 			execute_cmd(current_cmd->argv, p);
-		close_pipe(current_cmd, pipes, p->pipe_count, p);
+		close_pipe_end(current_cmd, pipes, p->pipe_count, p);
 		swap((int **)pipes);
-		if (current_cmd->next)
-			current_cmd = current_cmd->next;
-		else
-			break ;
+		current_cmd = current_cmd->next;
 	}
 }
+//printf("-----the exit status of the child: %i\n", WEXITSTATUS(p->status));
+//printf("the pipe fds after: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the command to check: %s\n", current_cmd->argv[0]);

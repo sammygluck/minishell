@@ -23,6 +23,7 @@ int	input_redirect(t_cmd *command, t_process *p)
 			redirect_input_from(redirection, p);
 		if (redirection->type == D_SMALLER)
 		{
+			p->hd = 1; // flag to signal heredoc 
 			delimiter = redirection->file;
 			heredoc_handler(delimiter, p);
 		}
