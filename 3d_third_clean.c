@@ -9,16 +9,16 @@ static int handle_quote(char c, t_quote *q_struct)
         {
             q_struct->quote_type = c;
             q_struct->in_quote = 1;
-            return (1); // Skip this character
+            return (1);
         }
         else if (q_struct->in_quote == 1 && c == q_struct->quote_type)
         {
             q_struct->in_quote = 0;
             q_struct->quote_type = '\0';
-            return (1); // Skip this character
+            return (1);
         }
     }
-    return (0); // Do not skip this character
+    return (0);
 }
 
 char *third_clean(char *string)
