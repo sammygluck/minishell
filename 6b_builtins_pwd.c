@@ -22,6 +22,8 @@
 
 */
 
+#include "minishell.h"
+
 int ft_pwd(char **argv, char **env, t_env_var **env_l) // do I need to add other parameters??
 {
    char buffer[PATH_MAX];

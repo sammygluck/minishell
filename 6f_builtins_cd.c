@@ -1,4 +1,3 @@
-#include <minishell.h>
 /*
 1. Check if a path argument is provided with the cd command
    - If not, proceed to check for the HOME environment variable
@@ -27,6 +26,7 @@
 
 5. End of cd command implementation
 */
+#include "minishell.h"
 
 ft_cd(char **argv, char **env, t_env_var **env_head)
 {
@@ -72,12 +72,13 @@ ft_cd(char **argv, char **env, t_env_var **env_head)
 // 2. path formatting must be done
 ft_chdir(path)
 {
+    char buf[PATH_MAX];
     char *OLD_PWD;
     char *PWD;
 
-    OLD_PWD = getcwd();
+    OLD_PWD = getcwd(buf, PATH_MAX);
     PWD = path;
-    if (ft_chdir)
+    if (chdir(path))
     {
         export old_pwd;
         export pwd;

@@ -22,6 +22,9 @@
 */
 
 //improvements: the -nnnnnn flag
+
+#include "minishell.h"
+
 int ft_echo(char **argv, char **env, t_env_var **env_l)//fix parameters
 {
     int flag_n;
