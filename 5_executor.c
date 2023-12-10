@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "minishell.h"
 
 static int	fork_pipe_redirect(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
