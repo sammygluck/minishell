@@ -24,6 +24,8 @@
 
 int ft_exit(char **argv, char **env, t_env_var *env)
 {
+    int exit_code;
+    
     //VOID SOME STUFF
     if (!argv)
         exit(EXIT_FAILURE);
@@ -34,18 +36,20 @@ int ft_exit(char **argv, char **env, t_env_var *env)
         error: too many arguments
         do not exit shell
     }
-    else if 1 argument
+    else if (argv[1]) //not sure if this condition is even necessary
     {
-        if valid number //what is a valid number for exit code?? strings are not allowed
-            final_exit(valid_number)
-        if not valid number
-            error and exit
+        exit_code = validate_and_process_exit_code(argv[1]);
+        if (exit_code != -1) 
+            final_exit(exit_code);
+        else 
+            error and exit;
     } 
 }
 
 void final_exit(exit_number)
 {
-    cleanup;// is necessary?
+    // is cleanup necessary?
     printf("exit\n");
     exit(exit_status);
 }
+

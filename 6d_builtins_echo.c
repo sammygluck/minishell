@@ -21,11 +21,16 @@
 
 */
 
-int ft_echo(char **argv)//fix parameters
+//improvements: the -nnnnnn flag
+int ft_echo(char **argv, char **env, t_env_var **env_l)//fix parameters
 {
     int flag_n;
     int i;
 
+    (void) env;
+    (void) env_l;
+    if (!argv)
+        exit(EXIT_FAILURE);
     flag_n = 0;
     i = 1;
     if (argv[i] && ft_strncmp(argv[i], "-n", 3) == 0) 
