@@ -27,4 +27,39 @@
 
 5. End of cd command implementation
 */
-        
+
+ft_cd()
+{
+    if (!arg[1]) //i.e. no cd argument is provided
+    {
+        if (!HOME_VAR)
+            //error and exit function "bash: cd: HOME not set"
+        else 
+            ft_chdir(HOME_VAR);
+
+    }
+    if (too many arguments)
+    {
+        minishell: cd: too many arguments
+    }
+    if (only path)
+        ft_chdir(path);
+}
+
+ft_chdir(path)
+{
+    OLD_PWD = get current path;
+    PWD = path;
+    if (chdir = success)
+    {
+        export old_pwd;
+        export pwd;
+        return (success);
+    }
+    else
+    {
+        print error;
+        return (failure);
+    }
+
+}
