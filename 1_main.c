@@ -9,7 +9,7 @@
 /*   Updated: 2023/10/23 17:54:30 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <minishell.h>
+#include "minishell.h"
 
 // int	is_char(char to_check, char against);
 void free_token_list(t_token **head);

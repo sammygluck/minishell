@@ -22,6 +22,8 @@
 
 */
 
+#include "minishell.h"
+
 int ft_exit(char **argv, char **env, t_env_var *env)
 {
     int exit_code;
@@ -50,6 +52,6 @@ void final_exit(exit_number)
 {
     // is cleanup necessary?
     printf("exit\n");
-    exit(exit_status);
+    exit(exit_number);
 }
 
