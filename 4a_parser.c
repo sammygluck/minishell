@@ -127,9 +127,3 @@ void append_redirection(t_cmd *command, t_redir *new_redir)
 		last_redir->next = new_redir;
 	}
 }
-
-// void print_command_table(t_cmd *command)
-// {
-
-// }
-
