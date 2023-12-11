@@ -25,9 +25,10 @@ start: int executor
 
 Some tests:
 - echo "hallo" > hallo | cat -e
---> no output on terminal
 - ls | > output
---> output file should be created but nothing written in file
+- <Makefile grep "mini" | cat -e | cat -e | cat -e | cat -e
+- cat << EOF | cat -e | cat -e | cat -e > check
+- 
 
 
 concerns:

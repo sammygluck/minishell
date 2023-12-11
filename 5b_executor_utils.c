@@ -42,13 +42,16 @@ int	open_file(char *file, int file_type)
 }
 // void	close_fds(t_process *p, int **pipes)
 // {
+// 	int	check;
+
 // 	if (p->fd_in)
-// 		close(p->fd_in);
+// 		check = close(p->fd_in);
 // 	if (p->fd_out)
-// 		close(p->fd_out);
-// 	if (pipes)
-// 	{
-// 		while (*pipes && **pipes)
-// 			close(**pipes);
-// 	}
+// 		check = close(p->fd_out);
+// 	if (!pipes || !*pipes)
+// 		exit (1);
+// 	check = close(pipes[CURRENT][READ]);
+// 	check = close(pipes[CURRENT][WRITE]);
+// 	if (check == ERROR)
+// 		exit_error("close fds error", 0);
 // }

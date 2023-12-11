@@ -189,7 +189,4 @@ int	output_redirect(t_cmd *command, t_process *p);
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
 
-// builtins
-void	ft_echo(char **cmd);
-
 #endif

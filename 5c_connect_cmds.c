@@ -41,10 +41,15 @@ void	close_pipe_end(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
-		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
-			close(pipes[PREVIOUS][READ]);
 		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
 			close(pipes[CURRENT][WRITE]);
+		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
+			close(pipes[PREVIOUS][READ]);
+		if (command->cmd_nr == p->cmds_count) //only when last command close current pipe
+		{
+			close(pipes[CURRENT][READ]);
+			close(pipes[CURRENT][WRITE]);
+		}
 	}
 }
 /*
