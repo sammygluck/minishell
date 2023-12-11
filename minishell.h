@@ -80,7 +80,7 @@ typedef	struct	s_process
 	int		fd_in; // the fd of the input file; if any
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
-	int		quotes; // heredoc flag to deal with the expander
+	int		quotes; // heredoc flag to deal with the expander?
 	int		hd; // flag for heredoc
 	int		pipe_count;
 	int		cmds_count;
@@ -188,5 +188,8 @@ int	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
+
+// builtins
+void	ft_echo(char **cmd);
 
 #endif

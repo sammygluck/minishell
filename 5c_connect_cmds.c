@@ -16,7 +16,11 @@ int	connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 	if (pipe_count)
 	{
 		if (p->hd)
+		{
+			dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
+			dup2(pipes[PREVIOUS][READ], p->fd_in);
 			return (1);
+		}
 		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 			dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
 		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)

@@ -76,8 +76,8 @@ void	executor(t_cmd **command, char **env)
 		current_cmd = current_cmd->next;
 	}
 }
-//printf("-----the exit status of the child: %i\n", WEXITSTATUS(p->status));
 //printf("the pipe fds after: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+//printf("-----the exit status of the child: %i\n", WEXITSTATUS(p->status));
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the command to check: %s\n", current_cmd->argv[0]);
