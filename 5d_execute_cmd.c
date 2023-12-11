@@ -47,6 +47,7 @@ void	execute_cmd(char **cmds, t_process *p)
 	if (!retrieve_path_var_env(p))
 		exit(1);
 	i = 0;
+	printf("OK\n");
 	while (p->paths[i])
 	{
 		tmp = ft_strjoin(p->paths[i], cmds[0]);
