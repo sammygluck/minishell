@@ -14,12 +14,6 @@ t_token *create_token(char *string, int type)
 
     token = ft_malloc(sizeof(t_token));
     token->string = ft_strdup(string);
-    //before ft_malloc
-    // if (!token->string)
-    // {
-    //     free(token);
-    //     return (NULL);
-    // }
     //either type gets verified here or earlier not sure yet
     token->type = type;
     token->next = NULL;

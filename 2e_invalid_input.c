@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+//this function is yet to be added and used
 int is_valid_sequence(t_token *lexer_head)
 {
     t_token *head;
