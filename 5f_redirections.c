@@ -60,6 +60,11 @@ void	output_redirect(t_cmd *command, t_process *p)
 
 void	redirections_check(t_cmd *command, t_process *p)
 {
+	if (!command->argc || !command->argv[0])
+	{
+		printf("error: no command provided.\n");
+		exit (1);
+	}
 	input_redirect(command, p);
 	output_redirect(command, p);
 }

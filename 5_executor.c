@@ -4,7 +4,9 @@ static void	save_stdin_out(int *save_fd)
 {
 	save_fd[0] = dup(STDIN_FILENO);
 	save_fd[1] = dup(STDOUT_FILENO);
+	printf("the stdin/stdout fds: %i\t %i\n", save_fd[0], save_fd[1]);
 }
+
 static void	reset_stdin_out(int *save_fd)
 {
 	dup2(save_fd[0], STDIN_FILENO);
@@ -59,12 +61,16 @@ void	executor(t_cmd **command, char **env)
 	current_cmd = *command;
 	while (current_cmd)
 	{
+		printf("command nr: %i\n", current_cmd->cmd_nr);
+		printf("command nr: %i\n", current_cmd->cmd_nr);
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		redirections_check(*command, p);
-		if (is_builtin((*command)->argv[0]))
-			execute_builtin((*command)->argv);
+		printf("the pipe fds after: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+		connect_commands(current_cmd, pipes, p->pipe_count, p);
+		redirections_check(current_cmd, p);
+		if (is_builtin(current_cmd->argv[0]))
+			execute_builtin(current_cmd->argv);
 		else
 			execute_cmd_fork(current_cmd, pipes, p->pipe_count, p);
 		close_pipe_ends(current_cmd, pipes, p->pipe_count, p);
@@ -73,7 +79,6 @@ void	executor(t_cmd **command, char **env)
 		current_cmd = current_cmd->next;
 	}
 }
-//printf("the pipe fds after: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("-----the exit status of the child: %i\n", WEXITSTATUS(p->status));
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 //printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);

@@ -15,6 +15,7 @@ int	connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
+		printf("command nr: %i\n", command->cmd_nr);
 		if (p->hd)
 		{
 			dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
@@ -22,9 +23,15 @@ int	connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 			return (1);
 		}
 		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
+		{
+			printf("the pipes end to dup2: %i\n", pipes[PREVIOUS][READ]);
 			dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
+		}
 		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
+		{
+			printf("the pipes end to dup2: %i\n", pipes[CURRENT][WRITE]);
 			dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
+		}
 	}
 	return (1);
 }
@@ -41,10 +48,10 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
-		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
-			close(pipes[CURRENT][WRITE]);
-		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
-			close(pipes[PREVIOUS][READ]);
+		// if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
+		// 	close(pipes[CURRENT][WRITE]);
+		// if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
+		// 	close(pipes[PREVIOUS][READ]);
 		if (command->cmd_nr == p->cmds_count) //only when last cmd, close current pipe
 		{
 			close(pipes[CURRENT][READ]);

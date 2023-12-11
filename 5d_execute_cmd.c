@@ -75,7 +75,7 @@ void	execute_cmd_fork(t_cmd *command, fds pipes[2], int pipe_count, t_process *p
 		exit_error("fork", 1);
 	if (child == 0)
 	{
-		connect_commands(command, pipes, pipe_count, p);
+		//connect_commands(command, pipes, pipe_count, p);
 		execute_cmd(command->argv, p);
 	}
 	else // parent
