@@ -40,18 +40,21 @@ int	open_file(char *file, int file_type)
 	}
 	return (fd);
 }
-// void	close_fds(t_process *p, int **pipes)
-// {
-// 	int	check;
-
-// 	if (p->fd_in)
-// 		check = close(p->fd_in);
-// 	if (p->fd_out)
-// 		check = close(p->fd_out);
-// 	if (!pipes || !*pipes)
-// 		exit (1);
-// 	check = close(pipes[CURRENT][READ]);
-// 	check = close(pipes[CURRENT][WRITE]);
-// 	if (check == ERROR)
-// 		exit_error("close fds error", 0);
-// }
+int	is_builtin(char *command)
+{
+	if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
+		return (1);
+	else if (ft_strncmp(command, "cd", ft_strlen("cd")) == 0)
+		return (1);
+	else if (ft_strncmp(command, "pwd", ft_strlen("pwd")) == 0)
+		return (1);
+	else if (ft_strncmp(command, "export", ft_strlen("export")) == 0)
+		return (1);
+	else if (ft_strncmp(command, "unset", ft_strlen("unset")) == 0)
+		return (1);
+	else if (ft_strncmp(command, "env", ft_strlen("env")) == 0)
+		return (1);
+	else if (ft_strncmp(command, "exit", ft_strlen("exit")) == 0)
+		return (1);
+	return (0);
+}

@@ -11,7 +11,7 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 	close(p->fd_in);
 }
 
-int	input_redirect(t_cmd *command, t_process *p)
+void	input_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 	char	*delimiter;
@@ -29,7 +29,6 @@ int	input_redirect(t_cmd *command, t_process *p)
 		}
 		redirection = redirection->next;
 	}
-	return (1);
 }
 
 static void	redirect_output_to(t_redir *redirection, t_process *p)
@@ -46,7 +45,7 @@ static void	redirect_output_to(t_redir *redirection, t_process *p)
 	close(p->fd_out);
 }
 
-int	output_redirect(t_cmd *command, t_process *p)
+void	output_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 
@@ -57,5 +56,10 @@ int	output_redirect(t_cmd *command, t_process *p)
 			redirect_output_to(redirection, p);
 		redirection = redirection->next;
 	}
-	return (1);
+}
+
+void	redirections_check(t_cmd *command, t_process *p)
+{
+	input_redirect(command, p);
+	output_redirect(command, p);
 }

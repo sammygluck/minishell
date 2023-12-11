@@ -169,24 +169,31 @@ void	executor(t_cmd **command, char **env);
 void	free_array(char **array);
 void	exit_error(char *source, int type);
 int		open_file(char *file, int file_type);
+int		is_builtin(char *command);
 
 // 5c connect commands with dup2
 int		connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
-void	close_pipe_end(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
+void	close_pipe_ends(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
+void	execute_cmd_fork(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
 void	execute_cmd(char **cmds, t_process *p);
+void	execute_builtin(char **cmds);
 
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
 
 // 5f redirection functions
-int	input_redirect(t_cmd *command, t_process *p);
-int	output_redirect(t_cmd *command, t_process *p);
+void	redirections_check(t_cmd *command, t_process *p);
+void	input_redirect(t_cmd *command, t_process *p);
+void	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
+
+// builtins 
+void	ft_echo(char **cmd);
 
 #endif

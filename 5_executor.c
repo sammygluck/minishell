@@ -1,24 +1,17 @@
 #include "minishell.h"
 
-static int	fork_pipe_redirect(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
+static void	save_stdin_out(int *save_fd)
 {
-	pid_t	child;
-	
-	child = fork();
-	if (child == ERROR)
-		exit_error("fork", 1);
-	if (child == 0)
-	{
-		if (input_redirect(command, p) && 
-			connect_commands(command, pipes, pipe_count, p) && 
-			output_redirect(command, p))
-			return (1);
-	}
-	else // parent
-		waitpid(child, &p->status, 0);
-	return (0);
+	save_fd[0] = dup(STDIN_FILENO);
+	save_fd[1] = dup(STDOUT_FILENO);
 }
-
+static void	reset_stdin_out(int *save_fd)
+{
+	dup2(save_fd[0], STDIN_FILENO);
+	close(save_fd[0]);
+	dup2(save_fd[1], STDOUT_FILENO);
+	close(save_fd[1]);
+}
 static void	command_pipe_count(t_cmd *command, t_process *p)
 {
 	t_cmd	*current_cmd;
@@ -40,8 +33,8 @@ static t_process	*init_process_struct(char **env)
 	p = ft_malloc(sizeof(t_process));
 	if (!p)
 		exit (1);
-	p->fd_in = -1; // TO DO: remove?
-	p->fd_out = -1; // TO DO: remove?
+	p->fd_in = -1;
+	p->fd_out = -1;
 	p->status = -1; // TO DO: remove?
 	p->quotes = 0; // to use for heredoc?
 	p->hd = 0;
@@ -57,7 +50,7 @@ void	executor(t_cmd **command, char **env)
 	t_cmd		*current_cmd;
 	t_process	*p;
 	static fds	pipes[2];
-	int			child_process;
+	int			std_fds[2]; // to keep track of the stdin and stdout due to redirects
 
 	if (*command == 0)
 		exit(1);
@@ -65,14 +58,18 @@ void	executor(t_cmd **command, char **env)
 	command_pipe_count(*command, p);
 	current_cmd = *command;
 	while (current_cmd)
-	{	
+	{
+		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
-		if (child_process)
-			execute_cmd(current_cmd->argv, p);
-		close_pipe_end(current_cmd, pipes, p->pipe_count, p);
+		redirections_check(*command, p);
+		if (is_builtin((*command)->argv[0]))
+			execute_builtin((*command)->argv);
+		else
+			execute_cmd_fork(current_cmd, pipes, p->pipe_count, p);
+		close_pipe_ends(current_cmd, pipes, p->pipe_count, p);
 		swap((int **)pipes);
+		reset_stdin_out(std_fds);
 		current_cmd = current_cmd->next;
 	}
 }

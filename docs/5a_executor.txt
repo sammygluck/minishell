@@ -32,4 +32,6 @@ Some tests:
 
 
 concerns:
-- the opened fd's > are they all properly closed once command line input is executed?
+- the opened fd's > are they all properly closed once command line input is executed? 
+	> ok for parent! 
+	> check children

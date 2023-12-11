@@ -37,7 +37,7 @@ int	connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 		If it's the first command or not the last command, it closes the write end of the current pipe.
 */
 
-void	close_pipe_end(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
+void	close_pipe_ends(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 {
 	if (pipe_count)
 	{
@@ -45,7 +45,7 @@ void	close_pipe_end(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 			close(pipes[CURRENT][WRITE]);
 		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 			close(pipes[PREVIOUS][READ]);
-		if (command->cmd_nr == p->cmds_count) //only when last command close current pipe
+		if (command->cmd_nr == p->cmds_count) //only when last cmd, close current pipe
 		{
 			close(pipes[CURRENT][READ]);
 			close(pipes[CURRENT][WRITE]);
@@ -57,7 +57,7 @@ void	close_pipe_end(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 	to the current and previous pipes during command execution.
 */
 
-void	swap(int **pipes)
+void	swap(int **pipes) // TO DO: add protection
 {
 	int	*current_pipe;
 
