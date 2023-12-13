@@ -28,69 +28,59 @@
 */
 #include "minishell.h"
 
-ft_cd(char **argv, char **env, t_env_var **env_head)
+int ft_cd(char **argv, t_env_var **env_head) 
 {
     char *home;
     int ret_value;
 
     ret_value = 0;
-    if (!argv || !argv[0])
+    if (!argv || !argv[0]) 
     {
-        printf("error:ft_cd"); //find appropriate error
+        printf("error:ft_cd\n"); // Provide more specific error message
         return (1);
     }
-    if (!argv[1]) //i.e. no cd argument is provided
+    if (!argv[1]) 
     {
         home = get_env_value(*env_head, "HOME");
-        if (!home)
+        if (!home) 
         {
             printf("minishell: cd: HOME not set\n");
             return (1);
         }
-        else
-        {
-            ret_value = ft_chdir(HOME_VAR);
-            return (ret_value);
-        }
+        ret_value = ft_chdir(home, env_head);
+        free(home); // Free memory allocated by get_env_value
+        return (ret_value);
     }
-    if (argv[3] != NULL)
-    {
+    if (argv[2] != NULL) // Corrected argument check
+    { 
         printf("minishell: cd: too many arguments\n");
         return (1);
     }
-    else
-    {
-        //must format path first (relative vs absolute)
-        ret_value = ft_chdir(path);
-        return (ret_value);
-    }
-
+    // Path formatting can be done here if needed
+    ret_value = ft_chdir(argv[1], env_head);
+    return (ret_value);
 }
 
-// a few changes necessary here, complete the function
-// 1. export must be complete
-// 2. path formatting must be done
-ft_chdir(path)
+int ft_chdir(const char *path, t_env_var **env_head) 
 {
     char buf[PATH_MAX];
-    char *OLD_PWD;
-    char *PWD;
+    char *old_pwd;
+    char *pwd;
 
-    OLD_PWD = getcwd(buf, PATH_MAX);
-    PWD = path;
-    if (chdir(path))
+    old_pwd = getcwd(buf, PATH_MAX);
+    if (chdir(path) != 0) 
     {
-        export old_pwd;
-        export pwd;
-        return (success);
+        perror("minishell: cd"); // Improved error handling
+        return (1); // Failure
     }
-    else
-    {
-        print error;
-        return (failure);
-    }
-
+    pwd = getcwd(buf, PATH_MAX);
+    // Update OLD_PWD and PWD in environment
+    // Implement update_env_variable function to update environment variables
+    update_env_variable(env_head, "OLDPWD", old_pwd);
+    update_env_variable(env_head, "PWD", pwd);
+    return (0); // Success
 }
+
 
 char *get_env_value(t_env_var *env, char *string)
 {
@@ -107,3 +97,6 @@ char *get_env_value(t_env_var *env, char *string)
     }
     return (NULL);
 }
+
+
+
