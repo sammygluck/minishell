@@ -175,14 +175,14 @@ int		is_builtin(char **commands);
 
 
 // 5c connect commands with dup2
-int		connect_commands(t_cmd *command, fds pipes[2], t_process *p, int std_fds[2]);
+int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);
 void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-pid_t	execute_cmd_in_child(t_cmd *command, t_process *p, t_env_var *envs);
-void	execute_cmd(char **cmds, t_process *p, t_env_var *envs);
-void	execute_builtin(char **cmds, char **env, t_env_var *envs);
+pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var *envs);
+void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs);
+int		execute_builtin(t_cmd *command, t_process *p, t_env_var *envs);
 
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);

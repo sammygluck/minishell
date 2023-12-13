@@ -67,13 +67,10 @@ void	executor(t_cmd **command, char **env, t_env_var *envs)
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
 		printf("the pipe fds start: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-		input_redirect(current_cmd, p);
-		connect_commands(current_cmd, pipes, p, std_fds);
-		output_redirect(current_cmd, p);
-		// if (current_cmd->argv && is_builtin(current_cmd->argv))
-		// 	execute_builtin(current_cmd->argv, p->envp, envs);
-		// else
-		child = execute_cmd_in_child(current_cmd, p, envs);
+		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
+			execute_builtin(current_cmd, p, envs);
+		else
+			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
 		if (p->hd)
