@@ -167,9 +167,11 @@ void	executor(t_cmd **command, char **env);
 
 // 5b executor utils functions
 void	free_array(char **array);
+void	error_message(char *msg);
 void	exit_error(char *source, int type);
 int		open_file(char *file, int file_type);
 int		is_builtin(char **commands);
+
 
 // 5c connect commands with dup2
 int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);

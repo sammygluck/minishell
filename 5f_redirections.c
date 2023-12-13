@@ -14,7 +14,6 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 int	input_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
-	char	*delimiter;
 
 	redirection = command->redir;
 	while (redirection)
@@ -24,12 +23,10 @@ int	input_redirect(t_cmd *command, t_process *p)
 		if (redirection->type == D_SMALLER)
 		{
 			p->hd = 1; // flag to signal heredoc 
-			delimiter = redirection->file;
-			heredoc_handler(delimiter, p);
+			heredoc_handler(command->redir->file, p);
 		}
 		redirection = redirection->next;
 	}
-	//printf("OK - redirect in\n");
 	return (1);
 }
 
@@ -51,9 +48,7 @@ int	output_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 
-	//printf("OK - redirect out\n");
 	redirection = command->redir;
-	//printf("the file to redirect: %i\n", command->redir->type);
 	while (redirection)
 	{
 		if (redirection->type == GREATER || redirection->type == D_GREATER)
@@ -62,3 +57,7 @@ int	output_redirect(t_cmd *command, t_process *p)
 	}
 	return (1);
 }
+
+//printf("OK - redirect in\n");
+//printf("OK - redirect out\n");
+//printf("the file to redirect: %i\n", command->redir->type);

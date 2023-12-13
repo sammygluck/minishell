@@ -12,6 +12,12 @@ void	free_array(char **array)
 	free(array);
 }
 
+void	error_message(char *msg)
+{
+	ft_putstr_fd(msg, 2);
+	return ;
+}
+
 void exit_error(char *source, int type)
 {
 	if (type) // system call with ERRNO set
