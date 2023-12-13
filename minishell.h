@@ -163,7 +163,7 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
-void	executor(t_cmd **command, char **env);
+void	executor(t_cmd **command, char **env, t_env_var *envs);
 
 // 5b executor utils functions
 void	free_array(char **array);
@@ -179,8 +179,8 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-void	execute_cmd(char **cmds, t_process *p);
-void	execute_builtin(char **cmds);
+void	execute_cmd(char **cmds, t_process *p, t_env_var *envs);
+void	execute_builtin(char **cmds, char **env, t_env_var *envs);
 
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);

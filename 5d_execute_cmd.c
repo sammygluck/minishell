@@ -1,27 +1,6 @@
 #include "minishell.h"
 
-void	ft_echo(char **cmd)
-{
-	int	n_flag;
-	int		i;
-
-	i = 1;
-	n_flag = 0;
-	if (cmd[1] && ft_strncmp(cmd[1], "-n", ft_strlen("-n")) == 0)
-	{
-		n_flag = 1;
-		i = 2;
-	}
-	while (cmd && cmd[i])
-	{
-		printf("%s ", cmd[i]);
-		i++;
-	}
-	if (n_flag == 0)
-		printf("\n");
-}
-
-void	execute_builtin(char **cmds)
+void	execute_builtin(char **cmds, char **env, t_env_var *envs)
 {
 	if (ft_strncmp(cmds[0], "echo", ft_strlen("echo")) == 0)
 		ft_echo(cmds);
@@ -37,32 +16,37 @@ void	execute_builtin(char **cmds)
 	// 	ft_env(cmds);
 	// else if (ft_strncmp(cmds, "exit", ft_strlen("exit")) == 0)
 	// 	ft_exit(cmds);
+	exit (0);
 }
 
-void	execute_cmd(char **cmds, t_process *p)
+void	execute_cmd(char **cmds, t_process *p, t_env_var *envs)
 {
 	int		i;
 	char	*tmp; // path to binaries to check by the access system call
 
 	if (!retrieve_path_var_env(p))
 		exit(1);
-	i = 0;
-	//printf("OK - execute command\n");
-	while (p->paths[i])
+	// if (cmds && is_builtin(cmds))
+	// 	execute_builtin(cmds, p->envp, envs);
+	// else
 	{
-		tmp = ft_strjoin(p->paths[i], cmds[0]);
-		if (!tmp)
-			exit (1);
-		if (access(tmp, X_OK) == 0)
+		i = 0;
+		while (p->paths[i])
 		{
-			execve(tmp, cmds, p->envp);
-			perror("execve error");
-			exit (1); // TO DO: check if the function ever comes here
+			tmp = ft_strjoin(p->paths[i], cmds[0]);
+			if (!tmp)
+				exit (1);
+			if (access(tmp, X_OK) == 0)
+			{
+				execve(tmp, cmds, p->envp);
+				perror("execve error");
+				exit (1); // TO DO: check if the function ever comes here
+			}
+			free(tmp);
+			i++;
 		}
-		free(tmp);
-		i++;
+		ft_putstr_fd("executor: command not found: ", 2);
+		ft_putendl_fd(cmds[0], 2);
+		exit (127);
 	}
-	ft_putstr_fd("executor: command not found: ", 2);
-	ft_putendl_fd(cmds[0], 2);
-	exit (127);
 }

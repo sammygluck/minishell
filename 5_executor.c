@@ -52,7 +52,7 @@ static t_process	*init_process_struct(char **env)
 	return (p);
 }
 
-void	executor(t_cmd **command, char **env)
+void	executor(t_cmd **command, char **env, t_env_var *envs)
 {
 	t_cmd		*current_cmd;
 	t_process	*p;
@@ -70,7 +70,7 @@ void	executor(t_cmd **command, char **env)
 			exit_error("pipe", 1);
 		child_process = fork_connect_redirect(current_cmd, pipes, p);
 		if (child_process)
-			execute_cmd(current_cmd->argv, p);
+			execute_cmd(current_cmd->argv, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
 		current_cmd = current_cmd->next;
