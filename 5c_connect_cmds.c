@@ -11,31 +11,29 @@
 	It returns 1 to indicate success.
 */
 
-int	connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
+int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 {
-	if (pipe_count)
+	if (p->pipe_count)
 	{
-		printf("command nr: %i\n", command->cmd_nr);
 		if (p->hd)
 		{
 			dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
-			dup2(pipes[PREVIOUS][READ], p->fd_in);
+			close(pipes[CURRENT][WRITE]);
 			return (1);
 		}
 		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 		{
-			printf("the pipes end to dup2: %i\n", pipes[PREVIOUS][READ]);
 			dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
+			close(pipes[PREVIOUS][READ]);
 		}
-		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
+		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count) // also for HEREDOC
 		{
-			printf("the pipes end to dup2: %i\n", pipes[CURRENT][WRITE]);
 			dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
+			close(pipes[CURRENT][WRITE]);
 		}
 	}
 	return (1);
 }
-
 /*
 	This function closes the pipes created following the same principles as the connect_commands function
 	If there are pipes, it checks if the current command is the last in the pipeline or not 
@@ -44,9 +42,9 @@ int	connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
 		If it's the first command or not the last command, it closes the write end of the current pipe.
 */
 
-void	close_pipe_ends(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
+void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p)
 {
-	if (pipe_count)
+	if (p->pipe_count)
 	{
 		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
 			close(pipes[CURRENT][WRITE]);
@@ -73,3 +71,9 @@ void	swap(int **pipes) // TO DO: add protection
 	pipes[CURRENT] = pipes[PREVIOUS];
 	pipes[PREVIOUS] = current_pipe;
 }
+
+// printf("command nr: %i\n", command->cmd_nr);
+// printf("command heredoc active: %i\n", p->hd);
+// printf("the current pipes inconnect commands: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
+// printf("the previous pipes in connect commands: %i\t %i\n", pipes[PREVIOUS][WRITE], pipes[PREVIOUS][READ]);
+// if (p->hd)

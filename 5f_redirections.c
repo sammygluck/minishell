@@ -11,7 +11,7 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 	close(p->fd_in);
 }
 
-void	input_redirect(t_cmd *command, t_process *p)
+int	input_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 	char	*delimiter;
@@ -29,6 +29,8 @@ void	input_redirect(t_cmd *command, t_process *p)
 		}
 		redirection = redirection->next;
 	}
+	//printf("OK - redirect in\n");
+	return (1);
 }
 
 static void	redirect_output_to(t_redir *redirection, t_process *p)
@@ -45,27 +47,18 @@ static void	redirect_output_to(t_redir *redirection, t_process *p)
 	close(p->fd_out);
 }
 
-void	output_redirect(t_cmd *command, t_process *p)
+int	output_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
 
+	//printf("OK - redirect out\n");
 	redirection = command->redir;
+	//printf("the file to redirect: %i\n", command->redir->type);
 	while (redirection)
 	{
 		if (redirection->type == GREATER || redirection->type == D_GREATER)
 			redirect_output_to(redirection, p);
 		redirection = redirection->next;
 	}
-}
-
-void	redirections_check(t_cmd *command, t_process *p)
-{
-	// if (!command->argc || !command->argv[0])
-	// {
-	// 	printf("error: no command provided.\n");
-	// 	exit (1);
-	// }
-	input_redirect(command, p);
-	output_redirect(command, p);
-	printf("OK - redirections\n");
+	return (1);
 }

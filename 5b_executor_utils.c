@@ -40,21 +40,27 @@ int	open_file(char *file, int file_type)
 	}
 	return (fd);
 }
-int	is_builtin(char *command)
+int	is_builtin(char **commands)
 {
-	if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
+	char	*cmd;
+
+	//printf("OK - is builtin check\n");
+	cmd = *commands;
+	if (!cmd)
+		return (0);
+	if (ft_strncmp(cmd, "echo", ft_strlen("echo")) == 0)
 		return (1);
-	else if (ft_strncmp(command, "cd", ft_strlen("cd")) == 0)
+	else if (ft_strncmp(cmd, "cd", ft_strlen("cd")) == 0)
 		return (1);
-	else if (ft_strncmp(command, "pwd", ft_strlen("pwd")) == 0)
+	else if (ft_strncmp(cmd, "pwd", ft_strlen("pwd")) == 0)
 		return (1);
-	else if (ft_strncmp(command, "export", ft_strlen("export")) == 0)
+	else if (ft_strncmp(cmd, "export", ft_strlen("export")) == 0)
 		return (1);
-	else if (ft_strncmp(command, "unset", ft_strlen("unset")) == 0)
+	else if (ft_strncmp(cmd, "unset", ft_strlen("unset")) == 0)
 		return (1);
-	else if (ft_strncmp(command, "env", ft_strlen("env")) == 0)
+	else if (ft_strncmp(cmd, "env", ft_strlen("env")) == 0)
 		return (1);
-	else if (ft_strncmp(command, "exit", ft_strlen("exit")) == 0)
+	else if (ft_strncmp(cmd, "exit", ft_strlen("exit")) == 0)
 		return (1);
 	return (0);
 }

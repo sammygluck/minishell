@@ -47,7 +47,7 @@ void	execute_cmd(char **cmds, t_process *p)
 	if (!retrieve_path_var_env(p))
 		exit(1);
 	i = 0;
-	printf("OK\n");
+	//printf("OK - execute command\n");
 	while (p->paths[i])
 	{
 		tmp = ft_strjoin(p->paths[i], cmds[0]);
@@ -65,20 +65,4 @@ void	execute_cmd(char **cmds, t_process *p)
 	ft_putstr_fd("executor: command not found: ", 2);
 	ft_putendl_fd(cmds[0], 2);
 	exit (127);
-}
-
-void	execute_cmd_fork(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
-{
-	pid_t	child;
-	
-	child = fork();
-	if (child == ERROR)
-		exit_error("fork", 1);
-	if (child == 0)
-	{
-		//connect_commands(command, pipes, pipe_count, p);
-		execute_cmd(command->argv, p);
-	}
-	else // parent
-		waitpid(child, &p->status, 0);
 }

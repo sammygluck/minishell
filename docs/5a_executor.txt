@@ -28,8 +28,9 @@ Some tests:
 - ls | > output
 - <Makefile grep "mini" | cat -e | cat -e | cat -e | cat -e
 - cat << EOF | cat -e | cat -e | cat -e > check
-- 
-
+- echo yes > yes >yes1 > yes2 > yes3
+- <Makefile grep "mini" | cat -e | cat -e | cat -e | cat -e
+<Makefile grep "mini" | cat -e | cat -e << EOF | cat -e 
 
 concerns:
 - the opened fd's > are they all properly closed once command line input is executed? 
