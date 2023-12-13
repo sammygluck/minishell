@@ -82,6 +82,7 @@ typedef	struct	s_process
 	int		status; // to keep track of the status of the last child
 	int		quotes; // heredoc flag to deal with the expander?
 	int		hd; // flag for heredoc
+	int		*pid;
 	int		pipe_count;
 	int		cmds_count;
 	char	**paths;
@@ -174,11 +175,12 @@ int		is_builtin(char **commands);
 
 
 // 5c connect commands with dup2
-int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);
+int		connect_commands(t_cmd *command, fds pipes[2], t_process *p, int std_fds[2]);
 void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
+pid_t	execute_cmd_in_child(t_cmd *command, t_process *p, t_env_var *envs);
 void	execute_cmd(char **cmds, t_process *p, t_env_var *envs);
 void	execute_builtin(char **cmds, char **env, t_env_var *envs);
 
@@ -194,7 +196,6 @@ int	output_redirect(t_cmd *command, t_process *p);
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
 
-// builtins 
-void	ft_echo(char **cmd);
+
 
 #endif

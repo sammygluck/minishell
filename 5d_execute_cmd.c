@@ -2,8 +2,8 @@
 
 void	execute_builtin(char **cmds, char **env, t_env_var *envs)
 {
-	if (ft_strncmp(cmds[0], "echo", ft_strlen("echo")) == 0)
-		ft_echo(cmds);
+	// if (ft_strncmp(cmds[0], "echo", ft_strlen("echo")) == 0)
+	// 	ft_echo(cmds);
 	// else if (ft_strncmp(cmds, "cd", ft_strlen("cd")) == 0)
 	// 	ft_cd(cmds);
 	// else if (ft_strncmp(cmds, "pwd", ft_strlen("pwd")) == 0)
@@ -49,4 +49,18 @@ void	execute_cmd(char **cmds, t_process *p, t_env_var *envs)
 		ft_putendl_fd(cmds[0], 2);
 		exit (127);
 	}
+}
+
+pid_t	execute_cmd_in_child(t_cmd *command, t_process *p, t_env_var *envs)
+{
+	pid_t	child;
+	
+	child = fork();
+	if (child == ERROR)
+		exit_error("fork", 1);
+	if (child == 0)
+		execute_cmd(command->argv, p, envs);
+	else
+		waitpid(child, &p->status, 0);
+	return (child);
 }

@@ -11,7 +11,7 @@
 	It returns 1 to indicate success.
 */
 
-int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
+int	connect_commands(t_cmd *command, fds pipes[2], t_process *p, int std_fds[2])
 {
 	if (!p->pipe_count)
 		return (1);

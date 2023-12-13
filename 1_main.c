@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **env)
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
-		print_command_table(parsed);
+		//print_command_table(parsed);
 		//print_list(token_head);
 		executor(&parsed, env, envs);
 		free(input);

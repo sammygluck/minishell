@@ -8,7 +8,7 @@
 		DELIMITER
 */
 
-static int	ft_strcmp(const char *s1, const char *s2) // TODO: move to another file?
+static int	ft_strcmp(const char *s1, const char *s2) // TODO: move to another file
 {
 	int	i;
 
