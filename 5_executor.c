@@ -34,12 +34,12 @@ static t_process	*init_process_struct(char **env)
 
 	p = ft_malloc(sizeof(t_process));
 	if (!p)
-		exit (1);
+		exit (1); // TO DO: change return from malloc;
 	p->fd_in = -1;
 	p->fd_out = -1;
 	p->status = -1; // TO DO: remove?
 	p->quotes = 0; // to use for heredoc?
-	p->hd = 0;
+	p->input_redir = 0;
 	p->pid = NULL; // to receive the status of the child
 	p->pipe_count = 0;
 	p->cmds_count = 0;
@@ -66,16 +66,16 @@ void	executor(t_cmd **command, char **env, t_env_var *envs)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		//printf("the pipe fds start: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
 		// if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
 		// 	execute_builtin(current_cmd, p, envs);
 		// else
 			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
-		if (p->hd)
-			p->hd = 0;
+		if (p->input_redir)
+			p->input_redir = 0;
 		reset_stdin_out(std_fds);
 		current_cmd = current_cmd->next;
 	}
 }
+

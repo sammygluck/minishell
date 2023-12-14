@@ -19,10 +19,13 @@ int	input_redirect(t_cmd *command, t_process *p)
 	while (redirection)
 	{
 		if (redirection->type == SMALLER)
+		{	
+			p->input_redir = 1;
 			redirect_input_from(redirection, p);
+		}
 		if (redirection->type == D_SMALLER)
 		{
-			p->hd = 1; // flag to signal heredoc 
+			p->input_redir = 1;
 			heredoc_handler(command->redir->file, p);
 		}
 		redirection = redirection->next;

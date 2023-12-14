@@ -13,15 +13,15 @@
 
 int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 {
-	if (!p->pipe_count)
+	if (!p->pipe_count) // no pipe
 		return (1);
-	if (p->hd && command->cmd_nr != p->cmds_count)
+	if (p->input_redir && command->cmd_nr != p->cmds_count) // there is an input redir (heredoc or regular file)
 	{
 		dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
 		close(pipes[CURRENT][WRITE]);
 		return (1);
 	}
-	if (p->hd && command->cmd_nr == p->cmds_count)
+	if (p->input_redir && command->cmd_nr == p->cmds_count)
 		return (1);
 	if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 	{

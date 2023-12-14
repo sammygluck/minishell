@@ -53,7 +53,7 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs)
 		ft_putstr_fd("executor: command not found: ", 2);
 		ft_putendl_fd(command->argv[0], 2);
 		exit (127);
-	// }
+	//}
 }
 
 pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var *envs)
@@ -65,8 +65,8 @@ pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_va
 		exit_error("fork", 1);
 	if (child == 0)
 	{
-		if (connect_commands(command, pipes, p) &&
-			input_redirect(command, p) &&
+		if (input_redirect(command, p) &&
+			connect_commands(command, pipes, p) &&
 			output_redirect(command, p))
 			execute_cmd(command, p, envs);
 	}
