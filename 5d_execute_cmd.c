@@ -50,8 +50,9 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs)
 			free(tmp);
 			i++;
 		}
-		ft_putstr_fd("executor: command not found: ", 2);
-		ft_putendl_fd(command->argv[0], 2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(command->argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	//}
 }
