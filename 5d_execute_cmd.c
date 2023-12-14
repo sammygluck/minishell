@@ -7,8 +7,8 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var *envs)
 		input_redirect(command, p);
 		output_redirect(command, p);
 	}
-	if (ft_strncmp(command->argv[0], "echo", ft_strlen("echo")) == 0)
-		ft_echo(command->argv);
+	// if (ft_strncmp(command->argv[0], "echo", ft_strlen("echo")) == 0)
+	// 	ft_echo(command->argv);
 	// else if (ft_strncmp(cmds, "cd", ft_strlen("cd")) == 0)
 	// 	ft_cd(cmds);
 	// else if (ft_strncmp(cmds, "pwd", ft_strlen("pwd")) == 0)
@@ -31,10 +31,10 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs)
 
 	if (!retrieve_path_var_env(p))
 		exit(1);
-	if (command->argv && is_builtin(command->argv))
-		execute_builtin(command, p, envs);
-	else
-	{
+	// if (command->argv && is_builtin(command->argv))
+	// 	execute_builtin(command, p, envs);
+	// else
+	// {
 		i = 0;
 		while (p->paths[i])
 		{
@@ -53,7 +53,7 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs)
 		ft_putstr_fd("executor: command not found: ", 2);
 		ft_putendl_fd(command->argv[0], 2);
 		exit (127);
-	}
+	// }
 }
 
 pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var *envs)
@@ -65,8 +65,8 @@ pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_va
 		exit_error("fork", 1);
 	if (child == 0)
 	{
-		if (input_redirect(command, p) &&
-			connect_commands(command, pipes, p) &&
+		if (connect_commands(command, pipes, p) &&
+			input_redirect(command, p) &&
 			output_redirect(command, p))
 			execute_cmd(command, p, envs);
 	}
