@@ -61,8 +61,8 @@ typedef struct s_env_var {
 
 typedef struct s_redir 
 {
-	int type; // see type in enum 
-	char *file; // the string that is saved in the node after the redirection node
+	int type;
+	char *file;
 	struct s_redir *next; // the node after the node with the file name, this is the next next node
 } t_redir;
 

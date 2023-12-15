@@ -24,7 +24,7 @@ int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 	}
 	if (p->input_redir && command->cmd_nr == p->cmds_count)
 		return (1);
-	if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count) // also for HEREDOC
+	if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
 	{
 		dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
 		close(pipes[CURRENT][WRITE]);
