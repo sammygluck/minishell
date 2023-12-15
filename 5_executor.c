@@ -34,13 +34,12 @@ static t_process	*init_process_struct(char **env)
 
 	p = ft_malloc(sizeof(t_process));
 	if (!p)
-		exit (1); // TO DO: change return from malloc;
-	p->fd_in = -1;
-	p->fd_out = -1;
-	p->status = -1; // TO DO: remove?
+		exit (1); // Q: correct way to handle the error?
+	p->fd_in = -1; // Q: ok to set ERROR at init?
+	p->fd_out = -1; // Q: ok to set ERROR at init?
+	p->status = -1; // Q : ok to set ERROR at init?
 	p->quotes = 0; // to use for heredoc?
-	p->input_redir = 0;
-	p->pid = NULL; // to receive the status of the child
+	p->input_redir = 0; 
 	p->pipe_count = 0;
 	p->cmds_count = 0;
 	p->paths = NULL;
@@ -54,7 +53,7 @@ void	executor(t_cmd **command, char **env, t_env_var *envs)
 	t_process	*p;
 	pid_t		child;
 	static fds	pipes[2];
-	int			std_fds[2]; // to keep track of the stdin and stdout due to redirects
+	int			std_fds[2]; // to keep track of the stdin and stdout
 
 	if (*command == 0)
 		exit(1);
@@ -77,5 +76,6 @@ void	executor(t_cmd **command, char **env, t_env_var *envs)
 		reset_stdin_out(std_fds);
 		current_cmd = current_cmd->next;
 	}
+	//parent_wait(child, p);
 }
 

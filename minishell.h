@@ -82,7 +82,6 @@ typedef	struct	s_process
 	int		status; // to keep track of the status of the last child
 	int		quotes; // heredoc flag to deal with the expander?
 	int		input_redir; // flag for heredoc
-	int		*pid;
 	int		pipe_count;
 	int		cmds_count;
 	char	**paths;

@@ -19,19 +19,24 @@ int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 	{
 		dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
 		close(pipes[CURRENT][WRITE]);
+		close(pipes[CURRENT][READ]);
 		return (1);
 	}
 	if (p->input_redir && command->cmd_nr == p->cmds_count)
 		return (1);
-	if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
-	{
-		dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
-		close(pipes[PREVIOUS][READ]);
-	}
 	if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count) // also for HEREDOC
 	{
 		dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
 		close(pipes[CURRENT][WRITE]);
+		if (command->cmd_nr == 1)
+			close(pipes[CURRENT][READ]);
+	}
+	if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
+	{
+		dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
+		close(pipes[PREVIOUS][READ]);
+		if (command->cmd_nr == p->cmds_count)
+			close(pipes[PREVIOUS][WRITE]);
 	}
 	return (1);
 }
