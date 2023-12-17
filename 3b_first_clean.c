@@ -40,30 +40,3 @@ char *initial_clean(char *string)
     return (new_string);
 }
 
-//OG version before quote handling function
-// char *initial_clean(char *string)
-// {
-//     int i;
-//     int j;
-//     int in_quote;
-//     char *new_string;
-
-//     i = 0;
-//     j = 0;
-//     in_quote = 0;
-//     new_string = ft_malloc(ft_strlen(string) + 1);
-//     while (string[i])
-//     {
-//         if (is_quote(string[i]) && in_quote == 0)
-//             in_quote = is_quote(string[i]);
-//         else if (is_quote(string[i]) && in_quote > 0 && is_quote(string[i]) == in_quote)
-//             in_quote = 0;
-//         if (string[i] == '$' && is_quote(string[i + 1]) && !in_quote)
-//             i++;
-//         new_string[j++] = string[i];
-//             i++;
-//     }
-//     new_string[j] = '\0';
-//     return (new_string);
-// }
-
