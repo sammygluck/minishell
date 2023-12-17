@@ -3,7 +3,7 @@ Source/from: https://github.com/maiadegraaf/minishell#executor
 
 Steps executor (very high level)
 1. confirm the return from the parser
-2. count the number of commands?? 
+2. count the number of commands and pipes 
 -> the commands are handled by different functions so a distinction needs to made between regular commands 
 and builtins
 -> if successful; the executor will execute all commands seperated by the pipes
@@ -15,8 +15,7 @@ Questions
 start: int executor
 
 *redirections:
-- loop through cmd nodes and check for redirections
-	> count the number of (input/output) redirections?? 
+- input and output redirection need to be checke seperately
 
 *multiple commands
 - while loop that loops through the different cmds in the t_cmd struct
@@ -26,10 +25,17 @@ start: int executor
 
 Some tests:
 - echo "hallo" > hallo | cat -e
---> no output on terminal
 - ls | > output
---> output file should be created but nothing written in file
-
+- cat | cat | ls (!!)
+- <Makefile grep "mini" | cat -e | cat -e | cat -e | cat -e
+- cat << EOF | cat -e | cat -e | cat -e > check
+- echo yes > yes >yes1 > yes2 > yes3
+- <Makefile grep "mini" | cat -e | cat -e << EOF | cat -e 
+- <Makefile grep mini | cat -e | cat -e > test1 | cat -e << EOF
+- echo hallo >  hallo | <hallo cat -e (!)
+- echo hallo > test | <Makefile grep mini > check (!)
 
 concerns:
-- the opened fd's > are they all properly closed once command line input is executed?
+- the opened fd's > are they all properly closed once command line input is executed? 
+	> ok for parent! 
+	> check children

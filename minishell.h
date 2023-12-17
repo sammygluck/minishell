@@ -62,8 +62,8 @@ typedef struct s_env_var
 
 typedef struct s_redir 
 {
-	int type; // see type in enum 
-	char *file; // the string that is saved in the node after the redirection node
+	int type;
+	char *file;
 	struct s_redir *next; // the node after the node with the file name, this is the next next node
 } t_redir;
 
@@ -81,6 +81,8 @@ typedef	struct	s_process
 	int		fd_in; // the fd of the input file; if any
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
+	int		quotes; // heredoc flag to deal with the expander?
+	int		input_redir; // flag for heredoc
 	int		pipe_count;
 	int		cmds_count;
 	char	**paths;
@@ -111,7 +113,7 @@ int is_token(char *string, int position);
 void print_list(t_token *head);
 
 //3a expander main
-void expander(t_token **token_head, t_env_var *env_head);
+void	expander(t_token **token_head, t_env_var *env_head);
 
 //3b first clean
 char *initial_clean(char *string);
@@ -162,29 +164,36 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
-void	executor(t_cmd **command, char **env);
+void	executor(t_cmd **command, char **env, t_env_var *envs);
 
 // 5b executor utils functions
 void	free_array(char **array);
-void	exit_error(const char *source);
+void	error_message(char *msg);
+void	exit_error(char *source, int type);
 int		open_file(char *file, int file_type);
+int		is_builtin(char **commands);
 
-// 5c connect commands with pipe functions
-int		connect_commands(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
-void	close_pipe(t_cmd *command, fds pipes[2], int pipe_count, t_process *p);
-// int	connect_commands(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
-// void	close_pipe(t_cmd *command, int *pipes[2], int pipe_count, t_process *p);
+
+// 5c connect commands with dup2
+int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);
+void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-void	execute_cmd(char **cmds, t_process *p);
+pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var *envs);
+void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs);
+int		execute_builtin(t_cmd *command, t_process *p, t_env_var *envs);
 
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
 
 // 5f redirection functions
+//void	redirections_check(t_cmd *command, t_process *p);
 int	input_redirect(t_cmd *command, t_process *p);
 int	output_redirect(t_cmd *command, t_process *p);
+
+// 5g heredoc functions
+void	heredoc_handler(char *delimiter, t_process *p);
 
 #endif

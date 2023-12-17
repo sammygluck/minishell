@@ -1,22 +1,17 @@
 #include "minishell.h"
 
-static int	fork_pipe_redirect(t_cmd *command, fds pipes[2], int pipe_count, t_process *p)
+static void	save_stdin_out(int *save_fd)
 {
-	pid_t	child;
-	
-	child = fork();
-	if (child == ERROR)
-		exit_error("fork");
-	if (child == 0)
-	{
-		if (input_redirect(command, p) && 
-			connect_commands(command, pipes, pipe_count, p) && 
-			output_redirect(command, p))
-			return (1);
-	}
-	else // parent
-		waitpid(child, &p->status, 0);
-	return (0);
+	save_fd[0] = dup(STDIN_FILENO);
+	save_fd[1] = dup(STDOUT_FILENO);
+}
+
+static void	reset_stdin_out(int *save_fd)
+{
+	dup2(save_fd[0], STDIN_FILENO);
+	close(save_fd[0]);
+	dup2(save_fd[1], STDOUT_FILENO);
+	close(save_fd[1]);
 }
 
 static void	command_pipe_count(t_cmd *command, t_process *p)
@@ -39,10 +34,12 @@ static t_process	*init_process_struct(char **env)
 
 	p = ft_malloc(sizeof(t_process));
 	if (!p)
-		exit (1);
-	p->fd_in = -1; // TO DO: remove?
-	p->fd_out = -1; // TO DO: remove?
-	p->status = -1; // TO DO: remove?
+		exit (1); // Q: correct way to handle the error?
+	p->fd_in = -1; // Q: ok to set ERROR at init?
+	p->fd_out = -1; // Q: ok to set ERROR at init?
+	p->status = -1; // Q : ok to set ERROR at init?
+	p->quotes = 0; // to use for heredoc?
+	p->input_redir = 0; 
 	p->pipe_count = 0;
 	p->cmds_count = 0;
 	p->paths = NULL;
@@ -50,39 +47,34 @@ static t_process	*init_process_struct(char **env)
 	return (p);
 }
 
-void	executor(t_cmd **command, char **env)
+void	executor(t_cmd **command, char **env, t_env_var *envs)
 {
-	t_cmd			*current_cmd;
-	t_process		*p;
+	t_cmd		*current_cmd;
+	t_process	*p;
+	pid_t		child;
 	static fds	pipes[2];
-	int				child_process;
+	int			std_fds[2]; // to keep track of the stdin and stdout
 
 	if (*command == 0)
 		exit(1);
-	p = init_process_struct(env);
+	p = init_process_struct(env); 
 	command_pipe_count(*command, p);
 	current_cmd = *command;
 	while (current_cmd)
-	{	
+	{
+		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
-			exit_error("pipe");
-		child_process = fork_pipe_redirect(current_cmd, pipes, p->pipe_count, p);
-		if (child_process)
-			execute_cmd(current_cmd->argv, p);
-		close_pipe(current_cmd, pipes, p->pipe_count, p);
+			exit_error("pipe", 1);
+		// if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
+		// 	execute_builtin(current_cmd, p, envs);
+		// else
+			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
+		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
-		if (current_cmd->next)
-			current_cmd = current_cmd->next;
-		else
-			break ;
+		if (p->input_redir)
+			p->input_redir = 0;
+		reset_stdin_out(std_fds);
+		current_cmd = current_cmd->next;
 	}
+	//parent_wait(child, p);
 }
-//printf("the number of pipes: %i\n", p->pipe_count);
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("the command to check: %s\n", current_cmd->argv[0]);
-//printf("OK - after child process\n");
-//printf("OK - after execute cmd\n");
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("the pipe fds: %i\t %i\n", pipes[CURRENT][READ], pipes[CURRENT][WRITE]);
-//printf("OK - fork_pipe\n");
