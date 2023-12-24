@@ -53,7 +53,7 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p)
 	if (p->pipe_count)
 	{
 		if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
-			close(pipes[CURRENT][WRITE]); 
+			close(pipes[CURRENT][WRITE]);
 		if (command->cmd_nr == p->cmds_count || command->cmd_nr != 1)
 			close(pipes[PREVIOUS][READ]);
 		if (command->cmd_nr == p->cmds_count) //only when last cmd, close current pipe
