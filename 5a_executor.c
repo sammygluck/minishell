@@ -28,7 +28,7 @@ static void	command_pipe_count(t_cmd *command, t_process *p)
 	}
 }
 
-static t_process	*init_process_struct(char **env)
+static t_process	*init_process_struct(char ***env)
 {
 	t_process	*p;
 
@@ -43,11 +43,12 @@ static t_process	*init_process_struct(char **env)
 	p->pipe_count = 0;
 	p->cmds_count = 0;
 	p->paths = NULL;
-	p->envp = env;
+	p->envp = *env;
+	p->env = env;
 	return (p);
 }
 
-void	executor(t_cmd **command, char **env, t_env_var *envs)
+void	executor(t_cmd **command, char ***env, t_env_var **envs)
 {
 	t_cmd		*current_cmd;
 	t_process	*p;
@@ -65,9 +66,9 @@ void	executor(t_cmd **command, char **env, t_env_var *envs)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		// if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
-		// 	execute_builtin(current_cmd, p, envs);
-		// else
+		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
+			execute_builtin(current_cmd, p, envs);
+		else
 			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);

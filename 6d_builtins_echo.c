@@ -25,13 +25,11 @@
 
 #include "minishell.h"
 
-int ft_echo(char **argv, char **env, t_env_var **env_l)//fix parameters
+int ft_echo(char **argv)//fix parameters
 {
     int flag_n;
     int i;
 
-    (void) env;
-    (void) env_l;
     if (!argv)
         exit(EXIT_FAILURE);
     flag_n = 0;

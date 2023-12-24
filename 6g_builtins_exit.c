@@ -24,31 +24,35 @@
 
 #include "minishell.h"
 
-int ft_exit(char **argv, char **env, t_env_var *env)
+int ft_exit(char **argv)
 {
     int exit_code;
     
-    //VOID SOME STUFF
     if (!argv)
         exit(EXIT_FAILURE);
-    if (!arg[1])
-        final_exit(last_exit_status);
+    if (!argv[1]) 
+        final_exit(0);//implement when global exit status is done
     else if (argv[1] && argv[2])
     {
-        error: too many arguments
-        do not exit shell
+        ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+        return (1);
     }
     else if (argv[1]) //not sure if this condition is even necessary
     {
         exit_code = validate_and_process_exit_code(argv[1]);
         if (exit_code != -1) 
             final_exit(exit_code);
-        else 
-            error and exit;
+        else
+        {
+            ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+            ft_putstr_fd(argv[1], STDERR_FILENO);
+            ft_putstr_fd("numeric argument required\n", STDERR_FILENO);
+            final_exit(2);
+        }
     } 
 }
 
-void final_exit(exit_number)
+void final_exit(int exit_number)
 {
     // is cleanup necessary?
     printf("exit\n");

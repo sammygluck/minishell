@@ -88,7 +88,14 @@ typedef	struct	s_process
 	int		cmds_count;
 	char	**paths;
 	char	**envp;
+	char	***env;
 }	t_process;
+
+typedef struct s_export
+{
+    char *key;
+    char *value;
+} t_export;
 
 //1 main
 void free_token_list(t_token **head);
@@ -165,7 +172,7 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
-void	executor(t_cmd **command, char **env, t_env_var *envs);
+void	executor(t_cmd **command, char ***env, t_env_var **envs);
 
 // 5b executor utils functions
 void	free_array(char **array);
@@ -181,9 +188,9 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var *envs);
-void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs);
-int		execute_builtin(t_cmd *command, t_process *p, t_env_var *envs);
+pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
+void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs);
+int		execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);
@@ -196,5 +203,54 @@ int	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
+
+//6a builtins unset
+int ft_unset(char **argv, char ***env, t_env_var **env_l);
+
+//6a unset utils
+int arg_in_env(char *string, t_env_var **env_list);
+void free_old_env(char **env);
+char **mirror_list_to_array(t_env_var *list);
+char	*ft_env_join(char const *s1, char const *s2);
+
+//6b builtins pwd
+int ft_pwd(char **argv);
+
+//6c builtins env
+int ft_env(t_env_var **env_l);
+
+//6d builtins echo
+int ft_echo(char **argv);
+
+//6e builtins export
+int ft_export(char **argv, char ***env, t_env_var **list);
+t_env_var *create_env_var_key_value(t_export *key_value);
+void update(t_export *key_value, char ***env, t_env_var **env_list);
+void modified_ft_env(t_env_var *env);
+int is_right_format(char *string);
+int valid_identifiers(char *string);
+int has_equal_sign(char *string);
+int is_alpha_under(char c);
+int arg_exists_and_updated(t_export *key_value, t_env_var **env_list);
+void extract_key_value(char *string, t_export *key_value);
+void free_key_value(t_export *key_value);
+
+//6f builtins cd
+
+
+//6g builtins exit
+int ft_exit(char **argv);
+void final_exit(int exit_number);
+
+//6g exit utils
+void process_sign_and_whitespace(char **str, int *sign);
+int convert_to_number(char *str, long long *number, int sign);
+long long str_to_longlong_with_overflow_check(char *str, int *overflow);
+long truncate_to_exit_code(long long number);
+int validate_and_process_exit_code(char *input_str);
+
+
+//test
+void print_env(char **env);
 
 #endif

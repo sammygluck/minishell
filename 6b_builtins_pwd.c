@@ -24,13 +24,11 @@
 
 #include "minishell.h"
 
-int ft_pwd(char **argv, char **env, t_env_var **env_l) // do I need to add other parameters??
+int ft_pwd(char **argv) // do I need to add other parameters??
 {
    char buffer[PATH_MAX];
 
    (void) argv;
-   (void) env_l;
-   (void) env;
    if (!getcwd(buffer, PATH_MAX))
    {
       perror("pwd error");

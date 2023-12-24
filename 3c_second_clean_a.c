@@ -48,7 +48,7 @@ char *make_replace_string(t_env_var *env_list, char *to_replace)
     // else if (to_replace[0] == '$' && to_replace[1] == '?')
     //     printf("exit code: \n");//to handle
     else
-        return(var_extractor(to_replace, env_list));  
+        return(var_extractor(to_replace, env_list));  //seperate this from return value
 }
 
 char *var_extractor(char *string, t_env_var *env_head)
@@ -58,7 +58,7 @@ char *var_extractor(char *string, t_env_var *env_head)
     head = env_head;
     while(head)
     {
-        if(!ft_strncmp(head->name, &string[1], ft_strlen(&string[1]))) //ft_strlen check
+        if(!ft_strncmp(head->name, &string[1], ft_strlen(&string[1])) && head->value != NULL) //ft_strlen check
             return(ft_strdup(head->value));
         head = head->next;
     }

@@ -43,7 +43,7 @@ int ft_unset(char **argv, char ***env, t_env_var **env_l) //double check everyth
         arg_in_env(argv[i], env_l);
         i++;
     }
-    free_old_env(env);
+    free_old_env(*env);
     *env = mirror_list_to_array(*env_l);
     return (0);
 }

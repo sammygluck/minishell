@@ -33,34 +33,34 @@
 */
 #include "minishell.h"
 
-typedef struct s_export
-{
-    char *key;
-    char *value;
-} t_export;
-
-int ft_export(char **argv, char **env, t_env_var **list)
+int ft_export(char **argv, char ***env, t_env_var **list)
 {
     int i;
     t_export key_value;
 
     i = 1;
+    key_value.key = NULL; //is this necessary? can we boil this down to one function?
+    key_value.value = NULL;
     if (!argv)
-        printf("error ft_export\n");
-    if (!argv[i]) // or not argv[i]
-        modified_ft_env(*env);//make sure to set the right parameter
+    {
+        ft_putstr_fd("minishell: export: fatal error\n", 2);
+        exit(EXIT_FAILURE); //is exit appropriate or return (1)?
+    }
+    if (!argv[1])
+        modified_ft_env(*list);//make sure to set the right parameter; must I return or will I automatically return at the end (0 is the ret value)
     while (argv[i])
     {
-        if(is_right_format(argv[i])) //i.e. key=value -> valid identifier issue
+        if(is_right_format(argv[i])) //i.e. key=value + check for valid identifier issue
         {
             extract_key_value(argv[i], &key_value);
-            update(&key_value, ) //i.e. seperate the key from value and update t_env list & char **env
+            update(&key_value, env, list); //i.e. seperate the key from value and update t_env list & char **env
         }
         // if(!right_format) //is this necessary?
         //     error for this argument or skip this 
         i++;
     }
     free_key_value(&key_value);
+    return (0);    
 }
 
 t_env_var *create_env_var_key_value(t_export *key_value)
@@ -76,33 +76,33 @@ t_env_var *create_env_var_key_value(t_export *key_value)
     return (env_var);
 }
 
-void update(t_export *key_value, char **env, t_env_var **env_list) //return value?
+void update(t_export *key_value, char ***env, t_env_var **env_list) //return value?
 {
     t_env_var *new_node;
 
     new_node = NULL;
-    if (!arg_exists_and_updated(key_value, env))
+    if (!arg_exists_and_updated(key_value, env_list))
     {
         new_node = create_env_var_key_value(key_value);
         add_env_var(env_list, new_node);
     }
-    free_old_env(env);
-    env = mirror_list_to_array(*env_list);
+    free_old_env(*env);
+    *env = mirror_list_to_array(*env_list);
 }
 
 void modified_ft_env(t_env_var *env)//parameters + check again if works
 {
     t_env_var *head;
 
-    head = env;
     if (!env) 
         return ;
+    head = env;
     while (head)
     {
-        printf("declare -x %s=\"%s\"\n", env->value, env->string); 
+        printf("declare -x %s=\"%s\"\n", head->name, head->value); 
         head = head->next;
     }
-    return (0);   
+    return ;   
 }
 
 int is_right_format(char *string)
@@ -122,21 +122,21 @@ int valid_identifiers(char *string)
 
     if (!string || string[0] == '\0')
     {
-        printf("Error: Empty string or null pointer\n");
+        ft_putstr_fd("minishell: export: Error: Empty string or null pointer\n", 2);
         return (0);
     }
     // Check first character
     if (!is_alpha_under(string[i]))
     {
-        printf("Error: First character is not a valid identifier\n");
+        ft_putstr_fd("minishell: export: Error: First character is not a valid identifier\n", 2);
         return (0);
     }
     i++;
     while (string[i] && string[i] != '=')
     {
-        if (!is_alpha_under(string[i]) && !is_digit(string[i]))
+        if (!is_alpha_under(string[i]) && !ft_isdigit(string[i]))
         {
-            printf("Error: Invalid character in identifier\n");
+            ft_putstr_fd("minishell: export: Error: Invalid character in identifier\n", 2);
             return (0);
         }
         i++;
@@ -155,7 +155,7 @@ int has_equal_sign(char *string)
             return (1);
         i++;
     }
-    printf("Error: '=' not found in the string\n");
+    ft_putstr_fd("minishell: export: Error: '=' not found in the string\n", 2);
     return (0);
 }
 
@@ -167,7 +167,6 @@ int is_alpha_under(char c)
         return (0);
 }
 
-
 int arg_exists_and_updated(t_export *key_value, t_env_var **env_list)
 {
     t_env_var *head;
@@ -175,24 +174,27 @@ int arg_exists_and_updated(t_export *key_value, t_env_var **env_list)
     head = *env_list;
     while (head)
     {
-        if (!strncmp(key_value->key, head->name, ft_strlen(string) + 1))
+        if (ft_strlen(key_value->key) == ft_strlen(head->name))
         {
-            free(head->value);
-            head->value = ft_strdup(key_value->value);
-            return (1);
+            if (!strncmp(key_value->key, head->name, ft_strlen(head->name)))
+            {
+                if (head->value)
+                    free(head->value);
+                head->value = ft_strdup(key_value->value);
+                return (1);
+            }
         }
         head = head->next;
     }
     return (0); 
 }
 
-int extract_key_value(char *string, t_export *key_value)
+void extract_key_value(char *string, t_export *key_value)
 {
     int i;
-    int j;
 
 	i = 0;
-    free_key_value(key_value);
+    free_key_value(key_value); //issue 1. when it's empty i.e. first time
     while(string[i] && string[i] != '=')
         i++;
     key_value->key = ft_strndup(string, i);

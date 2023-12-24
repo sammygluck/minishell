@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **env)
 	t_cmd	*parsed;
 
 	envs = environment_var_handler(env);
+	env = mirror_list_to_array(envs);
 	if (argc > 1)
 		printf("Minishell: too many arguments\n");
 	(void) argv;
@@ -41,7 +42,7 @@ int	main(int argc, char **argv, char **env)
 		parsed = parser(token_head);
 		//print_command_table(parsed);
 		//print_list(token_head);
-		executor(&parsed, env, envs);
+		executor(&parsed, &env, &envs);
 		free(input);
 		free_token_list(&token_head);
 		//i++;

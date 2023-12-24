@@ -25,7 +25,8 @@ void free_old_env(char **env)
     i = 0;
     while(env[i])
     {
-        free(env[i]);
+        if (env[i])
+            free(env[i]);
         i++;
     }
     free(env);
@@ -33,12 +34,12 @@ void free_old_env(char **env)
 
 char **mirror_list_to_array(t_env_var *list)
 {
-    t_env_var *head;
+    //t_env_var *head;
     char **env;
     int arr_size;
     
     env = NULL;
-    head = list;
+    //head = list;
     arr_size = 0;
     while (list)
     {
