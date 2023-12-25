@@ -28,7 +28,7 @@
 */
 #include "minishell.h"
 
-int ft_cd(char **argv, char ***env, t_env_var **env_head) 
+int ft_cd(char **argv, char ***env, t_env_var **env_head)
 {
     char *home;
     int ret_value;
@@ -47,7 +47,7 @@ int ft_cd(char **argv, char ***env, t_env_var **env_head)
             printf("minishell: cd: HOME not set\n");
             return (1);
         }
-        ret_value = ft_chdir(home, env_head);
+        ret_value = ft_chdir(home, env, env_head);
         free(home); // Free memory allocated by get_env_value
         return (ret_value);
     }
@@ -57,28 +57,27 @@ int ft_cd(char **argv, char ***env, t_env_var **env_head)
         return (1);
     }
     // Path formatting can be done here if needed
-    ret_value = ft_chdir(argv[1], env_head);
+    ret_value = ft_chdir(argv[1], env, env_head);
     return (ret_value);
 }
 
-int ft_chdir(const char *path, t_env_var **env_head) 
+int ft_chdir(const char *path, char ***env, t_env_var **env_head) //change in minishell.h
 {
-    char buf[PATH_MAX];
-    char *old_pwd;
-    char *pwd;
+    char old_pwd[PATH_MAX];
+    char new_pwd[PATH_MAX];
 
-    old_pwd = getcwd(buf, PATH_MAX);
+    if(!getcwd(old_pwd, PATH_MAX))
+        old_pwd[0] = '\0'; //must I error out instead?
     if (chdir(path) != 0) 
     {
         perror("minishell: cd"); // Improved error handling
-        return (1); // Failure
+        return (1);
     }
-    pwd = getcwd(buf, PATH_MAX);
-    // Update OLD_PWD and PWD in environment
-    // Implement update_env_variable function to update environment variables
-    update_env_variable(env_head, "OLDPWD", old_pwd);
-    update_env_variable(env_head, "PWD", pwd);
-    return (0); // Success
+    if (!getcwd(new_pwd, PATH_MAX))
+        new_pwd[0] = '\0'; //perror("minishell: cd"); //exit here or return 1
+    pwd_export(new_pwd, env, env_head);
+    oldpwd_export(old_pwd, env, env_head);
+    return (0); 
 }
 
 
@@ -96,6 +95,32 @@ char *get_env_value(t_env_var *env, char *string)
         head = head->next;
     }
     return (NULL);
+}
+
+void pwd_export(char *pwd, char ***env, t_env_var **env_l)
+{
+    char *new_pwd;
+    char *argv[3];
+
+    new_pwd = ft_strjoin("PWD=", pwd);
+    argv[0] = "export";
+    argv[1] = new_pwd;.
+    argv[2] = NULL;
+    ft_export(argv, env, env_l);
+    free(new_pwd);
+}
+
+void oldpwd_export(char *oldpwd, char ***env, t_env_var **env_l)
+{
+    char *old_pwd;
+    char *argv[3];
+
+    old_pwd = ft_strjoin("OLDPWD=", oldpwd);
+    argv[0] = "export";
+    argv[1] = old_pwd;
+    argv[2] = NULL;
+    ft_export(argv, env, env_l);
+    free(old_pwd);
 }
 
 

@@ -10,8 +10,8 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 	}
 	if (ft_strncmp(command->argv[0], "echo", ft_strlen("echo")) == 0)
 		ft_echo(command->argv);
-	// else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)
-	// 	ft_cd(cmds);
+	else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)
+		ft_cd(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd")) == 0)
 	 	ft_pwd(command->argv);
 	else if (ft_strncmp(command->argv[0], "export", ft_strlen("export")) == 0)

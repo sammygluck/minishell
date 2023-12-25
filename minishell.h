@@ -236,7 +236,11 @@ void extract_key_value(char *string, t_export *key_value);
 void free_key_value(t_export *key_value);
 
 //6f builtins cd
-
+int ft_cd(char **argv, char ***env, t_env_var **env_head);
+int ft_chdir(const char *path, char ***env, t_env_var **env_head);
+char *get_env_value(t_env_var *env, char *string);
+void pwd_export(char *pwd, char ***env, t_env_var **env_l);
+void oldpwd_export(char *oldpwd, char ***env, t_env_var **env_l);
 
 //6g builtins exit
 int ft_exit(char **argv);
