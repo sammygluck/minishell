@@ -29,7 +29,8 @@ void free_old_env(char **env)
             free(env[i]);
         i++;
     }
-    free(env);
+    if (env)
+        free(env);
 }
 
 char **mirror_list_to_array(t_env_var *list)
