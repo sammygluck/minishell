@@ -104,7 +104,7 @@ void pwd_export(char *pwd, char ***env, t_env_var **env_l)
 
     new_pwd = ft_strjoin("PWD=", pwd);
     argv[0] = "export";
-    argv[1] = new_pwd;.
+    argv[1] = new_pwd;
     argv[2] = NULL;
     ft_export(argv, env, env_l);
     free(new_pwd);

@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **env)
 
 	envs = environment_var_handler(env);
 	env = mirror_list_to_array(envs);
+	shlvl_export(&env, &envs);
 	if (argc > 1)
 		printf("Minishell: too many arguments\n");
 	(void) argv;
