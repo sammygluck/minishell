@@ -31,7 +31,7 @@ int ft_pwd(char **argv) // do I need to add other parameters??
    (void) argv;
    if (!getcwd(buffer, PATH_MAX))
    {
-      perror("pwd error");
+      perror("pwd error\n"); //is newline necessary?
       return (1);
    }
    printf("%s\n", buffer);
