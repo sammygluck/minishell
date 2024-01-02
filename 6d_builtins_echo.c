@@ -34,7 +34,7 @@ int ft_echo(char **argv)//fix parameters
         exit(EXIT_FAILURE);
     flag_n = 0;
     i = 1;
-    if (argv[i] && ft_strncmp(argv[i], "-n", 3) == 0) 
+    if (argv[i] && only_n(argv[i]))
     {
         flag_n = 1;
         i++;
@@ -49,4 +49,23 @@ int ft_echo(char **argv)//fix parameters
     if (!flag_n) 
         printf("\n");
     return (0);
+}
+
+int only_n(char *string)
+{
+    int i;
+
+    i = 1;
+    if (!string)
+        return (0);
+    if (string[0] != '-')
+        return (0);
+    while(string[i])
+    {
+        if (string[i] == 'n')
+            i++;
+        else
+            return (0);
+    }
+    return (1);
 }

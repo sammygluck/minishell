@@ -221,6 +221,7 @@ int ft_env(t_env_var **env_l);
 
 //6d builtins echo
 int ft_echo(char **argv);
+int only_n(char *string);
 
 //6e builtins export
 int ft_export(char **argv, char ***env, t_env_var **list);
