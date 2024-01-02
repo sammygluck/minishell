@@ -21,8 +21,6 @@
 
 */
 
-//improvements: the -nnnnnn flag
-
 #include "minishell.h"
 
 int ft_echo(char **argv)//fix parameters
