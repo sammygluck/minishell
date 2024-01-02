@@ -31,8 +31,10 @@ int	main(int argc, char **argv, char **env)
 	(void) argv;
 
 	//int i = 0;
+	
 	while (1)
 	{
+		set_signals_interactive();
 		input = readline("minishell$ ");
 		if (!input)
 			break ;
@@ -43,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 		parsed = parser(token_head);
 		//print_command_table(parsed);
 		//print_list(token_head);
+		set_signals_noninteractive();
 		executor(&parsed, &env, &envs);
 		free(input);
 		free_token_list(&token_head);

@@ -253,6 +253,13 @@ long long str_to_longlong_with_overflow_check(char *str, int *overflow);
 long truncate_to_exit_code(long long number);
 int validate_and_process_exit_code(char *input_str);
 
+//7 signals
+void	signal_reset_prompt(int signo);
+void	set_signals_interactive(void);
+void	signal_print_newline(int signal);
+void	set_signals_noninteractive(void);
+void	ignore_sigquit(void);
+
 //8 shlvl export
 void shlvl_export(char ***env, t_env_var **env_l);
 char *return_env_value(char *string, t_env_var *env_l);
