@@ -35,10 +35,11 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		set_signals_interactive();
-		input = readline("minishell$ ");
+		input = readline("\033[0;34mMiniShell> \033[0m");
 		if (!input)
 			break ;
-		add_history(input);
+		if (ft_strlen(input) > 0)
+			add_history(input);
 		//printf("You entered: %s\n", input);
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
@@ -51,6 +52,7 @@ int	main(int argc, char **argv, char **env)
 		free_token_list(&token_head);
 		//i++;
 	}
+	//make sure to free env and envs
 	return (0);
 }
 
