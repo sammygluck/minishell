@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2023/12/10 13:52:37 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/03 07:51:40 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -18,10 +18,10 @@ void print_redirections(t_redir *redir);
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
-	t_token *token_head;
-	t_env_var *envs;
-	t_cmd	*parsed;
+	t_env_var	*envs;
+	t_token		*token_head;
+	t_cmd		*parsed;
+	char		*input;
 
 	envs = environment_var_handler(env);
 	env = mirror_list_to_array(envs);
