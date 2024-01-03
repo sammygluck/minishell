@@ -23,7 +23,7 @@ void shlvl_export(char ***env, t_env_var **env_l)
     free(shell_argument);
 }
 
-
+//see cd for a double of this function, remove one of the two
 char *return_env_value(char *string, t_env_var *env_l)
 {
     t_env_var *head;

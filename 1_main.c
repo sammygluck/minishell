@@ -23,37 +23,47 @@ int	main(int argc, char **argv, char **env)
 	t_cmd		*parsed;
 	char		*input;
 
+	(void) argv;
 	envs = environment_var_handler(env);
 	env = mirror_list_to_array(envs);
 	shlvl_export(&env, &envs);
 	if (argc > 1)
-		printf("Minishell: too many arguments\n");
-	(void) argv;
-
-	//int i = 0;
-	
+		printf("Minishell: too many arguments\n");	
 	while (1)
 	{
-		set_signals_interactive();
-		input = readline("\033[0;34mMiniShell> \033[0m");
+		set_signals_interactive(); //signal handling 1
+		input = ft_readline();
 		if (!input)
-			break ;
-		if (ft_strlen(input) > 0)
-			add_history(input);
-		//printf("You entered: %s\n", input);
+			continue;
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
-		//print_command_table(parsed);
-		//print_list(token_head);
-		set_signals_noninteractive();
+		set_signals_noninteractive(); //signal handling 2
 		executor(&parsed, &env, &envs);
 		free(input);
 		free_token_list(&token_head);
-		//i++;
 	}
 	//make sure to free env and envs
 	return (0);
+}
+
+char *ft_readline(void)
+{
+	char *input;
+
+	input = readline("\033[0;34mMiniShell> \033[0m");
+	if (!input)
+	{
+		ft_putendl_fd("exit", 1);
+		exit(EXIT_SUCCESS);
+	}
+	if (input[0] == 0)
+	{
+		free(input);
+		return (NULL);
+	}
+	add_history(input);
+	return (input);
 }
 
 
