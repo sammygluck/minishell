@@ -45,7 +45,7 @@ char *make_replace_string(t_env_var *env_list, char *to_replace)
     //if can't use return and a function on the same line, create var and at each stage set it to what needs to be
     if(to_replace[0] == '$' && (to_replace[1] == '\0' || is_space(to_replace[1]) || to_replace[1] == '"')) //what if quote ends this
         return (ft_strdup("$"));
-    // else if (to_replace[0] == '$' && to_replace[1] == '?')
+    // else if (to_replace[0] == '$' && to_replace[1] == '?' && to_replace[2] == 0)
     //     printf("exit code: \n");//to handle
     else
         return(var_extractor(to_replace, env_list));  //seperate this from return value
