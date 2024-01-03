@@ -99,6 +99,7 @@ typedef struct s_export
 
 //1 main
 void free_token_list(t_token **head);
+char *ft_readline(void);;
 
 //2 lexer
 t_token *tokenizer(char *string);

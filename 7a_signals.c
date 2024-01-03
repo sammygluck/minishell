@@ -13,6 +13,18 @@ ctrl-\ -> SIGQUIT ->
 
 #include "minishell.h"
 
+
+//sub 2 - head 1
+void	ignore_sigquit(void)
+{
+	struct sigaction	act;
+
+	ft_memset(&act, 0, sizeof(act));
+	act.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &act, NULL);
+}
+
+//sub 1 - head 1
 void	signal_reset_prompt(int signo)
 {
 	(void)signo;
@@ -22,6 +34,7 @@ void	signal_reset_prompt(int signo)
 	rl_redisplay();
 }
 
+//head 1
 void	set_signals_interactive(void)
 {
 	struct sigaction	act;
@@ -32,7 +45,7 @@ void	set_signals_interactive(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-
+//sub 1 - head 2
 void	signal_print_newline(int signal)
 {
 	(void)signal;
@@ -40,6 +53,7 @@ void	signal_print_newline(int signal)
 	rl_on_new_line();
 }
 
+//head 2
 void	set_signals_noninteractive(void)
 {
 	struct sigaction	act;
@@ -47,15 +61,5 @@ void	set_signals_noninteractive(void)
 	ft_memset(&act, 0, sizeof(act));
 	act.sa_handler = &signal_print_newline;
 	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
-}
-
-
-void	ignore_sigquit(void)
-{
-	struct sigaction	act;
-
-	ft_memset(&act, 0, sizeof(act));
-	act.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &act, NULL);
 }
