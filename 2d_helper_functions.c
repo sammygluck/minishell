@@ -1,14 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2d_helper_functions.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/03 12:16:46 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/03 12:18:12 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_quote(char character);
-int is_space(char c);
-int is_token(char *string, int position);
-void print_list(t_token *head);
+void	print_list(t_token *head);
+int		is_quote(char character);
+int		is_space(char c);
+int		is_token(char *string, int position);
 
-
-
-int is_quote(char character)
+int	is_quote(char character)
 {
 	if (!character)
 		return (0);
@@ -19,16 +28,16 @@ int is_quote(char character)
 	return (0);
 }
 
-int is_space(char c)
+int	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
 		return (1);
 	return (0);
 }
 
-int is_token(char *string, int position)
+int	is_token(char *string, int position)
 {
-	if(string[position] == '>' && string[position + 1] == '>')
+	if (string[position] == '>' && string[position + 1] == '>')
 		return (D_GREATER);
 	if (string[position] == '<' && string[position + 1] == '<')
 		return (D_SMALLER);
@@ -41,11 +50,11 @@ int is_token(char *string, int position)
 	return (STRING);
 }
 
-void print_list(t_token *head)
+void	print_list(t_token *head)
 {
 	if (!head)
-		return;
-	while(head)
+		return ;
+	while (head)
 	{
 		printf("%s\n", head->string);
 		printf("%i\n", head->type);

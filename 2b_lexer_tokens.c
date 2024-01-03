@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2b_lexer_tokens.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/03 12:11:52 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void add_token(char *string, int *i, int type, t_token **head);
-char *token_string(int type, int *i);
-char *word_string(char *string, int *i);
-int find_word_end(char *string, int start_index, t_quote *q_struct);
-int check_quote_error(t_quote *q_struct);
+void	add_token(char *string, int *i, int type, t_token **head);
+char	*token_string(int type, int *i);
+char	*word_string(char *string, int *i);
+int		find_word_end(char *string, int start_index, t_quote *q_struct);
+int		check_quote_error(t_quote *q_struct);
 
 /*
 ADD TOKEN:
@@ -15,24 +27,24 @@ If it's a string, we'll have to add the string until the string ends. This will 
 
 Return value: since failure over here would be a malloc failure and malloc failures are going to exit the program, I've left it at void.
 */
-void add_token(char *string, int *i, int type, t_token **head)
+void	add_token(char *string, int *i, int type, t_token **head)
 {
-    char *string_to_add;
-    t_token *token;
+	t_token	*token;
+	char	*string_to_add;
 
-    //edit: quotes need to be dealt within word   
-    if (type > STRING && type <= SMALLER)
-        string_to_add = token_string(type, i);
-    if (type > 5)
-        string_to_add = word_string(string, i); 
-    if (!string_to_add)
-    {
-        printf("Error: creating string_to_add in lexer failed\n");//to be remove after
-        exit(EXIT_FAILURE);//perhaps do signal something or get back to prompt
-    }
-    token = create_token(string_to_add, type);
-    add_token_to_list(head, token);
-    free(string_to_add);
+	//edit: quotes need to be dealt within word   
+	if (type > STRING && type <= SMALLER)
+		string_to_add = token_string(type, i);
+	if (type > 5)
+		string_to_add = word_string(string, i);
+	if (!string_to_add)
+	{
+		printf("Error: creating string_to_add in lexer failed\n");//to be remove after
+		exit(EXIT_FAILURE);//perhaps do signal something or get back to prompt
+	}
+	token = create_token(string_to_add, type);
+	add_token_to_list(head, token);
+	free(string_to_add);
 }
 
 //this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
