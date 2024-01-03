@@ -23,32 +23,25 @@ int	main(int argc, char **argv, char **env)
 	t_env_var *envs;
 	t_cmd	*parsed;
 
+	(void) argv;
 	envs = environment_var_handler(env);
 	env = mirror_list_to_array(envs);
 	shlvl_export(&env, &envs);
 	if (argc > 1)
-		printf("Minishell: too many arguments\n");
-	(void) argv;
-
-	//int i = 0;
-	
+		printf("Minishell: too many arguments\n");	
 	while (1)
 	{
-		set_signals_interactive();
+		set_signals_interactive(); //signal handling 1
 		input = ft_readline();
 		if (!input)
 			continue;
-		//printf("You entered: %s\n", input);
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
-		//print_command_table(parsed);
-		//print_list(token_head);
-		set_signals_noninteractive();
+		set_signals_noninteractive(); //signal handling 2
 		executor(&parsed, &env, &envs);
 		free(input);
 		free_token_list(&token_head);
-		//i++;
 	}
 	//make sure to free env and envs
 	return (0);
