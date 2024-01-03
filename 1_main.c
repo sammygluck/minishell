@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/03 07:51:40 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/03 12:05:54 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -28,13 +28,13 @@ int	main(int argc, char **argv, char **env)
 	env = mirror_list_to_array(envs);
 	shlvl_export(&env, &envs);
 	if (argc > 1)
-		printf("Minishell: too many arguments\n");	
+		printf("Minishell: too many arguments\n");
 	while (1)
 	{
 		set_signals_interactive(); //signal handling 1
 		input = ft_readline();
 		if (!input)
-			continue;
+			continue ;
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
@@ -47,9 +47,9 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-char *ft_readline(void)
+char	*ft_readline(void)
 {
-	char *input;
+	char	*input;
 
 	input = readline("\033[0;34mMiniShell> \033[0m");
 	if (!input)
@@ -66,12 +66,10 @@ char *ft_readline(void)
 	return (input);
 }
 
-
-
-void free_token_list(t_token **head)
+void	free_token_list(t_token **head)
 {
-	t_token *old_head;
-	t_token *new_head;
+	t_token	*old_head;
+	t_token	*new_head;
 
 	old_head = *head;
 	while (old_head)
