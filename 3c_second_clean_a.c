@@ -14,7 +14,7 @@ char *expanded(char *string, t_env_var *env_list)
         return (NULL); //check this
     while(we_done)
     {
-        printf("stuff to replace values begin->%i; end->%i\n", values.begin, values.end);
+        //printf("stuff to replace values begin->%i; end->%i\n", values.begin, values.end);
         to_replace = extract(string, values.begin, values.end);
         replace_with = make_replace_string(env_list, to_replace);
         tmp = replace(string, replace_with, &values);
@@ -24,7 +24,7 @@ char *expanded(char *string, t_env_var *env_list)
         string = tmp;
         we_done = stuff_to_replace(string, &values);
     }
-    printf("string %s\n", string);
+    //printf("string %s\n", string);
     return (string);
 }
 
