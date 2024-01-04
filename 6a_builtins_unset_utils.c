@@ -53,7 +53,7 @@ char	**mirror_list_to_array(t_env_var *list)
 
 	env = NULL;
 	//head = list;
-	//arr_size = 0;
+	arr_size = 0;
 	while (list)
 	{
 		if (list->name && list->value)
