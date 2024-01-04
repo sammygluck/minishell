@@ -28,7 +28,10 @@ int	main(int argc, char **argv, char **env)
 	env = mirror_list_to_array(envs);
 	shlvl_export(&env, &envs);
 	if (argc > 1)
-		printf("Minishell: too many arguments\n");
+	{
+		ft_putstr_fd("Minishell: too many arguments\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
 		set_signals_interactive(); //signal handling 1
