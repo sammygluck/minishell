@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   6e_builtins_export.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 11:57:47 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/04 11:57:50 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 1. Start the export command implementation.
 
@@ -33,185 +45,32 @@
 */
 #include "minishell.h"
 
-int ft_export(char **argv, char ***env, t_env_var **list)
+int	ft_export(char **argv, char ***env, t_env_var **list)
 {
-    int i;
-    t_export key_value;
+	t_export	key_value;
+	int			i;
 
-    i = 1;
-    key_value.key = NULL; //is this necessary? can we boil this down to one function?
-    key_value.value = NULL;
-    if (!argv)
-    {
-        ft_putstr_fd("minishell: export: fatal error\n", 2);
-        exit(EXIT_FAILURE); //is exit appropriate or return (1)?
-    }
-    if (!argv[1])
-        modified_ft_env(*list);//make sure to set the right parameter; must I return or will I automatically return at the end (0 is the ret value)
-    while (argv[i])
-    {
-        if(is_right_format(argv[i])) //i.e. key=value + check for valid identifier issue
-        {
-            extract_key_value(argv[i], &key_value);
-            update(&key_value, env, list); //i.e. seperate the key from value and update t_env list & char **env
-        }
-        // if(!right_format) //is this necessary?
-        //     error for this argument or skip this 
-        i++;
-    }
-    free_key_value(&key_value);
-    return (0);    
-}
-
-t_env_var *create_env_var_key_value(t_export *key_value)
-{
-    t_env_var *env_var;
-
-    //error check if current_env isn't NULL
-    env_var = ft_malloc(sizeof(t_env_var));
-    //extract strings
-    env_var->name = ft_strdup(key_value->key); 
-    env_var->value = ft_strdup(key_value->value);
-    env_var->next = NULL;
-    return (env_var);
-}
-
-void update(t_export *key_value, char ***env, t_env_var **env_list) //return value?
-{
-    t_env_var *new_node;
-
-    new_node = NULL;
-    if (!arg_exists_and_updated(key_value, env_list))
-    {
-        new_node = create_env_var_key_value(key_value);
-        add_env_var(env_list, new_node);
-    }
-    free_old_env(*env);
-    *env = mirror_list_to_array(*env_list);
-}
-
-void modified_ft_env(t_env_var *env)//parameters + check again if works
-{
-    t_env_var *head;
-
-    if (!env) 
-        return ;
-    head = env;
-    while (head)
-    {
-        printf("declare -x %s=\"%s\"\n", head->name, head->value); 
-        head = head->next;
-    }
-    return ;   
-}
-
-int is_right_format(char *string)
-{
-    
-    if (!valid_identifiers(string))
-        return (0);
-    if (!has_equal_sign(string))
-        return (0);
-    return (1);
-}
-
-
-int valid_identifiers(char *string)
-{
-    int i = 0;
-
-    if (!string || string[0] == '\0')
-    {
-        ft_putstr_fd("minishell: export: Error: Empty string or null pointer\n", 2);
-        return (0);
-    }
-    // Check first character
-    if (!is_alpha_under(string[i]))
-    {
-        ft_putstr_fd("minishell: export: Error: First character is not a valid identifier\n", 2);
-        return (0);
-    }
-    i++;
-    while (string[i] && string[i] != '=')
-    {
-        if (!is_alpha_under(string[i]) && !ft_isdigit(string[i]))
-        {
-            ft_putstr_fd("minishell: export: Error: Invalid character in identifier\n", 2);
-            return (0);
-        }
-        i++;
-    }
-    return (1);
-}
-
-int has_equal_sign(char *string)
-{
-    int i;
-
-    i = 0;
-    while (string[i])
-    {
-        if (string[i] == '=')
-            return (1);
-        i++;
-    }
-    ft_putstr_fd("minishell: export: Error: '=' not found in the string\n", 2);
-    return (0);
-}
-
-int is_alpha_under(char c)
-{
-    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
-        return (1);
-    else
-        return (0);
-}
-
-int arg_exists_and_updated(t_export *key_value, t_env_var **env_list)
-{
-    t_env_var *head;
-
-    head = *env_list;
-    while (head)
-    {
-        if (ft_strlen(key_value->key) == ft_strlen(head->name))
-        {
-            if (!strncmp(key_value->key, head->name, ft_strlen(head->name)))
-            {
-                if (head->value)
-                    free(head->value);
-                head->value = ft_strdup(key_value->value);
-                return (1);
-            }
-        }
-        head = head->next;
-    }
-    return (0); 
-}
-
-void extract_key_value(char *string, t_export *key_value)
-{
-    int i;
-
-	i = 0;
-    free_key_value(key_value); //issue 1. when it's empty i.e. first time
-    while(string[i] && string[i] != '=')
-        i++;
-    key_value->key = ft_strndup(string, i);
-    i++;
-    key_value->value = ft_strdup(&string[i]);
-}
-
-void free_key_value(t_export *key_value)
-{
-    if (key_value->key)
-    {
-        free(key_value->key);
-        key_value->key = NULL;
-    }
-    if (key_value->value)
-    {
-        free(key_value->value);
-        key_value->value = NULL;
-    }
+	i = 1;
+	key_value.key = NULL; //is this necessary? can we boil this down to one function?
+	key_value.value = NULL;
+	if (!argv)
+	{
+		ft_putstr_fd("minishell: export: fatal error\n", 2);
+		exit(EXIT_FAILURE); //is exit appropriate or return (1)?
+	}
+	if (!argv[1])
+		modified_ft_env(*list);//make sure to set the right parameter; must I return or will I automatically return at the end (0 is the ret value)
+	while (argv[i])
+	{
+		if (is_right_format(argv[i])) //i.e. key=value + check for valid identifier issue
+		{
+			extract_key_value(argv[i], &key_value);
+			update(&key_value, env, list); //i.e. seperate the key from value and update t_env list & char **env
+		}
+		// if (!right_format) //is this necessary?
+		//     error for this argument or skip this 
+		i++;
+	}
+	free_key_value(&key_value);
+	return (0); 
 }

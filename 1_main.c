@@ -6,15 +6,15 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/03 12:05:54 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/04 11:12:10 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 // int	is_char(char to_check, char against);
-void free_token_list(t_token **head);
-void print_command_table(t_cmd *cmd);
-void print_redirections(t_redir *redir);
+void	free_token_list(t_token **head);
+void	print_command_table(t_cmd *cmd);
+void	print_redirections(t_redir *redir);
 
 int	main(int argc, char **argv, char **env)
 {

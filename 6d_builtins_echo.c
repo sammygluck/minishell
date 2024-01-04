@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   6d_builtins_echo.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 11:35:41 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/04 11:35:44 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 1. Start the echo command implementation.
 
@@ -23,47 +35,47 @@
 
 #include "minishell.h"
 
-int ft_echo(char **argv)//fix parameters
+int	ft_echo(char **argv)//fix parameters
 {
-    int flag_n;
-    int i;
+	int	flag_n;
+	int	i;
 
-    if (!argv)
-        exit(EXIT_FAILURE);
-    flag_n = 0;
-    i = 1;
-    if (argv[i] && only_n(argv[i]))
-    {
-        flag_n = 1;
-        i++;
-    }
-    while (argv[i]) 
-    {
-        printf("%s", argv[i]);
-        if (argv[i + 1]) 
-            printf(" "); 
-        i++;
-    }
-    if (!flag_n) 
-        printf("\n");
-    return (0);
+	if (!argv)
+		exit(EXIT_FAILURE);
+	flag_n = 0;
+	i = 1;
+	if (argv[i] && only_n(argv[i]))
+	{
+		flag_n = 1;
+		i++;
+	}
+	while (argv[i]) 
+	{
+		printf("%s", argv[i]);
+		if (argv[i + 1]) 
+			printf(" "); 
+		i++;
+	}
+	if (!flag_n) 
+		printf("\n");
+	return (0);
 }
 
-int only_n(char *string)
+int	only_n(char *string)
 {
-    int i;
+	int	i;
 
-    i = 1;
-    if (!string)
-        return (0);
-    if (string[0] != '-')
-        return (0);
-    while(string[i])
-    {
-        if (string[i] == 'n')
-            i++;
-        else
-            return (0);
-    }
-    return (1);
+	i = 1;
+	if (!string)
+		return (0);
+	if (string[0] != '-')
+		return (0);
+	while (string[i])
+	{
+		if (string[i] == 'n')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }
