@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 09:54:25 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 08:09:48 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	add_token(char *string, int *i, int type, t_token **head)
 		string_to_add = word_string(string, i);
 	if (!string_to_add)
 	{
-		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);//to be remove after
-		exit(EXIT_FAILURE);//perhaps do signal something or get back to prompt
+		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);//malloc already fails so this would be for non-fatal errors
+		exit(EXIT_FAILURE);//adjust-> return + free all allocated resources
 	}
 	token = create_token(string_to_add, type);
 	add_token_to_list(head, token);
@@ -89,7 +89,7 @@ char	*word_string(char *string, int *i)
 		return (NULL);
 	init_quote(&q_struct);
 	j = find_word_end(string, *i, &q_struct);
-	if (check_quote_error(&q_struct)) //needs to be handled properly
+	if (check_quote_error(&q_struct)) //non fatal, free and get new prompt
 		return (NULL);
 	chars_to_copy = j - *i;
 	result = ft_strndup(&string[*i], chars_to_copy);
@@ -106,7 +106,7 @@ int	find_word_end(char *string, int start_index, t_quote *q_struct)
 	{
 		is_in_quote(string[j], q_struct);
 		if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
-			break ;
+			break;
 	j++;
 	}
 	return (j);
