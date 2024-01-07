@@ -1,7 +1,7 @@
 # current project
 NAME = minishell
 CC = gcc
-CFLAGS = -I. -I$(LIBFTDIR) -Wextra -Wall -g
+CFLAGS = -I. -I$(LIBFTDIR) -Wextra -Wall -g #-fsanitize=address
 LIBS = -lreadline
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)

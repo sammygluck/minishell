@@ -121,6 +121,9 @@ int is_space(char c);
 int is_token(char *string, int position);
 void print_list(t_token *head);
 
+//2e invalid input
+int	is_valid_sequence(t_token *lexer_head);
+
 //3a expander main
 void	expander(t_token **token_head, t_env_var *env_head);
 

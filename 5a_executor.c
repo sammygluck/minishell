@@ -56,6 +56,8 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 	static fds	pipes[2];
 	int			std_fds[2]; // to keep track of the stdin and stdout
 
+	if (!command || !*command)
+		return ;
 	if (*command == 0)
 		exit(1);
 	p = init_process_struct(env); 
