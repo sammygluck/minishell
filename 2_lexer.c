@@ -42,5 +42,10 @@ t_token	*tokenizer(char *string)
 		else
 			add_token(string, &i, 6, &token_head);
 	}
+	if (is_valid_sequence(token_head))
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2); //near unexpected token '<token>'
+		return(NULL);
+	}
 	return (token_head);
 }
