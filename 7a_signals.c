@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   7a_signals.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/07 10:41:22 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/07 10:42:00 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -28,7 +39,6 @@ void	new_prompt(int signal)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	//set global variable:130
 }
 
 void	noninteractive(void)
@@ -44,6 +54,6 @@ void	noninteractive(void)
 void	write_newline(int signal)
 {
 	(void)signal;
-	write(1, "\n", 1); //added this line
+	write(1, "\n", 1);
 	rl_on_new_line();
 }
