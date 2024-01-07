@@ -12,6 +12,7 @@
 # include <readline/history.h>
 # include <libft/libft.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # define CURRENT 0
 # define PREVIOUS 1
