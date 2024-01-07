@@ -19,6 +19,8 @@ t_cmd	*parser(t_token *lexer_head)
 	t_cmd	*new_cmd; // to add new commands
 	int		cmd_nr;
 
+	if (!lexer_head)
+		return (NULL);
 	current = lexer_head;
 	commands = NULL;
 	cmd_nr = 0;
