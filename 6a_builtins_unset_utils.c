@@ -27,7 +27,7 @@ int	arg_in_env(char *string, t_env_var **env_list)
 		}
 		head = head->next;
 	}
-	return (0); //if it returns index it should return -1 upon not found
+	return (0);
 }
 
 void	free_old_env(char **env)
@@ -47,12 +47,10 @@ void	free_old_env(char **env)
 
 char	**mirror_list_to_array(t_env_var *list)
 {
-	//t_env_var *head;
 	char	**env;
 	int		arr_size;
 
 	env = NULL;
-	//head = list;
 	arr_size = 0;
 	while (list)
 	{

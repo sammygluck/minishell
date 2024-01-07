@@ -1,0 +1,197 @@
+UNSET 
+
+1. Start the unset command implementation.
+
+2. Check if any arguments are provided to the unset command.
+   - If no arguments are provided, simply return from the function as there's nothing to unset.
+
+3. Loop through each argument provided to the unset command:
+   - For each argument (which represents an environment variable name to unset):
+       - Remove the variable from the 't_env' list:
+           - Search for a node in the list that matches the variable name.
+           - If found, remove the node from the list and free its memory.
+       - Remove the variable from the 'char **env' array:
+           - Search for an entry in the array that starts with the variable name followed by '='.
+           - If found, remove this entry from the array.
+               - This might involve shifting subsequent elements and possibly resizing the array.
+
+4. For resizing the 'char **env' array (if required):
+   - If an entry is removed:
+       - Allocate a new array with a size one less than the current array.
+       - Copy all entries except the removed one to the new array.
+       - Free the old array and update the pointer to point to the new array.
+
+5. Repeat steps 3 and 4 for each argument provided to the unset command.
+
+6. End of unset command implementation.
+
+--------------------------------------------------
+
+PWD
+
+1. Start the pwd command implementation.
+
+2. Allocate a buffer to store the current working directory path.
+   - You can use dynamic allocation (with malloc) or a fixed-size array.
+   - Ensure the buffer is sufficiently large to store the longest possible path (e.g., PATH_MAX from <limits.h>).
+
+3. Use getcwd() or a similar function to obtain the current working directory.
+   - Pass the allocated buffer and its size to getcwd().
+   - If getcwd() returns NULL, handle the error:
+       - Print an error message to standard error (using perror or a custom message).
+       - Free any dynamically allocated memory (if applicable).
+       - Exit the function with a failure status.
+
+4. If getcwd() successfully retrieves the current directory:
+   - Print the directory path to standard output.
+   - End the line with a newline character unless specific project requirements dictate otherwise.
+
+5. Free any dynamically allocated memory (if applicable).
+
+6. End of pwd command implementation.
+
+----------------------------------------------------
+
+ENV 
+
+1. Start the env command implementation.
+
+2. Check if any arguments are provided to the env command.
+   - If arguments are provided, display an error message because 'env' typically does not take arguments.
+   - Exit the function.
+
+3. Loop through the 't_env' linked list (if you're using this as your primary environment data structure):
+   - For each element in the list:
+       - Concatenate the variable name and value with an '=' sign in between.
+       - Print this concatenated string to standard output followed by a newline.
+   - Continue until all elements in the list have been processed.
+
+   (or)
+
+   Loop through the 'char **env' array (if you're using this as your primary environment data structure):
+   - For each string in the array:
+       - Print the string to standard output followed by a newline.
+   - Continue until all strings in the array have been processed.
+
+4. Note: Depending on your shell's design, you might be using either the 't_env' list or the 'char **env' array as your primary source of environment variables. Choose the appropriate looping mechanism based on which one you use.
+
+5. End of env command implementation.
+
+----------------------------------------------------
+
+ECHO
+
+1. Start the echo command implementation.
+
+2. Initialize a flag to track if the '-n' option is used.
+   - Set the flag to false initially.
+
+3. Check if the first argument after "echo" is '-n'.
+   - If yes, set the '-n' flag to true.
+   - Skip this argument for the rest of the processing.
+
+4. Loop through each argument provided to the echo command (starting from the first argument or the second if '-n' was found):
+   - Print the argument to standard output.
+   - If there are more arguments:
+       - Print a space after the current argument to separate from the next one.
+
+5. After all arguments are processed:
+   - If the '-n' flag is not set:
+       - Print a newline character to end the output.
+
+6. End of echo command implementation.
+
+----------------------------------------------------
+
+EXPORT
+
+1. Start the export command implementation.
+
+2. Check if any arguments are provided to the export command.
+   - If no arguments are provided:
+       - Display all environment variables in a sorted manner.
+           - Use the 't_env' list or 'char **env' array as per your shell design.
+           - If using 't_env', sort the list based on the variable names and then print.
+           - If using 'char **env', convert it to a list, sort, and then print.
+       - Each variable should be printed in the format "declare -x NAME='value'".
+   - If arguments are provided:
+       - Loop through each argument:
+           - Check if the argument is in the format "KEY=VALUE".
+               - If yes, add or update the variable in both 't_env' list and 'char **env' array.
+               - If the format is incorrect, display an error message for that argument.
+
+3. For adding or updating environment variables:
+   - In 't_env' list:
+       - Search for the variable by KEY.
+       - If found, update its VALUE.
+       - If not found, add a new node with KEY and VALUE.
+   - In 'char **env' array:
+       - Search for the variable by KEY.
+       - If found, update its VALUE.
+       - If not found, allocate new memory for the new "KEY=VALUE" string and add it to the array.
+
+4. Optional: Implement functionality to handle variables without '='.
+   - If a variable is provided without '=', treat it as a variable with an empty value.
+   - Or, only add the variable name to the environment without changing its value if it already exists.
+
+5. End of export command implementation.
+
+----------------------------------------------------
+
+CD
+
+1. Check if a path argument is provided with the cd command
+   - If not, proceed to check for the HOME environment variable
+       - If HOME is set, use that as the path
+       - If HOME is not set, display an error message and exit the function
+
+2. Store the current working directory in a variable (old_path)
+   - Use getcwd() or similar function to get the current directory
+   - This will be used to update OLDPWD later
+
+3. Attempt to change the directory to the specified path
+   - Use chdir() to change the directory
+   - If chdir() is successful:
+       - Update the PWD environment variable with the new directory
+           - Use setenv() or a similar function to update PWD
+       - Update the OLDPWD environment variable with old_path
+           - Use setenv() or a similar function to update OLDPWD
+   - If chdir() fails:
+       - Display an error message (using perror() or a custom error handler)
+       - Do not change OLDPWD or PWD
+       - Exit the function with an error status
+
+4. Optional: If implementing a return status like in bash,
+   - Set the return status to 0 on successful directory change
+   - Set the return status to a non-zero value on failure
+
+5. End of cd command implementation
+
+----------------------------------------------------
+
+EXIT
+
+1. Start the exit command implementation.
+
+2. Check if there are any arguments provided to the exit command:
+   - If no arguments are provided:
+       - Print a message "exit" to standard output.
+       - Exit the shell with the status of the last executed command.
+
+   - If one argument is provided:
+       - Check if the argument is a valid number (integer).
+           - If valid, convert it to an integer and use it as the exit status.
+           - If invalid (non-integer or overflow), display an error message indicating an invalid exit argument and do not exit the shell.
+
+   - If more than one argument is provided:
+       - Display an error message indicating too many arguments and do not exit the shell.
+
+3. If the shell is to be exited (in cases of no argument or one valid argument):
+   - Perform any necessary cleanup operations (like freeing allocated memory, if any).
+   - Exit the shell using the exit() function with the appropriate status.
+
+4. End of exit command implementation.
+
+----------------------------------------------------
+
+

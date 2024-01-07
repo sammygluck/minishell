@@ -17,7 +17,7 @@ char	**realloc_array(char **argv, int argc)
 	char	**new_argv;
 	int		i;
 
-	new_argv = ft_malloc((argc + 2) * sizeof(char *)); //ft_malloc exits program upon failure
+	new_argv = ft_malloc((argc + 2) * sizeof(char *));
 	i = 0;
 	while (i < argc)
 	{

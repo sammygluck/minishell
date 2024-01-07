@@ -38,12 +38,11 @@ char	*initial_clean(char *string)
 	i = 0;
 	j = 0;
 	init_quote(&q_struct);
-	new_string = ft_malloc(ft_strlen(string) + 1); // Assuming ft_malloc is similar to malloc
+	new_string = ft_malloc(ft_strlen(string) + 1);
 	while (string[i])
 	{
 		is_in_quote(string[i], &q_struct); // Update quote state
-		// Skip the character following '$' if it's a quote and not in a quote
-		if (string[i] == '$' && is_quote(string[i + 1])
+		if (string[i] == '$' && is_quote(string[i + 1]) // Skip the character following '$' if it's a quote and not in a quote
 			&& !is_in_any_quote(string, i))
 			i++;
 		new_string[j++] = string[i];

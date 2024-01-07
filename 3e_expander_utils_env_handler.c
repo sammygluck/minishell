@@ -44,10 +44,7 @@ t_env_var	*create_env_var(char *current_env)
 {
 	t_env_var	*env_var;
 
-	//error check if current_env isn't NULL
-	//malloc
 	env_var = ft_malloc(sizeof(t_env_var));
-	//extract strings
 	env_var->name = extract_var_name(current_env);
 	env_var->value = extract_var_value(current_env);
 	env_var->next = NULL;
@@ -73,7 +70,7 @@ char	*extract_var_value(char *current_env)
 
 	len = 0;
 	while (current_env[len] && current_env[len] != '=')
-	len++;
+		len++;
 	if (current_env[len] == '=')
 		len++;
 	else
