@@ -34,14 +34,14 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (1)
 	{
-		set_signals_interactive(); //signal handling 1
+		interactive();
 		input = ft_readline();
 		if (!input)
 			continue ;
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
-		set_signals_noninteractive(); //signal handling 2
+		noninteractive();
 		executor(&parsed, &env, &envs);
 		free(input);
 		free_token_list(&token_head);

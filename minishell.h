@@ -264,11 +264,11 @@ long truncate_to_exit_code(long long number);
 int validate_and_process_exit_code(char *input_str);
 
 //7 signals
-void	signal_reset_prompt(int signo);
-void	set_signals_interactive(void);
-void	signal_print_newline(int signal);
-void	set_signals_noninteractive(void);
-void	ignore_sigquit(void);
+void	new_prompt(int signal);
+void	interactive(void);
+void	write_newline(int signal);
+void	noninteractive(void);
+void	sigquit_ign(void);
 
 //8 shlvl export
 void shlvl_export(char ***env, t_env_var **env_l);
