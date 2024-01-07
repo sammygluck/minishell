@@ -126,6 +126,7 @@ int	is_valid_sequence(t_token *lexer_head);
 
 //3a expander main
 void	expander(t_token **token_head, t_env_var *env_head);
+char *process_token_string(char *str, t_env_var *env_head);
 
 //3b first clean
 char *initial_clean(char *string);
