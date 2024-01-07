@@ -31,15 +31,14 @@ void	add_token(char *string, int *i, int type, t_token **head)
 {
 	t_token	*token;
 	char	*string_to_add;
-
-	//edit: quotes need to be dealt within word   
+  
 	if (type > STRING && type <= SMALLER)
 		string_to_add = token_string(type, i);
 	if (type > 5)
 		string_to_add = word_string(string, i);
 	if (!string_to_add)
 	{
-		printf("Error: creating string_to_add in lexer failed\n");//to be remove after
+		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);//to be remove after
 		exit(EXIT_FAILURE);//perhaps do signal something or get back to prompt
 	}
 	token = create_token(string_to_add, type);
@@ -66,7 +65,7 @@ char *token_string(int type, int *i)
         return (ft_strdup(">"));
     else if (type == 5)
         return (ft_strdup("<"));
-    else 
+    else //what is else?
         return (NULL);
 }
 
@@ -87,13 +86,13 @@ char *word_string(char *string, int *i)
     char *result;
 
     if (!string || !i)
-        return (NULL);
+        return (NULL); 
     init_quote(&q_struct);
     j = find_word_end(string, *i, &q_struct);
-    if (check_quote_error(&q_struct))
+    if (check_quote_error(&q_struct)) //needs to be handled properly
         return (NULL);
     chars_to_copy = j - *i;
-    result = strndup(&string[*i], chars_to_copy);
+    result = ft_strndup(&string[*i], chars_to_copy);
     *i = j;
     return (result);
 }
