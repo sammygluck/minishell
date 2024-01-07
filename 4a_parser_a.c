@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:19:53 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 11:19:57 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:56:37 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_cmd	*parser(t_token *lexer_head)
 	{
 		cmd_nr++;
 		new_cmd = parse_command(&current, cmd_nr);
-		append_command(&commands, new_cmd); 
+		append_command(&commands, new_cmd);
 	}
 	return (commands);
 }
@@ -41,7 +41,7 @@ t_cmd	*parse_command(t_token **current, int cmd_nr)
 	while (*current && (*current)->type != PIPE)
 	{
 		if (is_redirection_token(*current)) // check if there is a redirection
-			parse_redirection(current, command); 
+			parse_redirection(current, command);
 		else // this is something other than redirection
 		{
 			add_argument_to_command(command, (*current)->string); //make sure string exists

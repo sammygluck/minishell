@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:00:56 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/03 13:00:59 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:55:31 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ char	*replace(char *old_string, char *to_replace, t_begin_end *v)
 	int		i;
 	int		j;
 
-	new_string = ft_malloc(ft_strlen(old_string) - (v->end - v->begin) + ft_strlen(to_replace) + 1);
+	new_string = ft_malloc(ft_strlen(old_string) - (v->end - v->begin)
+			+ ft_strlen(to_replace) + 1);
 	i = 0;
 	j = 0;
 	while (i < v->begin)

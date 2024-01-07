@@ -6,18 +6,18 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:35:41 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 11:35:44 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:01:24 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(char **argv)//fix parameters
+int	ft_echo(char **argv)
 {
 	int	flag_n;
 	int	i;
 
-	if (!argv)
+	if (!argv || !*argv)
 		exit(EXIT_FAILURE);
 	flag_n = 0;
 	i = 1;
@@ -26,14 +26,14 @@ int	ft_echo(char **argv)//fix parameters
 		flag_n = 1;
 		i++;
 	}
-	while (argv[i]) 
+	while (argv[i])
 	{
 		printf("%s", argv[i]);
-		if (argv[i + 1]) 
-			printf(" "); 
+		if (argv[i + 1])
+			printf(" ");
 		i++;
 	}
-	if (!flag_n) 
+	if (!flag_n)
 		printf("\n");
 	return (0);
 }

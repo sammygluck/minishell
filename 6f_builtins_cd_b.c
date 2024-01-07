@@ -6,13 +6,13 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:32:03 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 08:41:55 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:05:42 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_chdir(const char *path, char ***env, t_env_var **env_head) //change in minishell.h
+int	ft_chdir(const char *path, char ***env, t_env_var **env_head)
 {
 	char	old_pwd[PATH_MAX];
 	char	new_pwd[PATH_MAX];

@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:26 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 12:00:31 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:04:16 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list)
 		}
 		head = head->next;
 	}
-	return (0); 
+	return (0);
 }
 
 void	extract_key_value(char *string, t_export *key_value)
@@ -62,7 +62,7 @@ void	extract_key_value(char *string, t_export *key_value)
 	int	i;
 
 	i = 0;
-	free_key_value(key_value); //issue 1. when it's empty i.e. first time
+	free_key_value(key_value);
 	while (string[i] && string[i] != '=')
 		i++;
 	key_value->key = ft_strndup(string, i);

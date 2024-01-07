@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 08:09:48 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:54:25 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	find_word_end(char *string, int start_index, t_quote *q_struct)
 	{
 		is_in_quote(string[j], q_struct);
 		if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
-			break;
+			break ;
 	j++;
 	}
 	return (j);

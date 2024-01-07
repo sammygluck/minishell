@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:42:55 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 12:42:58 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:07:14 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ int	ft_exit(char **argv)
 
 	if (!argv)
 		exit(EXIT_FAILURE);
-	if (!argv[1]) 
+	if (!argv[1])
 		final_exit(0);//implement when global exit status is done
 	else if (argv[1] && argv[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	else if (argv[1]) //not sure if this condition is even necessary
+	else if (argv[1])
 	{
 		exit_code = validate_and_process_exit_code(argv[1]);
-		if (exit_code != -1) 
+		if (exit_code != -1)
 			final_exit(exit_code);
 		else
 		{
@@ -38,12 +38,12 @@ int	ft_exit(char **argv)
 			final_exit(2);
 		}
 	}
-	return (0);//got compilation error without this 
+	return (0);
 }
 
 void	final_exit(int exit_number)
 {
-	// is cleanup necessary?
+	// cleanup?
 	printf("exit\n");
 	exit(exit_number);
 }
