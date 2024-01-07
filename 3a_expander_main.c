@@ -14,6 +14,8 @@ void expander(t_token **token_head, t_env_var *env_head)
     char *tmp;
     char *new_string;
 
+    if (!token_head || !*token_head)
+        return ;
     head = *token_head;
     //for each string in the token list
     while(head)
