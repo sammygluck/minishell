@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/03 12:11:52 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 08:09:48 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_token(char *string, int *i, int type, t_token **head)
 {
 	t_token	*token;
 	char	*string_to_add;
-  
+
 	if (type > STRING && type <= SMALLER)
 		string_to_add = token_string(type, i);
 	if (type > 5)
@@ -49,24 +49,24 @@ void	add_token(char *string, int *i, int type, t_token **head)
 //this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
 // but make sure to free it afterwards
 //replace strdup with ft_strdup
-char *token_string(int type, int *i)
+char	*token_string(int type, int *i)
 {
-    if (type == 1 || type == 2) 
-        *i += 2; //check if this is possible
-    else
-        *i += 1; //check if this is possible
-    if (type == 1) 
-        return (ft_strdup(">>"));
-    else if (type == 2) 
-        return (ft_strdup("<<"));
-    else if (type == 3)
-        return (ft_strdup("|"));
-    else if (type == 4)
-        return (ft_strdup(">"));
-    else if (type == 5)
-        return (ft_strdup("<"));
-    else //what is else?
-        return (NULL);
+	if (type == 1 || type == 2)
+		*i += 2; //check if this is possible
+	else
+		*i += 1; //check if this is possible
+	if (type == 1)
+		return (ft_strdup(">>"));
+	else if (type == 2)
+		return (ft_strdup("<<"));
+	else if (type == 3)
+		return (ft_strdup("|"));
+	else if (type == 4)
+		return (ft_strdup(">"));
+	else if (type == 5)
+		return (ft_strdup("<"));
+	else //what is else?
+		return (NULL);
 }
 
 /*
@@ -78,47 +78,46 @@ b. it checks for the appearance of the closing quote
 return value: pointer to extracted string
 */
 
-char *word_string(char *string, int *i)
+char	*word_string(char *string, int *i)
 {
-    int j;
-    int chars_to_copy;
-    t_quote q_struct;
-    char *result;
+	t_quote	q_struct;
+	char	*result;
+	int		j;
+	int		chars_to_copy;
 
-    if (!string || !i)
-        return (NULL); 
-    init_quote(&q_struct);
-    j = find_word_end(string, *i, &q_struct);
-    if (check_quote_error(&q_struct)) //needs to be handled properly
-        return (NULL);
-    chars_to_copy = j - *i;
-    result = ft_strndup(&string[*i], chars_to_copy);
-    *i = j;
-    return (result);
+	if (!string || !i)
+		return (NULL);
+	init_quote(&q_struct);
+	j = find_word_end(string, *i, &q_struct);
+	if (check_quote_error(&q_struct)) //needs to be handled properly
+		return (NULL);
+	chars_to_copy = j - *i;
+	result = ft_strndup(&string[*i], chars_to_copy);
+	*i = j;
+	return (result);
 }
 
-int find_word_end(char *string, int start_index, t_quote *q_struct)
+int	find_word_end(char *string, int start_index, t_quote *q_struct)
 {
-    int j = start_index;
-    while (string[j])
-    {
-        is_in_quote(string[j], q_struct);
-        if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
-            break;
-        j++;
-    }
-    return (j);
+	int	j;
+
+	j = start_index;
+	while (string[j])
+	{
+		is_in_quote(string[j], q_struct);
+		if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
+			break;
+	j++;
+	}
+	return (j);
 }
 
-int check_quote_error(t_quote *q_struct)
+int	check_quote_error(t_quote *q_struct)
 {
-    if (q_struct->in_quote)
-    {
-        printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
-        return (1); // Error found
-    }
-    return (0); // No error
+	if (q_struct->in_quote)
+	{
+		printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
+		return (1); // Error found
+	}
+	return (0); // No error
 }
-
-
-
