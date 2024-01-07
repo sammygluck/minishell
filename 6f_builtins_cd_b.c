@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:32:03 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 08:32:25 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/07 08:41:55 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	*get_env_value(t_env_var *env, char *string)
 	while (head)
 	{
 		if (ft_strlen(head->name) == string_len
-			&& !strncmp(head->name, string, string_len) && head->value)
+			&& !strncmp(head->name, string, string_len)
+			&& head->value)
 			return (ft_strdup(head->value));
 		head = head->next;
 	}
