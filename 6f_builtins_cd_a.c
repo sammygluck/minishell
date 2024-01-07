@@ -56,7 +56,7 @@ int	ft_cd(char **argv, char ***env, t_env_var **env_head)
     return ft_chdir(argv[1], env, env_head);
 }
 
-int cd_too_many_args()
+int cd_too_many_args(void)
 {
     ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
     return (1);

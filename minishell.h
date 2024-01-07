@@ -243,6 +243,9 @@ void free_key_value(t_export *key_value);
 
 //6f builtins cd
 int ft_cd(char **argv, char ***env, t_env_var **env_head);
+int cd_too_many_args(void);
+int cd_oldpwd(char ***env, t_env_var **env_head);
+int cd_home(char ***env, t_env_var **env_head);
 int ft_chdir(const char *path, char ***env, t_env_var **env_head);
 char *get_env_value(t_env_var *env, char *string);
 void pwd_export(char *pwd, char ***env, t_env_var **env_l);
