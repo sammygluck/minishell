@@ -78,8 +78,10 @@ void	free_token_list(t_token **head)
 	while (old_head)
 	{
 		new_head = old_head->next;
-		free(old_head->string);
-		free(old_head);
+		if (old_head->string)
+			free(old_head->string);
+		if (old_head)
+			free(old_head);
 		old_head = new_head;
 	}
 }
