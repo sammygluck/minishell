@@ -43,7 +43,7 @@ char	*get_env_value(t_env_var *env, char *string)
 	while (head)
 	{
 		if (ft_strlen(head->name) == string_len
-			&& !strncmp(head->name, string, string_len))
+			&& !strncmp(head->name, string, string_len) && head->value)
 			return (ft_strdup(head->value));
 		head = head->next;
 	}
