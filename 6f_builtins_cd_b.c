@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   6f_builtins_cd_b.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/07 08:32:03 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/07 08:32:25 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_chdir(const char *path, char ***env, t_env_var **env_head) //change in minishell.h
@@ -7,7 +19,7 @@ int	ft_chdir(const char *path, char ***env, t_env_var **env_head) //change in mi
 
 	if (!getcwd(old_pwd, PATH_MAX))
 		old_pwd[0] = '\0'; //must I error out instead?
-	if (chdir(path) != 0) 
+	if (chdir(path) != 0)
 	{
 		perror("minishell: cd"); // Improved error handling
 		return (1);
@@ -16,7 +28,7 @@ int	ft_chdir(const char *path, char ***env, t_env_var **env_head) //change in mi
 		new_pwd[0] = '\0'; //perror("minishell: cd"); //exit here or return 1
 	pwd_export(new_pwd, env, env_head);
 	oldpwd_export(old_pwd, env, env_head);
-	return (0); 
+	return (0);
 }
 
 char	*get_env_value(t_env_var *env, char *string)
