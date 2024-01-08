@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-char	*delete_var_name(char *old_word, char *var_value, int *index, int len_newstr, int len_var)
+char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var)
 {
 	char	*new_word;
-	int		i; // index to iterate over the original string
-	int		j; // index to iterate over the new string with the copied variable value
+	int		i;
+	int		j;
 
 	new_word = (char *)malloc(sizeof(char) * (len_newstr));// Q: extra for null terminator needed?
 	if (!new_word)

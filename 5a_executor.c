@@ -68,13 +68,12 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 
 	if (!command || !*command)
 		return ;
-	if (*command == 0)
-		exit(1);
 	p = init_process_struct(env); 
 	command_pipe_count(*command, p);
 	current_cmd = *command;
 	while (current_cmd)
 	{
+		printf("the command to execute: %s\n", current_cmd->argv[0]);
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);

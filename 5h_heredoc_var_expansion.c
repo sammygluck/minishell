@@ -35,7 +35,7 @@ char	*replace_heredoc_word(char *old_word, char *var_value, int *index)
 	if (var_value == NULL)
 	{
 		len_new_word = ft_strlen(old_word) - len_var;
-		new_word = delete_var_name(old_word, var_value, index, len_new_word, len_var); // return malloc new_word
+		new_word = delete_var_name(old_word, index, len_new_word, len_var); // return malloc new_word
 	}
 	else
 	{

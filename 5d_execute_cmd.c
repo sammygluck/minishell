@@ -25,11 +25,26 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 	return (1);
 }
 
+void	execute_local_binary(t_cmd *command, t_process *p)
+{
+	char	*cmd;
+	int		i;
+
+	cmd = command->argv[0];
+	i = 0;
+	while (cmd[i])
+	
+
+}
+
+
 void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs)
 {
 	int		i;
 	char	*tmp; // path to binaries to check by the access system call
 
+	if (command->argv && ft_strchr(command->argv[0], '/'))
+		execute_local_binary(command, p);
 	if (!retrieve_path_var_env(p))
 		exit(1);
 	if (command->argv && is_builtin(command->argv))

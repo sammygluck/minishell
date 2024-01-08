@@ -190,7 +190,6 @@ void	exit_error(char *source, int type);
 int		open_file(char *file, int file_type);
 int		is_builtin(char **commands);
 
-
 // 5c connect commands with dup2
 int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);
 void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
@@ -221,7 +220,7 @@ char	*reconstruct_heredoc_line(char **words_array);
 
 // 5i heredoc variable expansion replace and delete functions
 char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
-char	*delete_var_name(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
+char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var);
 
 // 5J heredoc variable expansion helper functions
 char	*retrieve_env_var_value(char *word);
@@ -291,7 +290,6 @@ void	sigquit_ign(void);
 //8 shlvl export
 void shlvl_export(char ***env, t_env_var **env_l);
 char *return_env_value(char *string, t_env_var *env_l);
-
 
 //test
 void print_env(char **env);
