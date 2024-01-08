@@ -28,6 +28,11 @@ t_env_var	*environment_var_handler(char **env)
 	char		*current_env;
 	int			i;
 
+	if (!env || !*env)
+	{
+		ft_putendl_fd("minishell: error: no valid env", 2);
+		exit(EXIT_FAILURE);
+	}
 	var_head = NULL;
 	i = 0;
 	while (env[i])
