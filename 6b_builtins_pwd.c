@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   4b_realloc_array.c                                 :+:      :+:    :+:   */
+/*   6b_builtins_pwd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 11:22:32 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 09:57:05 by sgluck           ###   ########.fr       */
+/*   Created: 2024/01/04 11:30:10 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/04 11:30:12 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**realloc_array(char **argv, int argc)
+int	ft_pwd(char **argv) // do I need to add other parameters??
 {
-	char	**new_argv;
-	int		i;
+	char	buffer[PATH_MAX];
 
-	new_argv = ft_malloc((argc + 2) * sizeof(char *));
-	i = 0;
-	while (i < argc)
+	(void) argv;
+	if (!getcwd(buffer, PATH_MAX))
 	{
-		new_argv[i] = argv[i];
-		i++;
+		perror("pwd error\n"); //is newline necessary?
+		return (1);
 	}
-	new_argv[argc] = NULL;
-	new_argv[argc + 1] = NULL;
-	if (argv)
-		free(argv);
-	return (new_argv);
+	printf("%s\n", buffer);
+	return (0);
 }

@@ -2,4 +2,5 @@
 *.o
 minishell
 *.a
+a.out
 temp/temp_file_heredoc

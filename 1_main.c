@@ -1,56 +1,87 @@
-#include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   1_main.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/04 11:12:10 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "minishell.h"
 
 // int	is_char(char to_check, char against);
-void free_token_list(t_token **head);
-void print_command_table(t_cmd *cmd);
-void print_redirections(t_redir *redir);
+void	free_token_list(t_token **head);
+void	print_command_table(t_cmd *cmd);
+void	print_redirections(t_redir *redir);
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
-	t_token *token_head;
-	t_env_var *envs;
-	t_cmd	*parsed;
+	t_env_var	*envs;
+	t_token		*token_head;
+	t_cmd		*parsed;
+	char		*input;
 
-	envs = environment_var_handler(env);
-	if (argc > 1)
-		printf("Minishell: too many arguments\n");
 	(void) argv;
-
-	//int i = 0;
+	envs = environment_var_handler(env);
+	env = mirror_list_to_array(envs);
+	shlvl_export(&env, &envs);
+	if (argc > 1)
+	{
+		ft_putstr_fd("Minishell: too many arguments\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
-		input = readline("minishell$ ");
+		interactive();
+		input = ft_readline();
 		if (!input)
-			break ;
-		add_history(input);
-		//printf("You entered: %s\n", input);
+			continue ;
 		token_head = tokenizer(input);
 		expander(&token_head, envs);
 		parsed = parser(token_head);
-		//print_command_table(parsed);
-		//print_list(token_head);
-		executor(&parsed, env, envs);
+		noninteractive();
+		executor(&parsed, &env, &envs);
 		free(input);
 		free_token_list(&token_head);
-		//i++;
 	}
+	//make sure to free env and envs
 	return (0);
 }
 
-
-
-void free_token_list(t_token **head)
+char	*ft_readline(void)
 {
-	t_token *old_head;
-	t_token *new_head;
+	char	*input;
+
+	input = readline("\033[0;34mMiniShell> \033[0m");
+	if (!input)
+	{
+		ft_putendl_fd("exit", 1);
+		exit(EXIT_SUCCESS);
+	}
+	if (input[0] == 0)
+	{
+		free(input);
+		return (NULL);
+	}
+	add_history(input);
+	return (input);
+}
+
+void	free_token_list(t_token **head)
+{
+	t_token	*old_head;
+	t_token	*new_head;
 
 	old_head = *head;
 	while (old_head)
 	{
 		new_head = old_head->next;
-		free(old_head->string);
-		free(old_head);
+		if (old_head->string)
+			free(old_head->string);
+		if (old_head)
+			free(old_head);
 		old_head = new_head;
 	}
 }

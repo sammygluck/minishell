@@ -1,10 +1,22 @@
-#include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2b_lexer_tokens.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/07 10:50:30 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void add_token(char *string, int *i, int type, t_token **head);
-char *token_string(int type, int *i);
-char *word_string(char *string, int *i);
-int find_word_end(char *string, int start_index, t_quote *q_struct);
-int check_quote_error(t_quote *q_struct);
+#include "minishell.h"
+
+void	add_token(char *string, int *i, int type, t_token **head);
+char	*token_string(int type, int *i);
+char	*word_string(char *string, int *i);
+int		find_word_end(char *string, int start_index, t_quote *q_struct);
+int		check_quote_error(t_quote *q_struct);
 
 /*
 ADD TOKEN:
@@ -15,47 +27,46 @@ If it's a string, we'll have to add the string until the string ends. This will 
 
 Return value: since failure over here would be a malloc failure and malloc failures are going to exit the program, I've left it at void.
 */
-void add_token(char *string, int *i, int type, t_token **head)
+void	add_token(char *string, int *i, int type, t_token **head)
 {
-    char *string_to_add;
-    t_token *token;
+	t_token	*token;
+	char	*string_to_add;
 
-    //edit: quotes need to be dealt within word   
-    if (type > STRING && type <= SMALLER)
-        string_to_add = token_string(type, i);
-    if (type > 5)
-        string_to_add = word_string(string, i); 
-    if (!string_to_add)
-    {
-        printf("Error: creating string_to_add in lexer failed\n");//to be remove after
-        exit(EXIT_FAILURE);//perhaps do signal something or get back to prompt
-    }
-    token = create_token(string_to_add, type);
-    add_token_to_list(head, token);
-    free(string_to_add);
+	if (type > STRING && type <= SMALLER)
+		string_to_add = token_string(type, i);
+	if (type > 5)
+		string_to_add = word_string(string, i);
+	if (!string_to_add)
+	{
+		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);//malloc already fails so this would be for non-fatal errors
+		exit(EXIT_FAILURE);//adjust-> return + free all allocated resources
+	}
+	token = create_token(string_to_add, type);
+	add_token_to_list(head, token);
+	free(string_to_add);
 }
 
 //this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
 // but make sure to free it afterwards
 //replace strdup with ft_strdup
-char *token_string(int type, int *i)
+char	*token_string(int type, int *i)
 {
-    if (type == 1 || type == 2) 
-        *i += 2; //check if this is possible
-    else
-        *i += 1; //check if this is possible
-    if (type == 1) 
-        return (ft_strdup(">>"));
-    else if (type == 2) 
-        return (ft_strdup("<<"));
-    else if (type == 3)
-        return (ft_strdup("|"));
-    else if (type == 4)
-        return (ft_strdup(">"));
-    else if (type == 5)
-        return (ft_strdup("<"));
-    else 
-        return (NULL);
+	if (type == 1 || type == 2)
+		*i += 2; //check if this is possible
+	else
+		*i += 1; //check if this is possible
+	if (type == 1)
+		return (ft_strdup(">>"));
+	else if (type == 2)
+		return (ft_strdup("<<"));
+	else if (type == 3)
+		return (ft_strdup("|"));
+	else if (type == 4)
+		return (ft_strdup(">"));
+	else if (type == 5)
+		return (ft_strdup("<"));
+	else //what is else?
+		return (NULL);
 }
 
 /*
@@ -67,101 +78,46 @@ b. it checks for the appearance of the closing quote
 return value: pointer to extracted string
 */
 
-char *word_string(char *string, int *i)
+char	*word_string(char *string, int *i)
 {
-    int j;
-    int chars_to_copy;
-    t_quote q_struct;
-    char *result;
+	t_quote	q_struct;
+	char	*result;
+	int		j;
+	int		chars_to_copy;
 
-    if (!string || !i)
-        return (NULL);
-    init_quote(&q_struct);
-    j = find_word_end(string, *i, &q_struct);
-    if (check_quote_error(&q_struct))
-        return (NULL);
-    chars_to_copy = j - *i;
-    result = strndup(&string[*i], chars_to_copy);
-    *i = j;
-    return (result);
+	if (!string || !i)
+		return (NULL);
+	init_quote(&q_struct);
+	j = find_word_end(string, *i, &q_struct);
+	if (check_quote_error(&q_struct)) //non fatal, free and get new prompt
+		return (NULL);
+	chars_to_copy = j - *i;
+	result = ft_strndup(&string[*i], chars_to_copy);
+	*i = j;
+	return (result);
 }
 
-int find_word_end(char *string, int start_index, t_quote *q_struct)
+int	find_word_end(char *string, int start_index, t_quote *q_struct)
 {
-    int j = start_index;
-    while (string[j])
-    {
-        is_in_quote(string[j], q_struct);
-        if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
-            break;
-        j++;
-    }
-    return (j);
+	int	j;
+
+	j = start_index;
+	while (string[j])
+	{
+		is_in_quote(string[j], q_struct);
+		if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
+			break ;
+	j++;
+	}
+	return (j);
 }
 
-int check_quote_error(t_quote *q_struct)
+int	check_quote_error(t_quote *q_struct)
 {
-    if (q_struct->in_quote)
-    {
-        printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
-        return (1); // Error found
-    }
-    return (0); // No error
+	if (q_struct->in_quote)
+	{
+		printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
+		return (1); // Error found
+	}
+	return (0); // No error
 }
-
-
-//The OG functions
-// char *word_string(char *string, int *i)
-// {
-//     int j;
-//     int chars_to_copy;
-//     int is_quoted;
-//     char quote_type;
-//     char *result;
-
-//     is_quoted = 0;
-//     quote_type = '\0';
-//     if (!string || !i)
-//         return (NULL);
-//     j = *i;
-//     while(string[j])
-//     {
-//         if (handle_quotes(string, j, &is_quoted, &quote_type))
-//             return (NULL); //error note
-//         if (!is_quoted && (is_token(string, j) || is_space(string[j])))
-//             break ;
-//         j++;
-//     }
-//     chars_to_copy = j - *i;
-//     result = strndup(&string[*i], chars_to_copy);
-//     *i = j;
-//     return (result);
-// }
-// int handle_quotes(char *string, int j, int *is_quoted, char *quote_type)
-// {
-//     char current_char;
-//     char next_char;
-
-//     current_char = string[j];
-//     next_char = string[j+1];
-//     if (is_quote(current_char))
-//     {
-//         if (!(*is_quoted))
-//         {
-//             *is_quoted = 1;
-//             *quote_type = current_char;
-//         }
-//         else if (current_char == *quote_type)
-//             *is_quoted = 0;
-//     }
-//     if (next_char == '\0' && (*is_quoted))
-//     {
-//         printf("Syntax error: missing closing quote\n");//error note, location
-//         return (-1);
-//     }
-//     return (0);
-// }
-
-
-
-

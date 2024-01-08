@@ -11,6 +11,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <libft/libft.h>
+# include <sys/wait.h>
+# include <signal.h>
 
 # define CURRENT 0
 # define PREVIOUS 1
@@ -54,7 +56,8 @@ typedef struct s_quote
 	char    quote_type;
 } t_quote;
 
-typedef struct s_env_var {
+typedef struct s_env_var 
+{
 	char *name;
 	char *value;
 	struct s_env_var *next;
@@ -87,10 +90,18 @@ typedef	struct	s_process
 	int		cmds_count;
 	char	**paths;
 	char	**envp;
+	char	***env;
 }	t_process;
+
+typedef struct s_export
+{
+    char *key;
+    char *value;
+} t_export;
 
 //1 main
 void free_token_list(t_token **head);
+char *ft_readline(void);;
 
 //2 lexer
 t_token *tokenizer(char *string);
@@ -112,8 +123,14 @@ int is_space(char c);
 int is_token(char *string, int position);
 void print_list(t_token *head);
 
+//2e invalid input
+int error_unexpected_token(t_token *lexer_head);
+char	*unexpected_token(t_token *lexer_head);
+
+
 //3a expander main
 void	expander(t_token **token_head, t_env_var *env_head);
+char *process_token_string(char *str, t_env_var *env_head);
 
 //3b first clean
 char *initial_clean(char *string);
@@ -164,7 +181,7 @@ void append_redirection(t_cmd *command, t_redir *new_redir);
 char **realloc_array(char **argv, int argc);
 
 // 5a executor functions
-void	executor(t_cmd **command, char **env, t_env_var *envs);
+void	executor(t_cmd **command, char ***env, t_env_var **envs);
 
 // 5b executor utils functions
 void	free_array(char **array);
@@ -180,9 +197,9 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var *envs);
-void	execute_cmd(t_cmd *command, t_process *p, t_env_var *envs);
-int		execute_builtin(t_cmd *command, t_process *p, t_env_var *envs);
+pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
+void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs);
+int		execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 
 // 5e retrieve path from env and create 2d array of different directories for paths
 int		retrieve_path_var_env(t_process *p);
@@ -211,5 +228,72 @@ char	*retrieve_env_var_value(char *word);
 int		env_var_name_length(char *s);
 int		valid_env_var_name(char c);
 
+//6a builtins unset
+int ft_unset(char **argv, char ***env, t_env_var **env_l);
+
+//6a unset utils
+int arg_in_env(char *string, t_env_var **env_list);
+void free_old_env(char **env);
+char **mirror_list_to_array(t_env_var *list);
+char	*ft_env_join(char const *s1, char const *s2);
+
+//6b builtins pwd
+int ft_pwd(char **argv);
+
+//6c builtins env
+int ft_env(t_env_var **env_l);
+
+//6d builtins echo
+int ft_echo(char **argv);
+int only_n(char *string);
+
+//6e builtins export
+int ft_export(char **argv, char ***env, t_env_var **list);
+t_env_var *create_env_var_key_value(t_export *key_value);
+void update(t_export *key_value, char ***env, t_env_var **env_list);
+void modified_ft_env(t_env_var *env);
+int is_right_format(char *string);
+int valid_identifiers(char *string);
+int has_equal_sign(char *string);
+int is_alpha_under(char c);
+int arg_exists_and_updated(t_export *key_value, t_env_var **env_list);
+void extract_key_value(char *string, t_export *key_value);
+void free_key_value(t_export *key_value);
+
+//6f builtins cd
+int ft_cd(char **argv, char ***env, t_env_var **env_head);
+int cd_too_many_args(void);
+int cd_oldpwd(char ***env, t_env_var **env_head);
+int cd_home(char ***env, t_env_var **env_head);
+int ft_chdir(const char *path, char ***env, t_env_var **env_head);
+char *get_env_value(t_env_var *env, char *string);
+void pwd_export(char *pwd, char ***env, t_env_var **env_l);
+void oldpwd_export(char *oldpwd, char ***env, t_env_var **env_l);
+
+//6g builtins exit
+int ft_exit(char **argv);
+void final_exit(int exit_number);
+
+//6g exit utils
+void process_sign_and_whitespace(char **str, int *sign);
+int convert_to_number(char *str, long long *number, int sign);
+long long str_to_longlong_with_overflow_check(char *str, int *overflow);
+long truncate_to_exit_code(long long number);
+int validate_and_process_exit_code(char *input_str);
+
+//7 signals
+void	new_prompt(int signal);
+void	interactive(void);
+void	write_newline(int signal);
+void	noninteractive(void);
+void	sigquit_ign(void);
+
+//8 shlvl export
+void shlvl_export(char ***env, t_env_var **env_l);
+char *return_env_value(char *string, t_env_var *env_l);
+
+
+//test
+void print_env(char **env);
 
 #endif

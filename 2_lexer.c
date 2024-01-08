@@ -1,6 +1,18 @@
-#include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2_lexer.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/03 12:08:10 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/03 12:08:24 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_token *tokenizer(char *string);
+#include "minishell.h"
+
+t_token	*tokenizer(char *string);
 
 /*
 This is the 'main' from the lexer.
@@ -11,11 +23,11 @@ The procedure is:
 	and add each new token to a linked list
 */
 
-t_token *tokenizer(char *string)
+t_token	*tokenizer(char *string)
 {
-	int i;
-	int token_nr;
-	t_token *token_head;
+	t_token	*token_head;
+	int		i;
+	int		token_nr;
 
 	i = 0;
 	token_nr = 0;
@@ -30,7 +42,10 @@ t_token *tokenizer(char *string)
 		else
 			add_token(string, &i, 6, &token_head);
 	}
+	if (error_unexpected_token(token_head))
+	{
+		//free token_head;
+		return (NULL);
+	}
 	return (token_head);
 }
-
-
