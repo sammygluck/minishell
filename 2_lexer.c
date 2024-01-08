@@ -42,10 +42,10 @@ t_token	*tokenizer(char *string)
 		else
 			add_token(string, &i, 6, &token_head);
 	}
-	if (is_valid_sequence(token_head)) //for more accurate error message, need to nest it deeper and valid-seq should return string
+	if (error_unexpected_token(token_head))
 	{
-		ft_putstr_fd("minishell: syntax error\n", 2); //near unexpected token '<token>'
-		return(NULL);//perhaps free all resources first
+		//free token_head;
+		return (NULL);
 	}
 	return (token_head);
 }
