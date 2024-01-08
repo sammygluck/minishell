@@ -71,6 +71,8 @@ void	heredoc_handler(char *delimiter, t_process *p)
 			error_message("heredoc input error"); // TO DO: change to correct error handler
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
+		if (ft_strchr(line, '$'))
+			line = init_heredoc_var_expansion(line);
 		ft_putendl_fd(line, fd_temp);
 		free(line);
 	}

@@ -196,6 +196,20 @@ int	output_redirect(t_cmd *command, t_process *p);
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
 
+// 5h heredoc variable expansion functions
+char	*init_heredoc_var_expansion(char *line);
+char	*init_retrieve_replace_heredoc_var(char *word);
+char	*replace_heredoc_word(char *old_word, char *var_value, int *index);
+char	*reconstruct_heredoc_line(char **words_array);
+
+// 5i heredoc variable expansion replace and delete functions
+char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
+char	*delete_var_name(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
+
+// 5J heredoc variable expansion helper functions
+char	*retrieve_env_var_value(char *word);
+int		env_var_name_length(char *s);
+int		valid_env_var_name(char c);
 
 
 #endif
