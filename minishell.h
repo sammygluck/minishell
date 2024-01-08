@@ -18,6 +18,7 @@
 # define CHILD 0
 # define READ 0
 # define WRITE 1
+# define HEREDOC_TEMP_FILE "./temp/.minishell_heredoc_"
 
 typedef int fds[2];
 

@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+static void	parent_wait(pid_t child, t_process *p)
+{
+	waitpid(child, &p->status, 0);
+	if (WIFEXITED(p->status))
+	{
+		int exit_status = WEXITSTATUS(p->status);
+		printf("Exit status of the child was %d\n", exit_status);
+	}
+}
+
 static void	save_stdin_out(int *save_fd)
 {
 	save_fd[0] = dup(STDIN_FILENO);
@@ -76,6 +86,6 @@ void	executor(t_cmd **command, char **env, t_env_var *envs)
 		reset_stdin_out(std_fds);
 		current_cmd = current_cmd->next;
 	}
-	//parent_wait(child, p);
+	parent_wait(child, p);
 }
 

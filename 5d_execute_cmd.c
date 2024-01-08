@@ -70,7 +70,7 @@ pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_va
 			output_redirect(command, p))
 			execute_cmd(command, p, envs);
 	}
-	else
-		waitpid(child,&p->status, 0);
+	// else
+	// 	waitpid(child,&p->status, 0);
 	return (child);
 }
