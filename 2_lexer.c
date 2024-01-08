@@ -28,6 +28,7 @@ t_token	*tokenizer(char *string)
 	t_token	*token_head;
 	int		i;
 	int		token_nr;
+	int		ret_value;
 
 	i = 0;
 	token_nr = 0;
@@ -38,13 +39,13 @@ t_token	*tokenizer(char *string)
 		if (is_space(string[i]))
 			i++;
 		else if (token_nr)
-			add_token(string, &i, token_nr, &token_head);
+			ret_value = add_token(string, &i, token_nr, &token_head);
 		else
-			add_token(string, &i, 6, &token_head);
+			ret_value = add_token(string, &i, 6, &token_head);
 	}
-	if (error_unexpected_token(token_head))
+	if (error_unexpected_token(token_head) || ret_value)
 	{
-		//free token_head;
+		free_token_list(&token_head);
 		return (NULL);
 	}
 	return (token_head);

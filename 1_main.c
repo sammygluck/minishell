@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **env)
 	shlvl_export(&env, &envs);
 	if (argc > 1)
 	{
-		ft_putstr_fd("Minishell: too many arguments\n", 2);
+		ft_putstr_fd("minishell: too many arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	while (1)
