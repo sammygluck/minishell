@@ -29,9 +29,6 @@ char	*unexpected_token(t_token *lexer_head)
 		if (head->next == NULL
 			&& (head->type > STRING && head->type <= SMALLER))
 			return (ft_strdup("newline"));
-		//add check for missing redirect arguments:
-		if ((head->type > STRING && head->type <= SMALLER) && (head->next->type != 6)) //i.e. 6 is the type I gave to a string different than the enum number
-			return (ft_strdup(" "));
 		head = head->next;
 		i++;
 	}
