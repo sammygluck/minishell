@@ -35,7 +35,7 @@ int	find_begin(char *string, int end)
 	{
 		if (string[end] == '$' && !is_in_single_quote(string, end))
 			return (end);
-	end++;
+		end++;
 	}
 	return (-1);
 }
@@ -43,15 +43,36 @@ int	find_begin(char *string, int end)
 int	find_end(char *string, int begin)
 {
 	begin++;
-	if (is_space(string[begin]) || string[begin] == '"')
-		return (begin);
-	while (string[begin])
+	while (is_valid_env_char(string[begin]))
 	{
-		if (is_space(string[begin]) || string[begin] == '$')
-			return (begin);
 		if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
 			return (begin + 1);
 		begin++;
 	}
 	return (begin);
 }
+
+
+int is_valid_env_char(char chr)
+{
+	if (ft_isalnum(chr) || chr == '_')
+		return (1);
+	else
+		return (0);
+}
+
+// int	find_end(char *string, int begin)
+// {
+// 	begin++;
+// 	if (is_space(string[begin]) || string[begin] == '"')
+// 		return (begin);
+// 	while (string[begin])
+// 	{
+// 		if (is_space(string[begin]) || string[begin] == '$')
+// 			return (begin);
+// 		if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
+// 			return (begin + 1);
+// 		begin++;
+// 	}
+// 	return (begin);
+// }

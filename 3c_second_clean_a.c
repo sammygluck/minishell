@@ -93,7 +93,7 @@ char	*replace(char *old_string, char *to_replace, t_begin_end *v)
 	while (to_replace[i])
 		new_string[j++] = to_replace[i++];
 	i = v->end;
-	v->end = v->begin + i;
+	v->end = v->begin + ft_strlen(to_replace);
 	while (old_string[i])
 		new_string[j++] = old_string[i++];
 	new_string[j] = '\0';
