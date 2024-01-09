@@ -25,51 +25,56 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 	return (1);
 }
 
-void	execute_local_binary(t_cmd *command, t_process *p)
+static void	execute_local_binary(t_cmd *command, t_process *p)
 {
 	char	*cmd;
-	int		i;
 
+	if (!command)
+		return ;
 	cmd = command->argv[0];
-	i = 0;
-	while (cmd[i])
-	
-
+	if (access(cmd, F_OK | X_OK) == 0) //  X_OK for execute/search permission), or the existence test (F_OK).
+		execve(cmd, command->argv, p->envp);
 }
 
+static void	execute_env_binary(t_cmd *command, t_process *p)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (p->paths[i])
+	{
+		tmp = ft_strjoin(p->paths[i], command->argv[0]);
+		if (!tmp)
+			exit (1);
+		if (access(tmp, X_OK) == 0)
+		{
+			execve(tmp, command->argv, p->envp);
+			perror("execve error");
+			exit (1); // TO DO: check if the function ever comes here
+		}
+		free(tmp);
+		i++;
+	}
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command->argv[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit (127);
+}
 
 void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs)
 {
-	int		i;
-	char	*tmp; // path to binaries to check by the access system call
-
+	if (!command)
+		exit (EXIT_FAILURE);
 	if (command->argv && ft_strchr(command->argv[0], '/'))
 		execute_local_binary(command, p);
-	if (!retrieve_path_var_env(p))
-		exit(1);
-	if (command->argv && is_builtin(command->argv))
-		execute_builtin(command, p, envs);
+	// else if (command->argv && is_builtin(command->argv))
+	// 	execute_builtin(command, p, envs);
 	else
 	{
-		i = 0;
-		while (p->paths[i])
-		{
-			tmp = ft_strjoin(p->paths[i], command->argv[0]);
-			if (!tmp)
-				exit (1);
-			if (access(tmp, X_OK) == 0)
-			{
-				execve(tmp, command->argv, p->envp);
-				perror("execve error");
-				exit (1); // TO DO: check if the function ever comes here
-			}
-			free(tmp);
-			i++;
-		}
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command->argv[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
+		if (!retrieve_path_var_env(p))
+			exit(EXIT_FAILURE);
+		execute_env_binary(command, p);
 	}
 }
 
@@ -86,7 +91,7 @@ pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_va
 			output_redirect(command, p))
 			execute_cmd(command, p, envs);
 	}
-	// else
-	// 	waitpid(child,&p->status, 0);
+	else
+		waitpid(child,&p->status, 0);
 	return (child);
 }
