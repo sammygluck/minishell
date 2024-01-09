@@ -32,6 +32,11 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	// char *test = ft_strdup("hello $USER , at $HOME");
+	// printf("old: %s\n", test);
+	// char *new = process_token_string(test, envs);
+	// printf("new: %s\n", new);
+	// exit(EXIT_FAILURE);
 	while (1)
 	{
 		interactive();
