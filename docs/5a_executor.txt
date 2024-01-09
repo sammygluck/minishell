@@ -24,7 +24,7 @@ start: int executor
 	-> fork to create child processes
 
 Some tests:
-- echo "hallo" > hallo | cat -e
+- echo "hallo" > hallo | cat -e !!!!
 - ls | > output
 - cat | cat | ls (!!)
 - <Makefile grep "mini" | cat -e | cat -e | cat -e | cat -e
