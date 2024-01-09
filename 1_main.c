@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 11:12:10 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/08 14:53:40 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **env)
 	shlvl_export(&env, &envs);
 	if (argc > 1)
 	{
-		ft_putstr_fd("Minishell: too many arguments\n", 2);
+		ft_putstr_fd("minishell: too many arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	while (1)
@@ -93,27 +93,31 @@ void	free_token_list(t_token **head)
 
 // Assuming the definitions of t_redir and t_cmd are given as you provided.
 
-void print_redirections(t_redir *redir) {
-    while (redir != NULL) {
-        printf("\tType: %d, File: %s\n", redir->type, redir->file);
-        redir = redir->next;
-    }
+void	print_redirections(t_redir *redir)
+{
+	while (redir != NULL)
+	{
+		printf("\tType: %d, File: %s\n", redir->type, redir->file);
+		redir = redir->next;
+	}
 }
 
-void print_command_table(t_cmd *cmd) {
-    printf("Command Table:\n");
-    printf("-------------------------------------------------\n");
-    while (cmd != NULL) {
-        printf("Command Number: %d\n", cmd->cmd_nr);
-        printf("Arguments Count: %d\n", cmd->argc);
-        printf("Arguments: ");
-        for (int i = 0; i < cmd->argc; ++i) {
-            printf("[\"%s\"] ", cmd->argv[i]);
-        }
-        printf("\nRedirections:\n");
-        print_redirections(cmd->redir);
-        printf("-------------------------------------------------\n");
-        cmd = cmd->next;
-    }
+void	print_command_table(t_cmd *cmd)
+{
+	printf("Command Table:\n");
+	printf("-------------------------------------------------\n");
+	while (cmd != NULL)
+	{
+		printf("Command Number: %d\n", cmd->cmd_nr);
+		printf("Arguments Count: %d\n", cmd->argc);
+		printf("Arguments: ");
+		for (int i = 0; i < cmd->argc; ++i)
+		{
+			printf("[\"%s\"] ", cmd->argv[i]);
+		}
+		printf("\nRedirections:\n");
+		print_redirections(cmd->redir);
+		printf("-------------------------------------------------\n");
+		cmd = cmd->next;
+	}
 }
-

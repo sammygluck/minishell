@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2e_invalid_input.c                                 :+:      :+:    :+:   */
+/*   2e_unexpected_token.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:18:31 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/03 12:46:14 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/08 10:35:43 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,26 @@ char	*unexpected_token(t_token *lexer_head)
 		if (head->next == NULL
 			&& (head->type > STRING && head->type <= SMALLER))
 			return (ft_strdup("newline"));
-		//add check for missing redirect arguments:
-		if ((head->type > STRING && head->type <= SMALLER) && (head->next->type != 6)) //i.e. 6 is the type I gave to a string different than the enum number
-			return (ft_strdup(" "));
 		head = head->next;
 		i++;
 	}
 	return (NULL);
 }
 
-int error_unexpected_token(t_token *lexer_head)
+int	error_unexpected_token(t_token *lexer_head)
 {
-    char *error_string;
+	char	*error_string;
 
-    error_string = unexpected_token(lexer_head);
-    if (error_string != NULL)
+	error_string = unexpected_token(lexer_head);
+	if (error_string != NULL)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		ft_putstr_fd(error_string, 2);
-        ft_putendl_fd("'", 2);
-        if (error_string)
-            free(error_string);
-        return(1);
+		ft_putendl_fd("'", 2);
+		if (error_string)
+			free(error_string);
+		return (1);
 	}
-    else
-        return (0);
+	else
+		return (0);
 }

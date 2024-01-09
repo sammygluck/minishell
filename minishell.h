@@ -107,7 +107,7 @@ char *ft_readline(void);;
 t_token *tokenizer(char *string);
 
 //2b lexer tokens
-void add_token(char *string, int *i, int type, t_token **head);
+int		add_token(char *string, int *i, int type, t_token **head);
 char *token_string(int type, int *i);
 char *word_string(char *string, int *i);
 int find_word_end(char *string, int start_index, t_quote *q_struct);

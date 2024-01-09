@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-void	add_token(char *string, int *i, int type, t_token **head);
 char	*token_string(int type, int *i);
 char	*word_string(char *string, int *i);
 int		find_word_end(char *string, int start_index, t_quote *q_struct);
 int		check_quote_error(t_quote *q_struct);
+int		add_token(char *string, int *i, int type, t_token **head);
 
 /*
 ADD TOKEN:
@@ -27,7 +27,7 @@ If it's a string, we'll have to add the string until the string ends. This will 
 
 Return value: since failure over here would be a malloc failure and malloc failures are going to exit the program, I've left it at void.
 */
-void	add_token(char *string, int *i, int type, t_token **head)
+int	add_token(char *string, int *i, int type, t_token **head)
 {
 	t_token	*token;
 	char	*string_to_add;
@@ -39,11 +39,13 @@ void	add_token(char *string, int *i, int type, t_token **head)
 	if (!string_to_add)
 	{
 		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);//malloc already fails so this would be for non-fatal errors
-		exit(EXIT_FAILURE);//adjust-> return + free all allocated resources
+		*i = ft_strlen(string) + 1;
+		return (1);//adjust-> return + free all allocated resources
 	}
 	token = create_token(string_to_add, type);
 	add_token_to_list(head, token);
 	free(string_to_add);
+	return (0);
 }
 
 //this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
