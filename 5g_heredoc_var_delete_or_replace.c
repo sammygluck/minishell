@@ -6,9 +6,7 @@ char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var)
 	int		i;
 	int		j;
 
-	new_word = (char *)malloc(sizeof(char) * (len_newstr));// Q: extra for null terminator needed?
-	if (!new_word)
-		return (NULL);
+	new_word = ft_malloc(sizeof(char) * (len_newstr));// Q: extra for null terminator needed?
 	i = 0;
 	j = 0;
 	while (old_word[i])
@@ -47,16 +45,14 @@ static char	*copy_var_value(char *new_word, char *var_value, int *j)
 char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var)
 {
 	char	*new_word;
-	int		i; // index to iterate over the original string
-	int		j; // index to iterate over the new string with the copied variable value
+	int		i;
+	int		j;
 	
-	new_word = (char *)malloc(sizeof(char) * (len_newstr)); // malloc
-	if (!new_word)
-		return (NULL);
+	new_word = ft_malloc(sizeof(char) * (len_newstr)); // ft_malloc
 	i = j = 0;
 	while (old_word[i])
 	{
-		if (old_word[i] == '$' && i == *index)// && var_value != NULL)
+		if (old_word[i] == '$' && i == *index)
 		{
 			new_word = copy_var_value(new_word, var_value, &j);
 			i = i + len_var + 1;

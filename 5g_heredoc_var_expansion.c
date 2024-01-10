@@ -2,7 +2,7 @@
 
 char	*replace_or_delete_heredoc_var(char *old_line, char *var_value, int *index)
 {
-	char	*new_word;
+	char	*new_line;
 	int		len_var;
 	int		len_new_word;
 
@@ -10,20 +10,20 @@ char	*replace_or_delete_heredoc_var(char *old_line, char *var_value, int *index)
 	if (var_value == NULL)
 	{
 		len_new_word = ft_strlen(old_line) - len_var;
-		new_word = delete_var_name(old_line, index, len_new_word, len_var); // return malloc new_word
+		new_line = delete_var_name(old_line, index, len_new_word, len_var);
 	}
 	else
 	{
 		len_new_word = ft_strlen(old_line) - len_var + ft_strlen(var_value);
-		new_word = replace_var_value(old_line, var_value, index, len_new_word, len_var); // return malloc new_word
+		new_line = replace_var_value(old_line, var_value, index, len_new_word, len_var);
 	}
-	return (new_word);
+	return (new_line);
 }
 
-char	*init_retrieve_replace_heredoc_var(char *line)
+char	*heredoc_var_expansion(char *line)
 {
-	char	*var_value; // string containing the retrieved/variable value from env
-	int		i; // index to iterate over the str that contains the $ sign
+	char	*var_value;
+	int		i; 
 
 	i = 0;
 	while (line[i])

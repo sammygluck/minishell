@@ -16,28 +16,27 @@ int	valid_env_var_name(char c)
 }
 
 /*
-	this function obtains the length of the string s 
-	while looping through the line string from heredoc
+	this function obtains the length of the string s after the $-sign
 	check for every char in the string if it is a valid char
 		a valid char must be alfanumeric (ASCII-text format) and may contain an underscore (_).
 */
 
-int	env_var_name_length(char *s)
+int	env_var_name_length(char *line)
 {
 	int	i; // index to loop through s 
 	int	len; // to obtain the length of a valid env var s 
 
 	i = 0;
-	while (s[i] != '$') // if there are leading chars before the $-sign
+	while (line[i] != '$') // if there are leading chars before the $-sign
 		i++;
-	if (s[i] == '$') // skip the $-sign 
+	if (line[i] == '$') // skip the $-sign 
 		i++;
-	if (s[i] == '?') // check if the next char after $-sign is question mark
+	if (line[i] == '?') // check if the next char after $-sign is question mark
 		return (1);
 	len = 0;
-	while (s[i])
+	while (line[i])
 	{
-		if (!valid_env_var_name(s[i]))
+		if (!valid_env_var_name(line[i]))
 			break ;
 		len++;
 		i++;
@@ -46,11 +45,15 @@ int	env_var_name_length(char *s)
 }
 
 /*
-	retrieves the value of the variable name in the input string str
-	by checking first the length of the variable name after the $-sign
+	retrieves the value of the variable name from the input string line
+	first, it calculates the length of the variable name after the $-sign
+	to find know when the variable name ends.
 	i.e. input str = $USER; valid var name = USER 
-	i.e. input str = $HOME,$PATH; valid var name = HOME on first iteration
-	valid var name = PATH on second interation
+	then, it iterate over the input line in case of leading chars before the $-sign
+	to find the index where the variable name starts.
+	finally, it checks if the variable can be found in env using getenv
+	returns the var value from getenv if found,
+	if not found, it returns NULL.
 */
 
 char	*retrieve_env_var_value(char *line)
@@ -63,26 +66,17 @@ char	*retrieve_env_var_value(char *line)
 	len = env_var_name_length(line);
 	if (len == 1) //  && str[1] == '?')
 		printf("please provide the exit code of the command\n");
-
-	// iterate over the input word in case of leading chars before the $-sign
-	// to find the index where the variable name starts
 	start = 0;
 	while (line[start] != '$')
-		start++;
-
-	// skip the $-sign char
-	start++; 
-	
-	// create a substring of the chars after the $-sign that contain the valid variable name
-	temp = ft_substr(line, start, len); // malloc
+		start++;	
+	start++; // skip the $-sign char
+	temp = ft_substr(line, start, len); // malloc in ft_substr!!
 	if (!temp)
 		return (NULL);
-
-	// check if the env var exists in the env 
-	if (getenv(temp)) 
-		var_value = ft_strdup(getenv(temp)); // malloc
+	if (getenv(temp)) // check if the env var exists in the env 
+		var_value = ft_strdup(getenv(temp)); // ft_malloc in ft_strdup !!!!
 	else
-		var_value = NULL; // '\0' ?
+		var_value = NULL;
 	free(temp);
 	return (var_value);
 }

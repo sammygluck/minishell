@@ -58,11 +58,12 @@ void	heredoc_handler(char *delimiter, t_process *p)
 	char	*temp_file;
 	char	*line;
 
+	printf("the delimiter: %s\n", delimiter);
 	temp_file = create_heredoc_file_name();
 	if (!temp_file)
 		error_message("heredoc file creation error"); // TO DO: add the proper error handling?
 	if (!delimiter || *delimiter == '\0')
-		error_message("missing delimiter - syntax error near unexpected token"); // TO DO: change to correct error handler
+		error_message("delimiter missing"); // TO DO: change to correct error handler
 	fd_temp = open_file(temp_file, 3);
 	while (1)
 	{
@@ -72,7 +73,7 @@ void	heredoc_handler(char *delimiter, t_process *p)
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (ft_strchr(line, '$'))
-			line = init_retrieve_replace_heredoc_var(line);
+			line = heredoc_var_expansion(line);
 		ft_putendl_fd(line, fd_temp);
 		free(line);
 	}
@@ -80,12 +81,3 @@ void	heredoc_handler(char *delimiter, t_process *p)
 	heredoc_redirect(temp_file, fd_temp, p);
 	// free(heredoc_file) ??
 }
-
-
-// heredoc quotes check pseudo code
-
-// if p->quotes == 6 || p->quotes == 7
-// 		no expension 
-// 	else
-// 		activate expansion
-// */
