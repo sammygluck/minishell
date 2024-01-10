@@ -40,7 +40,7 @@ t_redir	*create_redirection_node(t_token **current)
 
 	if (!(*current)->next)
 	{
-		printf("Syntax error: missing filename for redirection\n");
+		ft_putendl_fd("Syntax error: missing filename for redirection\n", 2); //this error should be handled in unexpected_token.delete?
 		exit(EXIT_FAILURE);
 	}
 	new_redir = ft_malloc(sizeof(t_redir));

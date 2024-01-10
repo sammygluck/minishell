@@ -23,7 +23,7 @@ int	has_equal_sign(char *string)
 			return (1);
 		i++;
 	}
-	ft_putstr_fd("minishell: export: Error: '=' not found in the string\n", 2);
+	ft_putstr_fd("minishell: export: Error: '=' not found in the string\n", 2); //this error isn't in the real bash
 	return (0);
 }
 

@@ -30,7 +30,7 @@ int	stuff_to_replace(char *string, t_begin_end *values)
 int	find_begin(char *string, int end)
 {
 	if (string[end] == '\0')
-		return (-1); //don't return end as is this is beginning
+		return (-1);
 	while (string[end])
 	{
 		if (string[end] == '$' && !is_in_single_quote(string, end))

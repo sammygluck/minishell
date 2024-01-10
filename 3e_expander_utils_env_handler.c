@@ -89,7 +89,10 @@ void	add_env_var(t_env_var **env_head, t_env_var *env_var)
 	t_env_var	*head;
 
 	if (!env_head || !env_var)
-		return ; //or other error handling
+	{
+		ft_putstr_fd("failure in env variable creation", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (!*env_head)
 	{
 		*env_head = env_var;

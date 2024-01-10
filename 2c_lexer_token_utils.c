@@ -41,7 +41,10 @@ void	add_token_to_list(t_token **token_list, t_token *token)
 	t_token	*head;
 
 	if (!token_list || !token)
-		return ; //shouldn't I exit?
+	{
+		ft_putendl_fd("minishell: error: failed to create lexer_token", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (!*token_list)
 	{
 		*token_list = token;

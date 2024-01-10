@@ -44,8 +44,6 @@ char	*extract(char *string, int begin, int end)
 	int		n;
 
 	n = end - begin;
-	//if n = 0;
-	//return (NULL);
 	extracted = ft_strndup(&string[begin], n);
 	return (extracted);
 }
@@ -70,7 +68,7 @@ char	*var_extractor(char *string, t_env_var *env_head)
 	while (head)
 	{
 		if (!ft_strncmp(head->name, &string[1], ft_strlen(&string[1]))
-			&& head->value != NULL) //ft_strlen check
+			&& head->value != NULL)
 			return (ft_strdup(head->value));
 		head = head->next;
 	}
