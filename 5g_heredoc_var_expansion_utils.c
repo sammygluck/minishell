@@ -53,28 +53,28 @@ int	env_var_name_length(char *s)
 	valid var name = PATH on second interation
 */
 
-char	*retrieve_env_var_value(char *word)
+char	*retrieve_env_var_value(char *line)
 {
 	int		len;
 	int		start;
 	char	*temp;
 	char	*var_value;
 
-	len = env_var_name_length(word);
+	len = env_var_name_length(line);
 	if (len == 1) //  && str[1] == '?')
 		printf("please provide the exit code of the command\n");
 
 	// iterate over the input word in case of leading chars before the $-sign
 	// to find the index where the variable name starts
 	start = 0;
-	while (word[start] != '$')
+	while (line[start] != '$')
 		start++;
 
 	// skip the $-sign char
 	start++; 
 	
 	// create a substring of the chars after the $-sign that contain the valid variable name
-	temp = ft_substr(word, start, len); // malloc
+	temp = ft_substr(line, start, len); // malloc
 	if (!temp)
 		return (NULL);
 

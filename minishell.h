@@ -216,7 +216,7 @@ void	heredoc_handler(char *delimiter, t_process *p);
 // 5h heredoc variable expansion functions
 char	*init_heredoc_var_expansion(char *line);
 char	*init_retrieve_replace_heredoc_var(char *word);
-char	*replace_heredoc_word(char *old_word, char *var_value, int *index);
+char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
 char	*reconstruct_heredoc_line(char **words_array);
 
 // 5i heredoc variable expansion replace and delete functions

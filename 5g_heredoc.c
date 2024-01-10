@@ -72,7 +72,7 @@ void	heredoc_handler(char *delimiter, t_process *p)
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (ft_strchr(line, '$'))
-			line = init_heredoc_var_expansion(line);
+			line = init_retrieve_replace_heredoc_var(line);
 		ft_putendl_fd(line, fd_temp);
 		free(line);
 	}
