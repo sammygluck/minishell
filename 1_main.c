@@ -90,11 +90,6 @@ void	free_token_list(t_token **head)
 		old_head = new_head;
 	}
 }
-//free tokens
-//get head of token
-//set new head
-//free old head and all in it
-//do this as long as there is head
 
 // Assuming the definitions of t_redir and t_cmd are given as you provided.
 

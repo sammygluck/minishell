@@ -99,7 +99,6 @@ typedef struct s_export
 } t_export;
 
 //1 main
-void free_token_list(t_token **head);
 char *ft_readline(void);;
 
 //2 lexer
@@ -276,6 +275,12 @@ void	sigquit_ign(void);
 //8 shlvl export
 void shlvl_export(char ***env, t_env_var **env_l);
 char *return_env_value(char *string, t_env_var *env_l);
+
+//9 free
+void free_token_list(t_token **head);
+void	free_char_env(char **env);
+void	free_env_list(t_env_var **head);
+void    free_redirection_list(t_redir **);
 
 
 //test

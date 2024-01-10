@@ -69,7 +69,7 @@ int	is_in_single_quote(const char *str, int index)
 			q_struct.in_quote = 0;
 		i++;
 	}
-	return (q_struct.in_quote && q_struct.quote_type == '\''); //does this need to be fixed?
+	return (q_struct.in_quote && q_struct.quote_type == '\'');
 }
 
 int	is_in_double_quote(const char *str, int index)
@@ -93,5 +93,5 @@ int	is_in_double_quote(const char *str, int index)
 			q_struct.in_quote = 0;
 		i++;
 	}
-	return (q_struct.in_quote && q_struct.quote_type == '"'); //does this need to change
+	return (q_struct.in_quote && q_struct.quote_type == '"');
 }
