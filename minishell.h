@@ -142,6 +142,7 @@ void init_begin_end(t_begin_end *values);
 int stuff_to_replace(char *string, t_begin_end *values);
 int find_begin(char *string, int end);
 int find_end(char *string, int begin);
+int is_valid_env_char(char chr);
 char *extract(char *string, int begin, int end);
 char *make_replace_string(t_env_var *env_list, char *to_replace);
 char *var_extractor(char *string, t_env_var *env_head);

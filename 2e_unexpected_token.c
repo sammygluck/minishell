@@ -21,9 +21,9 @@ char	*unexpected_token(t_token *lexer_head)
 	head = lexer_head;
 	while (head)
 	{
-		if (head->next && (head->type > STRING && head->type <= SMALLER)
-			&& (head->next->type > STRING && head->next->type <= SMALLER))
-			return (ft_strdup(head->next->string));
+		// if (head->next && (head->type > STRING && head->type <= SMALLER)
+		// 	&& (head->next->type > STRING && head->next->type <= SMALLER))
+		// 	return (ft_strdup(head->next->string));
 		if (i == 0 && head->type == PIPE)
 			return (ft_strdup(head->string));
 		if (head->next == NULL

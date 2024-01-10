@@ -38,9 +38,9 @@ int	add_token(char *string, int *i, int type, t_token **head)
 		string_to_add = word_string(string, i);
 	if (!string_to_add)
 	{
-		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);//malloc already fails so this would be for non-fatal errors
+		ft_putstr_fd("Error: creating string_to_add in lexer failed\n", 2);
 		*i = ft_strlen(string) + 1;
-		return (1);//adjust-> return + free all allocated resources
+		return (1);
 	}
 	token = create_token(string_to_add, type);
 	add_token_to_list(head, token);
@@ -54,9 +54,9 @@ int	add_token(char *string, int *i, int type, t_token **head)
 char	*token_string(int type, int *i)
 {
 	if (type == 1 || type == 2)
-		*i += 2; //check if this is possible
+		*i += 2;
 	else
-		*i += 1; //check if this is possible
+		*i += 1;
 	if (type == 1)
 		return (ft_strdup(">>"));
 	else if (type == 2)
@@ -67,7 +67,7 @@ char	*token_string(int type, int *i)
 		return (ft_strdup(">"));
 	else if (type == 5)
 		return (ft_strdup("<"));
-	else //what is else?
+	else
 		return (NULL);
 }
 
@@ -91,7 +91,7 @@ char	*word_string(char *string, int *i)
 		return (NULL);
 	init_quote(&q_struct);
 	j = find_word_end(string, *i, &q_struct);
-	if (check_quote_error(&q_struct)) //non fatal, free and get new prompt
+	if (check_quote_error(&q_struct))
 		return (NULL);
 	chars_to_copy = j - *i;
 	result = ft_strndup(&string[*i], chars_to_copy);
@@ -119,7 +119,7 @@ int	check_quote_error(t_quote *q_struct)
 	if (q_struct->in_quote)
 	{
 		printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
-		return (1); // Error found
+		return (1);
 	}
-	return (0); // No error
+	return (0);
 }

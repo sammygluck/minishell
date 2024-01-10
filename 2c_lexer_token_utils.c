@@ -26,7 +26,7 @@ t_token	*create_token(char *string, int type)
 
 	token = ft_malloc(sizeof(t_token));
 	token->string = ft_strdup(string);
-	token->type = type; //either type gets verified here or earlier not sure yet
+	token->type = type;
 	token->next = NULL;
 	token->previous = NULL;
 	return (token);

@@ -19,7 +19,7 @@ void	*ft_malloc(size_t size)
 	new_pointer = malloc(size);
 	if (!new_pointer)
 	{
-		printf("malloc failure\n");
+		ft_putstr_fd("malloc failure\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	return (new_pointer);
