@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   1_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/08 14:53:40 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/10 17:24:20 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 // int	is_char(char to_check, char against);
@@ -32,9 +33,9 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	// char *test = ft_strdup("hello $USER , at $HOME");
+	// char *test = ft_strdup("\'yes\'");
 	// printf("old: %s\n", test);
-	// char *new = process_token_string(test, envs);
+	// char *new = third_clean(test);
 	// printf("new: %s\n", new);
 	// exit(EXIT_FAILURE);
 	while (1)

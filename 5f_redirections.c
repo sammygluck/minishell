@@ -14,6 +14,7 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 int	input_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
+	char	*delimiter;
 
 	redirection = command->redir;
 	while (redirection)
@@ -26,12 +27,17 @@ int	input_redirect(t_cmd *command, t_process *p)
 		if (redirection->type == D_SMALLER)
 		{
 			p->input_redir = 1;
+			delimiter = heredoc_delimiter_qoutes(redirection->file, p); // ft_malloc if quoted
+			printf("the redirection delimiter after clean: %s\n", delimiter);
 			heredoc_handler(command->redir->file, p);
 		}
+		if (p->quotes && delimiter)
+			free(delimiter);
 		redirection = redirection->next;
 	}
 	return (1);
 }
+
 
 static void	redirect_output_to(t_redir *redirection, t_process *p)
 {

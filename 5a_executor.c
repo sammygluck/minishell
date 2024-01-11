@@ -42,9 +42,7 @@ static t_process	*init_process_struct(char ***env)
 {
 	t_process	*p;
 
-	p = ft_malloc(sizeof(t_process));
-	if (!p)
-		exit (1); // Q: correct way to handle the error?
+	p = ft_malloc(sizeof(t_process)); // Q: correct way to handle the error?
 	p->fd_in = -1; // Q: ok to set ERROR at init?
 	p->fd_out = -1; // Q: ok to set ERROR at init?
 	p->status = -1; // Q : ok to set ERROR at init?
@@ -77,9 +75,9 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		// if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
-		// 	execute_builtin(current_cmd, p, envs);
-		// else
+		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
+			execute_builtin(current_cmd, p, envs);
+		else
 			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);

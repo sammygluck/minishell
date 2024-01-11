@@ -68,8 +68,8 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs)
 		exit (EXIT_FAILURE);
 	if (command->argv && ft_strchr(command->argv[0], '/'))
 		execute_local_binary(command, p);
-	// else if (command->argv && is_builtin(command->argv))
-	// 	execute_builtin(command, p, envs);
+	else if (command->argv && is_builtin(command->argv))
+		execute_builtin(command, p, envs);
 	else
 	{
 		if (!retrieve_path_var_env(p))

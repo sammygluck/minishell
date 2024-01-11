@@ -34,6 +34,8 @@ Some tests:
 - <Makefile grep mini | cat -e | cat -e > test1 | cat -e << EOF
 - echo hallo >  hallo | <hallo cat -e (!)
 - echo hallo > test | <Makefile grep mini > check (!)
+- cat << EOF <<hi !!
+
 
 concerns:
 - the opened fd's > are they all properly closed once command line input is executed? 

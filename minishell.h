@@ -212,6 +212,7 @@ int	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
 void	heredoc_handler(char *delimiter, t_process *p);
+char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p);
 char	*heredoc_var_expansion(char *word);
 char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
 char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);

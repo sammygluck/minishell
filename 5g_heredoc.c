@@ -41,15 +41,31 @@ static char	*create_heredoc_file_name()
 	char		*number;
 	char		*name;
 
-	number = ft_itoa(i);
+	number = ft_itoa(i); // malloc
 	if (!number)
 		return (NULL);
-	name = ft_strjoin(HEREDOC_TEMP_FILE, number);
+	name = ft_strjoin(HEREDOC_TEMP_FILE, number); // malloc
 	if (!name)
 		return (NULL);
 	free(number);
 	i++;
 	return (name);
+}
+
+char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p)
+{
+	int		len;
+	char	*new_delimiter; // delimiter w/o quotes
+
+	len = ft_strlen(delimiter); // Q: heredoc delimiter len check needed?
+	if (len && ((delimiter[0] == '\'' && delimiter[len - 1] == '\'') || 
+			(delimiter[0] == '\"' && delimiter[len - 1] == '\"')))
+	{
+		p->quotes = 1;
+		new_delimiter = third_clean(delimiter);
+		return (new_delimiter);
+	}
+	return (delimiter);
 }
 
 void	heredoc_handler(char *delimiter, t_process *p)
@@ -58,21 +74,20 @@ void	heredoc_handler(char *delimiter, t_process *p)
 	char	*temp_file;
 	char	*line;
 
-	printf("the delimiter: %s\n", delimiter);
 	temp_file = create_heredoc_file_name();
 	if (!temp_file)
-		error_message("heredoc file creation error"); // TO DO: add the proper error handling?
+		error_message("heredoc file creation error\n"); // TO DO: add the proper error handling?
 	if (!delimiter || *delimiter == '\0')
-		error_message("delimiter missing"); // TO DO: change to correct error handler
+		error_message("delimiter missing\n"); // TO DO: change to correct error handler
 	fd_temp = open_file(temp_file, 3);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line) // Q: what if *line == NULL?
-			error_message("heredoc input error"); // TO DO: change to correct error handler
+			error_message("heredoc input error\n"); // TO DO: change to correct error handler
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
-		if (ft_strchr(line, '$'))
+		if (!p->quotes && ft_strchr(line, '$'))
 			line = heredoc_var_expansion(line);
 		ft_putendl_fd(line, fd_temp);
 		free(line);

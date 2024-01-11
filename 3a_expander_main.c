@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3a_expander_main.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:12:29 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 08:12:33 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/10 16:53:41 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	expander(t_token **token_head, t_env_var *env_head)
 	head = *token_head;
 	while (head)
 	{
-		if (head->type == 6)
+		if (head->type == 6 && head->previous && head->previous->type != D_SMALLER)
 			head->string = process_token_string(head->string, env_head);
 		//if it's a heredoc part.....
 		head = head->next;
