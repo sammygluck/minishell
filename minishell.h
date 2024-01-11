@@ -22,6 +22,15 @@
 # define WRITE 1
 # define HEREDOC_TEMP_FILE "./temp/.minishell_heredoc_"
 
+/******************************************************************************
+*							GLOBAL VARIABLE									  *
+******************************************************************************/
+extern int	g_last_exit_code;
+
+/******************************************************************************
+*								STRUCTS									      *
+******************************************************************************/
+
 typedef int fds[2];
 
 typedef enum e_symbol 
@@ -67,7 +76,7 @@ typedef struct s_redir
 {
 	int type;
 	char *file;
-	struct s_redir *next; // the node after the node with the file name, this is the next next node
+	struct s_redir *next; 
 } t_redir;
 
 typedef struct s_cmd
@@ -98,6 +107,11 @@ typedef struct s_export
     char *key;
     char *value;
 } t_export;
+
+
+/******************************************************************************
+*								FUNCTIONS									  *
+******************************************************************************/
 
 //1 main
 void free_token_list(t_token **head);
@@ -206,7 +220,6 @@ int		retrieve_path_var_env(t_process *p);
 char	**create_paths_array(char *path);
 
 // 5f redirection functions
-//void	redirections_check(t_cmd *command, t_process *p);
 int	input_redirect(t_cmd *command, t_process *p);
 int	output_redirect(t_cmd *command, t_process *p);
 
