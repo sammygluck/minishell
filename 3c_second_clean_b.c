@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3c_second_clean_b.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 07:56:36 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 08:00:00 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:09:44 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	find_begin(char *string, int end)
 int	find_end(char *string, int begin)
 {
 	begin++;
+	if (!is_in_single_quote(string, begin) && string[begin] == '?')// jst: for echo $?
+		return (begin + 1);
 	while (is_valid_env_char(string[begin]))
 	{
 		if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
@@ -51,7 +53,6 @@ int	find_end(char *string, int begin)
 	}
 	return (begin);
 }
-
 
 int is_valid_env_char(char chr)
 {

@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:12:29 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/10 16:53:41 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:07:26 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	expander(t_token **token_head, t_env_var *env_head)
 	head = *token_head;
 	while (head)
 	{
+		// jst: extra condition added for heredoc delimiter: 
+		//	if previous node type = << ; move on to next node
+		//	meaning: don't expand or remove quotes, leave delimiter as is
 		if (head->type == 6 && head->previous && head->previous->type != D_SMALLER)
 			head->string = process_token_string(head->string, env_head);
-		//if it's a heredoc part.....
 		head = head->next;
 	}
 }

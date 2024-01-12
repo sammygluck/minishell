@@ -8,7 +8,7 @@ static void	parent_wait(pid_t child, t_process *p)
 	if (WIFEXITED(p->status))
 	{
 		g_last_exit_code = WEXITSTATUS(p->status);
-		printf("Exit status of the child was %d\n", g_last_exit_code);
+		//printf("Exit status of the child was %d\n", g_last_exit_code);
 	}
 }
 
@@ -77,9 +77,9 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		// if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
-		// 	execute_builtin(current_cmd, p, envs);
-		// else
+		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv)) // there is only 1 command and it's a builtin
+			g_last_exit_code = execute_builtin(current_cmd, p, envs);
+		else
 			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
@@ -88,5 +88,6 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		reset_stdin_out(std_fds);
 		current_cmd = current_cmd->next;
 	}
+	//printf("Exit status of the child was %d\n", g_last_exit_code);
 	parent_wait(child, p);
 }

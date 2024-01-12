@@ -1,28 +1,32 @@
 #include "minishell.h"
 
+int	g_last_exit_code;
+
 int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 {
-	//create return value
+	int	exit;
+
+	exit = 1;
 	if (p->pipe_count == 0)
 	{
 		input_redirect(command, p);
 		output_redirect(command, p);
 	}
 	if (ft_strncmp(command->argv[0], "echo", ft_strlen("echo")) == 0)
-		ft_echo(command->argv);
+		exit = ft_echo(command->argv);
 	else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)
-		ft_cd(command->argv, p->env, envs);
+		exit = ft_cd(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd")) == 0)
-	 	ft_pwd(command->argv);
+	 	exit = ft_pwd(command->argv);
 	else if (ft_strncmp(command->argv[0], "export", ft_strlen("export")) == 0)
-		ft_export(command->argv, p->env, envs);
+		exit = ft_export(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "unset", ft_strlen("unset")) == 0)
-		ft_unset(command->argv, p->env, envs);
+		exit = ft_unset(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "env", ft_strlen("env")) == 0)
-		ft_env(envs);
+		exit = ft_env(envs);
 	else if (ft_strncmp(command->argv[0], "exit", ft_strlen("exit")) == 0)
-	 	ft_exit(command->argv);
-	return (1);
+	 	exit = ft_exit(command->argv);
+	return (exit);
 }
 
 static void	execute_local_binary(t_cmd *command, t_process *p)
@@ -68,8 +72,15 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs)
 		exit (EXIT_FAILURE);
 	if (command->argv && ft_strchr(command->argv[0], '/'))
 		execute_local_binary(command, p);
-	// else if (command->argv && is_builtin(command->argv))
-	// 	execute_builtin(command, p, envs);
+	if (command->argv && is_builtin(command->argv))
+	{
+		g_last_exit_code = execute_builtin(command, p, envs);
+		printf("the exit code as builtin: %i\n", g_last_exit_code);
+		if (g_last_exit_code == 1)
+			exit(EXIT_FAILURE);
+		else
+			exit (EXIT_SUCCESS);
+	}
 	else
 	{
 		if (!retrieve_path_var_env(p))
