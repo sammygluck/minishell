@@ -28,6 +28,16 @@ char	*heredoc_var_expansion(char *line)
 	i = 0;
 	while (line[i])
 	{
+		if (line[i] == '$' && line[i + 1] == '?')
+		{
+			t_begin_end	values;
+
+			init_begin_end(&values);
+			stuff_to_replace(line, &values);
+			var_value = retrieve_env_var_value(line);
+			line = replace(line, var_value, &values);
+			return (line);
+		}
 		if (line[i] == '$' && line[i + 1] != '\0' && !ft_isspace(line[i + 1]))
 		{
 			var_value = retrieve_env_var_value(line);

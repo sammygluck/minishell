@@ -65,7 +65,10 @@ char	*retrieve_env_var_value(char *line)
 
 	len = env_var_name_length(line);
 	if (len == 1) //  && str[1] == '?')
-		printf("please provide the exit code of the command\n");
+	{
+		//printf("please provide the exit code of the command\n");
+		return (ft_itoa(g_last_exit_code));
+	}
 	start = 0;
 	while (line[start] != '$')
 		start++;	
