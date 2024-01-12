@@ -4,8 +4,8 @@ CC = gcc
 CFLAGS = -I. -I$(LIBFTDIR) -Wextra -Wall -g #-fsanitize=address
 
 ### _ ONLY TO ACTIVATE WHEN USING MAC AT 19 
-LDFLAGS = -L$(HOME)/42/42-useful-programs/homebrew/opt/readline/lib
-CPPFLAGS = -I$(HOME)/42/42-useful-programs/homebrew/opt/readline/include
+LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
+CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
 
 LIBS = -lreadline
 SRC = $(wildcard *.c)
@@ -31,11 +31,11 @@ $(NAME): $(OBJ) $(LIBFT)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR)
 
-
 ##_ PREVIOUS WITH NO FLAGS FOR READLINE FUNCTION 
 #%.o: %.c $(HEADERS)
 #	$(CC) $(CFLAGS) -c $< -o $@
 
+### _ ONLY TO ACTIVATE WHEN USING MAC AT 19 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
