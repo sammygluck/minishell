@@ -2,6 +2,11 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -I. -I$(LIBFTDIR) -Wextra -Wall -g #-fsanitize=address
+
+### _ ONLY TO ACTIVATE WHEN USING MAC AT 19 
+LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
+CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
+
 LIBS = -lreadline
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
@@ -14,14 +19,25 @@ LIBFT = $(LIBFTDIR)/libft.a
 
 all: $(NAME)
 
+##_ PREVIOUS WITH NO FLAGS FOR READLINE FUNCTION 
+# $(NAME): $(OBJ) $(LIBFT)
+#	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LIBS) -o $(NAME)
+
+
+### _ ONLY TO ACTIVATE WHEN USING MAC AT 19 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LIBS) $(LDFLAGS) $(CPPFLAGS) $(RLINE) -o $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR)
 
+##_ PREVIOUS WITH NO FLAGS FOR READLINE FUNCTION 
+#%.o: %.c $(HEADERS)
+#	$(CC) $(CFLAGS) -c $< -o $@
+
+### _ ONLY TO ACTIVATE WHEN USING MAC AT 19 
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)
