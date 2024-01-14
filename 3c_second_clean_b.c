@@ -60,19 +60,3 @@ int is_valid_env_char(char chr)
 	else
 		return (0);
 }
-
-// int	find_end(char *string, int begin)
-// {
-// 	begin++;
-// 	if (is_space(string[begin]) || string[begin] == '"')
-// 		return (begin);
-// 	while (string[begin])
-// 	{
-// 		if (is_space(string[begin]) || string[begin] == '$')
-// 			return (begin);
-// 		if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
-// 			return (begin + 1);
-// 		begin++;
-// 	}
-// 	return (begin);
-// }
