@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-// int	is_char(char to_check, char against);
-void	free_token_list(t_token **head);
 void	print_command_table(t_cmd *cmd);
 void	print_redirections(t_redir *redir);
 
@@ -48,37 +46,3 @@ void	print_command_table(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-
-// int	main(int argc, char **argv, char **env)
-// {
-// 	t_env_var	*envs;
-// 	t_token		*token_head;
-// 	t_cmd		*parsed;
-// 	char		*input;
-
-// 	(void) argv;
-// 	envs = environment_var_handler(env);
-// 	env = mirror_list_to_array(envs);
-// 	shlvl_export(&env, &envs);
-// 	if (argc > 1)
-// 	{
-// 		ft_putstr_fd("minishell: too many arguments\n", 2);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	while (1)
-// 	{
-// 		interactive();
-// 		input = ft_readline();
-// 		if (!input)
-// 			continue ;
-// 		token_head = tokenizer(input);
-// 		expander(&token_head, envs);
-// 		parsed = parser(token_head);
-// 		noninteractive();
-// 		executor(&parsed, &env, &envs);
-// 		free(input);
-// 		free_token_list(&token_head);
-// 	}
-// 	//make sure to free env and envs
-// 	return (0);
-// }

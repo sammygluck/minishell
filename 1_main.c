@@ -21,6 +21,7 @@ int	main(int argc, char **argv, char **env)
 	check_arg_count(argc);
 	process_commands(&env, &envs);
 	return (0);
+    //make sure to free env and envs
 }
 
 void	init_env_vars(char ***env, t_env_var **envs)
