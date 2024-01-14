@@ -12,7 +12,7 @@ int main(int argc, char **argv, char **env)
     return (0);
 }
 
-void    init_envs_vars(char ***env, t_env_var **envs)
+void    init_env_vars(char ***env, t_env_var **envs)
 {
     *envs = environment_var_handler(*env);
     *env = mirror_list_to_array(*envs);
@@ -41,11 +41,11 @@ void process_commands(char ***env, t_env_var **envs)
         if (!input)
             continue;
         token_head = tokenizer(input);
-        expander(&token_head, envs);
+        expander(&token_head, *envs);
         parsed = parser(token_head);
         free_token_list(&token_head);
         noninteractive();
-        executor(&parsed, &env, &envs);
+        executor(&parsed, env, envs);
         free(input);
     }
 }
