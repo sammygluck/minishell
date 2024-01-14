@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 07:56:36 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 08:00:00 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/14 05:24:25 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int	find_end(char *string, int begin)
 	return (begin);
 }
 
-
-int is_valid_env_char(char chr)
+int	is_valid_env_char(char chr)
 {
 	if (ft_isalnum(chr) || chr == '_')
 		return (1);
