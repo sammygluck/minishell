@@ -99,7 +99,10 @@ typedef struct s_export
 } t_export;
 
 //1 main
-char *ft_readline(void);;
+char *ft_readline(void);
+void    init_envs_vars(char ***env, t_env_var **envs);
+void    check_arg_count(int argc);
+void process_commands(char ***env, t_env_var **envs);
 
 //2 lexer
 t_token *tokenizer(char *string);
