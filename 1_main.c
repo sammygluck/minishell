@@ -1,53 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   1_main.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/14 04:46:55 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/14 04:46:58 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-    t_env_var   *envs;
+	t_env_var	*envs;
 
-    (void) argv;
-    init_env_vars(&env, &envs);
-    check_arg_count(argc);
-    process_commands(&env, &envs);
-
-    return (0);
+	(void) argv;
+	init_env_vars(&env, &envs);
+	check_arg_count(argc);
+	process_commands(&env, &envs);
+	return (0);
 }
 
-void    init_env_vars(char ***env, t_env_var **envs)
+void	init_env_vars(char ***env, t_env_var **envs)
 {
-    *envs = environment_var_handler(*env);
-    *env = mirror_list_to_array(*envs);
-    shlvl_export(env, envs);
+	*envs = environment_var_handler(*env);
+	*env = mirror_list_to_array(*envs);
+	shlvl_export(env, envs);
 }
 
-void    check_arg_count(int argc)
+void	check_arg_count(int argc)
 {
-    if (argc > 1)
-    {
-        ft_putstr_fd("minishell: too many arguments\n", 2);
-        exit(EXIT_FAILURE);
-    }
+	if (argc > 1)
+	{
+		ft_putstr_fd("minishell: too many arguments\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }
 
-void process_commands(char ***env, t_env_var **envs)
+void	process_commands(char ***env, t_env_var **envs)
 {
-    t_token *token_head;
-    t_cmd   *parsed;
-    char *input;
+	t_token	*token_head;
+	t_cmd	*parsed;
+	char	*input;
 
-    while (1)
-    {
-        interactive();
-        input = ft_readline();
-        if (!input)
-            continue;
-        token_head = tokenizer(input);
-        expander(&token_head, *envs);
-        parsed = parser(token_head);
-        free_token_list(&token_head);
-        noninteractive();
-        executor(&parsed, env, envs);
-        free(input);
-    }
+	while (1)
+	{
+		interactive();
+		input = ft_readline();
+		if (!input)
+			continue ;
+		token_head = tokenizer(input);
+		expander(&token_head, *envs);
+		parsed = parser(token_head);
+		free_token_list(&token_head);
+		noninteractive();
+		executor(&parsed, env, envs);
+		free(input);
+	}
 }
 
 char	*ft_readline(void)

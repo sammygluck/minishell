@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1_main.c                                           :+:      :+:    :+:   */
+/*   1_main_utils_a.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/08 14:53:40 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/14 04:47:28 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,7 +27,7 @@ void	print_redirections(t_redir *redir)
 
 void	print_command_table(t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	printf("Command Table:\n");
 	printf("-------------------------------------------------\n");
@@ -48,7 +48,6 @@ void	print_command_table(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-
 
 // int	main(int argc, char **argv, char **env)
 // {
