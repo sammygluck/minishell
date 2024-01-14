@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-void	expander(t_token **token_head, t_env_var *env_head);
-
-/*
-    outline:
-    for each lexer string, unless heredoc -> replace old one with expanded one
-    make sure to free all necesarry parts
-
-*/
-
 void	expander(t_token **token_head, t_env_var *env_head)
 {
 	t_token	*head;

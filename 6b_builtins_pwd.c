@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_pwd(char **argv) // do I need to add other parameters??
+int	ft_pwd(char **argv)
 {
 	char	buffer[PATH_MAX];
 
