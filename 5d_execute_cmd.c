@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-int	g_last_exit_code;
-
 /* execute_builtin:
 *	Executes the given command if it is a builtin command.
 *	Returns 0 or 1 if the builtin command succeeded or failed.
