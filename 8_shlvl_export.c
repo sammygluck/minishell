@@ -19,7 +19,7 @@ void	shlvl_export(char ***env, t_env_var **env_l)
 	char	*shell_argument;
 	int		level_to_int;
 
-	shell_level = return_env_value("SHLVL", *env_l);
+	shell_level = get_env_value(*env_l, "SHLVL");
 	if (!shell_level)
 		shell_level = ft_strdup("0");
 	level_to_int = ft_atoi(shell_level);
@@ -35,22 +35,22 @@ void	shlvl_export(char ***env, t_env_var **env_l)
 	free(shell_argument);
 }
 
-//cd has duplicate of this function, remove one of the two
-char	*return_env_value(char *string, t_env_var *env_l)
-{
-	t_env_var	*head;
-	size_t		string_len;
+// //cd has duplicate of this function, remove one of the two
+// char	*return_env_value(char *string, t_env_var *env_l)
+// {
+// 	t_env_var	*head;
+// 	size_t		string_len;
 
-	if (!env_l || !string)
-		return (NULL);
-	string_len = ft_strlen(string);
-	head = env_l;
-	while (head)
-	{
-		if (ft_strlen(head->name) == string_len
-			&& !ft_strncmp(head->name, string, string_len))
-			return (ft_strdup(head->value));
-		head = head->next;
-	}
-	return (NULL);
-}
+// 	if (!env_l || !string)
+// 		return (NULL);
+// 	string_len = ft_strlen(string);
+// 	head = env_l;
+// 	while (head)
+// 	{
+// 		if (ft_strlen(head->name) == string_len
+// 			&& !ft_strncmp(head->name, string, string_len))
+// 			return (ft_strdup(head->value));
+// 		head = head->next;
+// 	}
+// 	return (NULL);
+// }

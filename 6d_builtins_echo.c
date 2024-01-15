@@ -28,13 +28,13 @@ int	ft_echo(char **argv)
 	}
 	while (argv[i])
 	{
-		printf("%s", argv[i]);
+		ft_putstr_fd(argv[i], 1);
 		if (argv[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
 	if (!flag_n)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (0);
 }
 

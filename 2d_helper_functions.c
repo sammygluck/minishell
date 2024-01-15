@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-void	print_list(t_token *head);
-int		is_quote(char character);
-int		is_space(char c);
-int		is_token(char *string, int position);
-
 int	is_quote(char character)
 {
 	if (!character)

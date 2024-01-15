@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-char	*token_string(int type, int *i);
-char	*word_string(char *string, int *i);
-int		find_word_end(char *string, int start_index, t_quote *q_struct);
-int		check_quote_error(t_quote *q_struct);
-int		add_token(char *string, int *i, int type, t_token **head);
-
-/*
-ADD TOKEN:
-This function takes our string at the index we left off with from the previous addition to our list.
-Based on our assesment in the parent function, we're either adding a token or a string.
-If it's a token we'll not just add the token, but we'll also idenitfy the token-type and create and add this token to the list.
-If it's a string, we'll have to add the string until the string ends. This will vary on whether this string has quotes or not.
-
-Return value: since failure over here would be a malloc failure and malloc failures are going to exit the program, I've left it at void.
-*/
 int	add_token(char *string, int *i, int type, t_token **head)
 {
 	t_token	*token;
@@ -48,9 +33,6 @@ int	add_token(char *string, int *i, int type, t_token **head)
 	return (0);
 }
 
-//this isn't going to work; adjust we need the string to be persistent, perhaps by malloc/ft_strdup("our_string")
-// but make sure to free it afterwards
-//replace strdup with ft_strdup
 char	*token_string(int type, int *i)
 {
 	if (type == 1 || type == 2)
@@ -70,15 +52,6 @@ char	*token_string(int type, int *i)
 	else
 		return (NULL);
 }
-
-/*
-the idea of this function is to extract the string beginning from the i part until it reaches
-a space, token or null byte;
-We've also implemented quote support, so that:
-a. it doesn't consider space, token etc. to be valid seperator within a quote
-b. it checks for the appearance of the closing quote
-return value: pointer to extracted string
-*/
 
 char	*word_string(char *string, int *i)
 {

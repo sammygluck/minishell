@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-//create a linked list with the env variables
-//create a system for the $ sign to be translated to the actual text
-//also some hardcode stuff for the $ sign
-
-// add_env_var();
-// remove_env_var();
-// find_env_var();
-// modify_env_var();
-
 t_env_var	*environment_var_handler(char **env)
 {
 	t_env_var	*new_env;
@@ -89,7 +80,10 @@ void	add_env_var(t_env_var **env_head, t_env_var *env_var)
 	t_env_var	*head;
 
 	if (!env_head || !env_var)
-		return ; //or other error handling
+	{
+		ft_putstr_fd("failure in env variable creation", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (!*env_head)
 	{
 		*env_head = env_var;

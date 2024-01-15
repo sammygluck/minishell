@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	ft_env(t_env_var **env_l)//parameters?
+int	ft_env(t_env_var **env_l)
 {
 	t_env_var	*head;
 
 	head = *env_l;
 	if (!env_l) //also check if there are arguments and failure on more parameters should they come up
 	{
-		printf("no env variables\n");//add ft_putstrfd_fd instead
+		ft_putstr_fd("no env variables\n", 2);
 		return (1);
 	}
 	while (head)
@@ -29,7 +29,7 @@ int	ft_env(t_env_var **env_l)//parameters?
 			head = head->next;
 			continue ;
 		}
-		printf("%s=%s\n", head->name, head->value); //check for correctness also I can just print char **array
+		printf("%s=%s\n", head->name, head->value);
 		head = head->next;
 	}
 	return (0);

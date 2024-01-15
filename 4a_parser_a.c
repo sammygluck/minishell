@@ -14,9 +14,9 @@
 
 t_cmd	*parser(t_token *lexer_head)
 {
-	t_token	*current; // loop through the token nodes
-	t_cmd	*commands; // to create the cmds nodes
-	t_cmd	*new_cmd; // to add new commands
+	t_token	*current;
+	t_cmd	*commands;
+	t_cmd	*new_cmd;
 	int		cmd_nr;
 
 	if (!lexer_head)
@@ -37,14 +37,14 @@ t_cmd	*parse_command(t_token **current, int cmd_nr)
 {
 	t_cmd	*command;
 
-	command = init_cmd(cmd_nr); // init the t_cmd struct
+	command = init_cmd(cmd_nr);
 	while (*current && (*current)->type != PIPE)
 	{
-		if (is_redirection_token(*current)) // check if there is a redirection
+		if (is_redirection_token(*current))
 			parse_redirection(current, command);
-		else // this is something other than redirection
+		else
 		{
-			add_argument_to_command(command, (*current)->string); //make sure string exists
+			add_argument_to_command(command, (*current)->string);
 			*current = (*current)->next;
 		}
 	}

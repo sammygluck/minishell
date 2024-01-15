@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 07:56:36 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/12 14:09:44 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/15 13:33:58 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	stuff_to_replace(char *string, t_begin_end *values)
 int	find_begin(char *string, int end)
 {
 	if (string[end] == '\0')
-		return (-1); //don't return end as is this is beginning
+		return (-1);
 	while (string[end])
 	{
 		if (string[end] == '$' && !is_in_single_quote(string, end))
@@ -54,26 +54,10 @@ int	find_end(char *string, int begin)
 	return (begin);
 }
 
-int is_valid_env_char(char chr)
+int	is_valid_env_char(char chr)
 {
 	if (ft_isalnum(chr) || chr == '_')
 		return (1);
 	else
 		return (0);
 }
-
-// int	find_end(char *string, int begin)
-// {
-// 	begin++;
-// 	if (is_space(string[begin]) || string[begin] == '"')
-// 		return (begin);
-// 	while (string[begin])
-// 	{
-// 		if (is_space(string[begin]) || string[begin] == '$')
-// 			return (begin);
-// 		if (is_in_double_quote(string, begin) && string[begin + 1] == '"')
-// 			return (begin + 1);
-// 		begin++;
-// 	}
-// 	return (begin);
-// }

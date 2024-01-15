@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:26 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 10:04:16 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/14 04:56:03 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	has_equal_sign(char *string)
 			return (1);
 		i++;
 	}
-	ft_putstr_fd("minishell: export: Error: '=' not found in the string\n", 2);
 	return (0);
 }
 
