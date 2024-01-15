@@ -24,7 +24,7 @@ char	*heredoc_var_expansion(char *line)
 {
 	t_begin_end	values;
 	char		*var_value;
-	int			i; 
+	int			i;
 
 	i = 0;
 	while (line[i])
@@ -37,7 +37,6 @@ char	*heredoc_var_expansion(char *line)
 				values.begin = i;
 				values.end = i + 2;
 				line = replace(line, var_value, &values);
-				break ;
 			}
 			else
 				line = replace_or_delete_heredoc_var(line, var_value, &i);

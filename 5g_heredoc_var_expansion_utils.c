@@ -32,7 +32,7 @@ int	env_var_name_length(char *line)
 	if (line[i] == '$') // skip the $-sign 
 		i++;
 	if (line[i] == '?') // check if the next char after $-sign is question mark
-		return (1);
+		return (-1);
 	len = 0;
 	while (line[i])
 	{
@@ -64,11 +64,8 @@ char	*retrieve_env_var_value(char *line)
 	char	*var_value;
 
 	len = env_var_name_length(line);
-	if (len == 1) //  && str[1] == '?')
-	{
-		//printf("please provide the exit code of the command\n");
+	if (len == -1)
 		return (ft_itoa(g_last_exit_code));
-	}
 	start = 0;
 	while (line[start] != '$')
 		start++;	

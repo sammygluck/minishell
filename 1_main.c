@@ -6,10 +6,11 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/15 13:33:03 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/15 13:37:10 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 
 int	main(int argc, char **argv, char **env)
 {
