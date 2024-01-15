@@ -212,7 +212,7 @@ void	swap(int **pipes);
 
 // 5d execute command function
 pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
-void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs);
+void	execute_command(t_cmd *command, t_process *p, t_env_var **envs);
 int		execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 
 // 5e retrieve path from env and create 2d array of different directories for paths

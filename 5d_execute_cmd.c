@@ -2,31 +2,36 @@
 
 int	g_last_exit_code;
 
+/* execute_builtin:
+*	Executes the given command if it is a builtin command.
+*	Returns 0 or 1 if the builtin command succeeded or failed.
+*/
+
 int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 {
-	int	exit;
+	int	ret;
 
-	exit = 1;
+	ret = 1;
 	if (p->pipe_count == 0)
 	{
 		input_redirect(command, p);
 		output_redirect(command, p);
 	}
 	if (ft_strncmp(command->argv[0], "echo", ft_strlen("echo")) == 0)
-		exit = ft_echo(command->argv);
+		ret = ft_echo(command->argv);
 	else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)
-		exit = ft_cd(command->argv, p->env, envs);
+		ret = ft_cd(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd")) == 0)
-	 	exit = ft_pwd(command->argv);
+	 	ret = ft_pwd(command->argv);
 	else if (ft_strncmp(command->argv[0], "export", ft_strlen("export")) == 0)
-		exit = ft_export(command->argv, p->env, envs);
+		ret = ft_export(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "unset", ft_strlen("unset")) == 0)
-		exit = ft_unset(command->argv, p->env, envs);
+		ret = ft_unset(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "env", ft_strlen("env")) == 0)
-		exit = ft_env(envs);
+		ret = ft_env(envs);
 	else if (ft_strncmp(command->argv[0], "exit", ft_strlen("exit")) == 0)
-	 	exit = ft_exit(command->argv);
-	return (exit);
+	 	ret = ft_exit(command->argv);
+	return (ret);
 }
 
 static void	execute_local_binary(t_cmd *command, t_process *p)
@@ -66,7 +71,7 @@ static void	execute_env_binary(t_cmd *command, t_process *p)
 	exit (127);
 }
 
-void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs)
+void	execute_command(t_cmd *command, t_process *p, t_env_var **envs)
 {
 	if (!command)
 		exit (EXIT_FAILURE);
@@ -75,7 +80,6 @@ void	execute_cmd(t_cmd *command, t_process *p, t_env_var **envs)
 	if (command->argv && is_builtin(command->argv))
 	{
 		g_last_exit_code = execute_builtin(command, p, envs);
-		printf("the exit code as builtin: %i\n", g_last_exit_code);
 		if (g_last_exit_code == 1)
 			exit(EXIT_FAILURE);
 		else
@@ -100,9 +104,8 @@ pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_va
 	{
 		if (input_redirect(command, p) && connect_commands(command, pipes, p) &&
 			output_redirect(command, p))
-			execute_cmd(command, p, envs);
+			execute_command(command, p, envs);
 	}
-	// else
-	// 	waitpid(child,&p->status, 0);
 	return (child);
 }
+//printf("the exit code as builtin: %i\n", g_last_exit_code);

@@ -18,8 +18,10 @@ static void	save_stdin_out(int *save_fd)
 	save_fd[1] = dup(STDOUT_FILENO);
 }
 
-static void	reset_stdin_out(int *save_fd)
+static void	reset_stdin_out(int *save_fd, t_process *p)
 {
+	if (p->input_redir)
+		p->input_redir = 0;
 	dup2(save_fd[0], STDIN_FILENO);
 	close(save_fd[0]);
 	dup2(save_fd[1], STDOUT_FILENO);
@@ -73,7 +75,6 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 	current_cmd = *command;
 	while (current_cmd)
 	{
-		//printf("the command to execute: %s\n", current_cmd->argv[0]);
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
@@ -83,11 +84,11 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
-		if (p->input_redir)
-			p->input_redir = 0;
-		reset_stdin_out(std_fds);
+		reset_stdin_out(std_fds, p);
 		current_cmd = current_cmd->next;
 	}
-	//printf("Exit status of the child was %d\n", g_last_exit_code);
 	parent_wait(child, p);
 }
+
+//printf("Exit status of the child was %d\n", g_last_exit_code);
+//printf("the command to execute: %s\n", current_cmd->argv[0]);
