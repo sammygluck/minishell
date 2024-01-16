@@ -20,7 +20,7 @@
 # define CHILD 0
 # define READ 0
 # define WRITE 1
-# define HEREDOC_TEMP_FILE "./temp/.minishell_heredoc_"
+# define HEREDOC_TEMP_FILE "./temp/.minishell_heredoc"
 
 /******************************************************************************
 *							GLOBAL VARIABLE									  *
@@ -88,6 +88,14 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+typedef	struct s_hdoc
+{
+	char	*file; // a pointer to the last opened file
+	char	*delimiter; // a pointer to the heredoc delimiter
+	int		quotes; // flag for quotes
+	int		fd; // fd of opened file
+} t_hdoc;
+
 typedef	struct	s_process
 {
 	int		fd_in; // the fd of the input file; if any
@@ -100,6 +108,7 @@ typedef	struct	s_process
 	char	**paths;
 	char	**envp;
 	char	***env;
+	struct s_hdoc	*heredoc;
 }	t_process;
 
 typedef struct s_export
@@ -226,8 +235,9 @@ int	input_redirect(t_cmd *command, t_process *p);
 int	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
-void	heredoc_handler(char *delimiter, t_process *p);
-char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p);
+int		heredoc_redirect_check(t_cmd *command, t_process *p);
+void	heredoc_handler(char *delimiter, t_process *p, t_hdoc *hd);
+char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p, t_hdoc *hd);
 char	*heredoc_var_expansion(char *word);
 char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
 char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);

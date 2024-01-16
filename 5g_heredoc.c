@@ -22,19 +22,6 @@ static int	ft_strcmp(const char *s1, const char *s2) // TODO: move to another fi
 	return (s1[i] - s2[i]);
 }
 
-static void	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
-{
-	if (fd_temp)
-		close(fd_temp);
-	if (p->fd_in)
-		close(p->fd_in);
-	p->fd_in = open_file(temp_file, 0); // Q: is this the rigth file permission?
-	if (p->fd_in == ERROR)
-		exit_error(temp_file, 1);
-	dup2(p->fd_in, STDIN_FILENO);
-	close(p->fd_in);
-}
-
 static char	*create_heredoc_file_name()
 {
 	static int	i;
@@ -52,7 +39,7 @@ static char	*create_heredoc_file_name()
 	return (name);
 }
 
-char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p)
+char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p, t_hdoc *hd)
 {
 	int		len;
 	char	*new_delimiter; // delimiter w/o quotes
@@ -61,25 +48,25 @@ char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p)
 	if (len && ((delimiter[0] == '\'' && delimiter[len - 1] == '\'') || 
 			(delimiter[0] == '\"' && delimiter[len - 1] == '\"')))
 	{
-		p->quotes = 1;
+		//p->quotes = 1;
+		hd->quotes = 1;
 		new_delimiter = third_clean(delimiter);
 		return (new_delimiter);
 	}
 	return (delimiter);
 }
 
-void	heredoc_handler(char *delimiter, t_process *p)
+void	heredoc_handler(char *delimiter, t_process *p, t_hdoc *hd)
 {
-	int		fd_temp;
-	char	*temp_file;
 	char	*line;
 
-	temp_file = create_heredoc_file_name();
-	if (!temp_file)
+	//hd->file = create_heredoc_file_name();
+	hd->file = HEREDOC_TEMP_FILE;
+	if (!hd->file)
 		error_message("heredoc file creation error\n"); // TO DO: add the proper error handling?
-	if (!delimiter || *delimiter == '\0')
+	if (!delimiter)
 		error_message("delimiter missing\n"); // TO DO: change to correct error handler
-	fd_temp = open_file(temp_file, 3);
+	hd->fd = open_file(hd->file, 3);
 	while (1)
 	{
 		line = readline("> ");
@@ -87,12 +74,12 @@ void	heredoc_handler(char *delimiter, t_process *p)
 			error_message("heredoc input error\n"); // TO DO: change to correct error handler
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
-		if (!p->quotes && ft_strchr(line, '$'))
+		if (!hd->quotes && ft_strchr(line, '$'))
 			line = heredoc_var_expansion(line);
-		ft_putendl_fd(line, fd_temp);
+		ft_putendl_fd(line, hd->fd);
 		free(line);
 	}
 	free(line);
-	heredoc_redirect(temp_file, fd_temp, p);
+	//heredoc_redirect(temp_file, fd_temp, p);
 	// free(heredoc_file) ??
 }
