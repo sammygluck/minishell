@@ -23,12 +23,7 @@ static void	reset_stdin_out(int *save_fd, t_process *p)
 	if (p->input_redir)
 		p->input_redir = 0;
 	if (p->heredoc->fd != ERROR)
-	{
-		//printf("the heredoc fd file to close in reset stdin: %i\n", p->heredoc->fd);
 		close(p->heredoc->fd);
-	}
-	// if (p->heredoc->file)
-	// 	unlink(p->heredoc->file);
 	dup2(save_fd[0], STDIN_FILENO);
 	close(save_fd[0]);
 	dup2(save_fd[1], STDOUT_FILENO);
@@ -86,7 +81,7 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		heredoc_redirect_check(current_cmd, p);
+		heredoc_check(current_cmd, p);
 		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv))
 			g_last_exit_code = execute_builtin(current_cmd, p, envs);
 		else
@@ -98,6 +93,8 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 	}
 	parent_wait(child, p);
 }
+	// if (p->heredoc->file)
+	// 	unlink(p->heredoc->file);
 
 // printf("the command to execute: %s\n", current_cmd->argv[0]);
 //printf("Exit status of the child was %d\n", g_last_exit_code);

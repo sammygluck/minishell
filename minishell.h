@@ -235,9 +235,9 @@ int	input_redirect(t_cmd *command, t_process *p);
 int	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
-int		heredoc_redirect_check(t_cmd *command, t_process *p);
-void	heredoc_handler(char *delimiter, t_process *p, t_hdoc *hd);
-char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p, t_hdoc *hd);
+int		heredoc_check(t_cmd *command, t_process *p);
+void	heredoc_handler(char *delimiter, t_hdoc *hd);
+char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd);
 char	*heredoc_var_expansion(char *word);
 char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
 char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
@@ -245,6 +245,9 @@ char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var);
 char	*retrieve_env_var_value(char *word);
 int		env_var_name_length(char *s);
 int		valid_env_var_name(char c);
+
+// 5g heredoc utils
+int	ft_strcmp(const char *s1, const char *s2);
 
 //6a builtins unset
 int ft_unset(char **argv, char ***env, t_env_var **env_l);
