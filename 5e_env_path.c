@@ -5,7 +5,7 @@ char	**create_paths_array(char *path)
 	int		i;
 	char	**paths; // 2D array with different paths to binaries
 
-	paths = ft_split(path, ':');
+	paths = ft_split(path, ':'); //make sure to free this in all cases
 	if (!paths)
 		return (NULL);
 	i = 0;
@@ -31,7 +31,7 @@ int	retrieve_path_var_env(t_process *p)
 	tmp = getenv("PATH");
 	if (!tmp)
 		return (0);
-	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
+	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1)); //make sure to free this in all cases + use ft_malloc instead
 	if (!path)
 		return (0);
 	i = 0;
