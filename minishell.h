@@ -305,6 +305,7 @@ void free_token_list(t_token **head);
 void	free_char_env(char **env);
 void	free_env_list(t_env_var **head);
 void    free_redirection_list(t_redir **);
+void    free_cmd_list(t_cmd **head);
 
 //test
 void print_env(char **env);
