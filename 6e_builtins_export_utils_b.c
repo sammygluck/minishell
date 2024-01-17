@@ -6,79 +6,64 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:26 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 12:38:38 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:20:49 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	has_equal_sign(char *string)
-{
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (string[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	has_plus_equal_sign(char *string)
-{
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (string[i] == '+' && string[i + 1] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	is_alpha_under(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
-		return (1);
-	else
-		return (0);
-}
-
 int	arg_exists_and_updated(t_export *key_value,
 		t_env_var **env_list, int append)
 {
-	char		*temp;
 	t_env_var	*head;
 
 	head = *env_list;
 	while (head)
 	{
-		if (ft_strlen(key_value->key) == ft_strlen(head->name))
+		if (compare_key_length(key_value, head))
 		{
-			if (!strncmp(key_value->key, head->name, ft_strlen(head->name)))
-			{
-				if (append && head->value)
-				{
-					temp = ft_strjoin(head->value, key_value->value);
-					free(head->value);
-					head->value = temp;
-				}
-				else
-				{
-					if (head->value)
-						free(head->value);
-					head->value = ft_strdup(key_value->value);
-				}
+			if (update_env_value(key_value, head, append))
 				return (1);
-			}
 		}
 		head = head->next;
 	}
 	return (0);
+}
+
+int	update_env_value(t_export *key_value, t_env_var *env_var, int append)
+{
+	char	*temp;
+
+	if (!strncmp(key_value->key, env_var->name, ft_strlen(env_var->name)))
+	{
+		if (append && env_var->value)
+		{
+			temp = ft_strjoin(env_var->value, key_value->value);
+			free(env_var->value);
+			env_var->value = temp;
+		}
+		else
+		{
+			if (env_var->value)
+				free(env_var->value);
+			env_var->value = ft_strdup(key_value->value);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+int	compare_key_length(t_export *key_value, t_env_var *env_var)
+{
+	int	key_value_length;
+	int	env_var_name_length;
+
+	key_value_length = ft_strlen(key_value->key);
+	env_var_name_length = ft_strlen(env_var->name);
+	if (key_value_length == env_var_name_length)
+		return (1);
+	else
+		return (0);
 }
 
 void	extract_key_value(char *string, t_export *key_value, int *append)

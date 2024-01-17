@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:06 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 12:37:26 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:13:44 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,6 @@ void	modified_ft_env(t_env_var *env)
 	return ;
 }
 
-int	is_right_format(char *string)
-{
-	if (!valid_identifiers(string))
-		return (0);
-	if (!has_equal_sign(string) && !has_plus_equal_sign(string))
-		return (0);
-	return (1);
-}
-
 int	valid_identifiers(char *string)
 {
 	int	i;
@@ -89,16 +80,6 @@ int	valid_identifiers(char *string)
 		i++;
 	}
 	return (1);
-}
-
-int	is_valid_sep(char *s, int i)
-{
-	if (s[i] == '=')
-		return (1);
-	else if (s[i] == '+' && s[i + 1] == '=')
-		return (1);
-	else
-		return (0);
 }
 
 void	print_export_error(int i)

@@ -12,32 +12,45 @@
 
 #include "minishell.h"
 
-int	ft_export(char **argv, char ***env, t_env_var **list)
+int ft_export(char **argv, char ***env, t_env_var **list)
 {
-	t_export	key_value;
-	int			i;
-	int			append;
+    t_export key_value;
 
-	i = 1;
-	key_value.key = NULL;
-	key_value.value = NULL;
-	if (!argv)
-	{
-		ft_putstr_fd("minishell: export: fatal error\n", 2);
-		exit(EXIT_FAILURE);//option return (1)
-	}
-	if (!argv[1])
-		modified_ft_env(*list);
-	while (argv[i])
-	{
-		append = 0;
-		if (is_right_format(argv[i]))
-		{
-			extract_key_value(argv[i], &key_value, &append);
-			update(&key_value, env, list, append);
-		}
-		i++;
-	}
-	free_key_value(&key_value);
-	return (0);
+    if (!ft_export_init(argv, list, &key_value))
+        return (1);
+    return (ft_export_process_args(argv, env, list, &key_value));
+}
+
+int ft_export_init(char **argv, t_env_var **list, t_export *key_value)
+{
+    key_value->key = NULL;
+    key_value->value = NULL;
+    if (!argv)
+    {
+        ft_putstr_fd("minishell: export: fatal error\n", 2);
+        exit(EXIT_FAILURE); // or return (1)
+    }
+    if (!argv[1])
+        modified_ft_env(*list);
+    return (1);
+}
+
+int ft_export_process_args(char **argv, char ***env, t_env_var **list, t_export *key_value)
+{
+    int i;
+    int append;
+
+	i = 0;
+    while (argv[i])
+    {
+        append = 0;
+        if (is_right_format(argv[i]))
+        {
+            extract_key_value(argv[i], key_value, &append);
+            update(key_value, env, list, append);
+        }
+        i++;
+    }
+    free_key_value(key_value);
+    return (0);
 }
