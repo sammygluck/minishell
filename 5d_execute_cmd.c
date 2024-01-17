@@ -91,20 +91,22 @@ void	execute_command(t_cmd *command, t_process *p, t_env_var **envs)
 	}
 }
 
-pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs)
+int	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs)
 {
-	pid_t	child;
-	
-	child = fork();
-	if (child == ERROR)
+	static int	i;
+
+	if (command->cmd_nr == 1 && i != 0)
+		i = 0;
+	//printf("pid[%i] in execute child\n", i);
+	p->pid[i] = fork();
+	if ( p->pid[i] == ERROR)
 		exit_error("fork", 1);
-	if (child == 0)
+	if (p->pid[i] == 0)
 	{
-		//printf("the commmand to execute: %s\n", command->argv[0]);
 		if (input_redirect(command, p) && connect_commands(command, pipes, p) &&
 			output_redirect(command, p))
 			execute_command(command, p, envs);
 	}
-	return (child);
+	i++;
+	return (EXIT_SUCCESS);
 }
-//printf("the exit code as builtin: %i\n", g_last_exit_code);

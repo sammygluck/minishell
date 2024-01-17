@@ -101,14 +101,14 @@ typedef	struct	s_process
 	int		fd_in; // the fd of the input file; if any
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
-	int		quotes; // heredoc flag to deal with the expander?
 	int		input_redir; // flag for heredoc
 	int		pipe_count;
 	int		cmds_count;
+	int		*pid;
 	char	**paths;
 	char	**envp;
 	char	***env;
-	struct s_hdoc	*heredoc;
+	t_hdoc	*heredoc;
 }	t_process;
 
 typedef struct s_export
@@ -222,7 +222,7 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
+int		execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
 void	execute_command(t_cmd *command, t_process *p, t_env_var **envs);
 int		execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 

@@ -2,14 +2,20 @@
 
 int	g_last_exit_code;
 
-static void	parent_wait(pid_t child, t_process *p)
+static void	parent_wait(t_process *p)
 {
-	waitpid(child, &p->status, 0);
-	if (WIFEXITED(p->status))
+	int	i;
+
+	i = 0;
+	while (i < p->cmds_count)
 	{
-		g_last_exit_code = WEXITSTATUS(p->status);
-		//printf("Exit status of the child was %d\n", g_last_exit_code);
+		waitpid(p->pid[i], &p->status, 0);
+		//printf("waitpid[%i] in execute child\n", i);
+		i++;
 	}
+	waitpid(p->pid[i], &p->status, 0);
+	if (WIFEXITED(p->status))
+		g_last_exit_code = WEXITSTATUS(p->status);
 }
 
 static void	save_stdin_out(int *save_fd)
@@ -42,6 +48,7 @@ static void	command_pipe_count(t_cmd *command, t_process *p)
 			p->pipe_count++;
 		current_cmd = current_cmd->next;
 	}
+	p->pid = ft_malloc(sizeof(pid_t) * p->cmds_count);
 }
 
 static t_process	*init_process_struct(char ***env)
@@ -52,10 +59,10 @@ static t_process	*init_process_struct(char ***env)
 	p->fd_in = -1; // Q: ok to set ERROR at init?
 	p->fd_out = -1; // Q: ok to set ERROR at init?
 	p->status = -1; // Q : ok to set ERROR at init?
-	p->quotes = 0; // to use for heredoc?
 	p->input_redir = 0; 
 	p->pipe_count = 0;
 	p->cmds_count = 0;
+	p->pid = NULL;
 	p->paths = NULL;
 	p->envp = *env;
 	p->env = env;
@@ -67,7 +74,6 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 {
 	t_cmd		*current_cmd;
 	t_process	*p;
-	pid_t		child;
 	static fds	pipes[2];
 	int			std_fds[2];
 
@@ -85,13 +91,13 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv))
 			g_last_exit_code = execute_builtin(current_cmd, p, envs);
 		else
-			child = execute_cmd_in_child(current_cmd, pipes, p, envs);
+			execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
 		reset_stdin_out(std_fds, p);
 		current_cmd = current_cmd->next;
 	}
-	parent_wait(child, p);
+	parent_wait(p);
 }
 
 //printf("the input redirect in main: %i\n", p->input_redir);

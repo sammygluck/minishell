@@ -13,6 +13,7 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 
 static void	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
 {
+	//printf("ok\n");
 	if (fd_temp != ERROR)
 		close(fd_temp);
 	if (p->fd_in != ERROR)
@@ -34,8 +35,11 @@ int	input_redirect(t_cmd *command, t_process *p)
 			p->input_redir = 1;
 			redirect_input_from(redirection, p);
 		}
-		if (redirection->type == D_SMALLER && redirection->next->type != D_SMALLER)
-			heredoc_redirect(p->heredoc->file, p->heredoc->fd, p);
+		if (redirection->type == D_SMALLER)
+		{
+			if (!redirection->next || (redirection->next && redirection->next->type != D_SMALLER))
+				heredoc_redirect(p->heredoc->file, p->heredoc->fd, p);
+		}
 		redirection = redirection->next;
 	}
 	return (1);
