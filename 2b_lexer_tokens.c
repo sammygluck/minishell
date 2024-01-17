@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 10:50:30 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 09:33:37 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int	find_word_end(char *string, int start_index, t_quote *q_struct)
 	return (j);
 }
 
-int	check_quote_error(t_quote *q_struct)
+int	check_quote_error(t_quote *q)
 {
-	if (q_struct->in_quote)
+	if (q->in_quote)
 	{
-		printf("Syntax error: missing closing quote for '%c'\n", q_struct->quote_type);
+		printf("Syntax error: missing closing quote for '%c'\n", q->quote_type);
 		return (1);
 	}
 	return (0);

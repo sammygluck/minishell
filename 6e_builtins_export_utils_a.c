@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:06 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:22:36 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 09:24:35 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_env_var	*create_env_var_key_value(t_export *key_value)
 	return (env_var);
 }
 
-void	update(t_export *key_value, char ***env, t_env_var **env_list) //return value?
+void	update(t_export *key_value, char ***env, t_env_var **env_list)
 {
 	t_env_var	*new_node;
 
@@ -37,7 +37,7 @@ void	update(t_export *key_value, char ***env, t_env_var **env_list) //return val
 	*env = mirror_list_to_array(*env_list);
 }
 
-void	modified_ft_env(t_env_var *env)//parameters + check again if works
+void	modified_ft_env(t_env_var *env)
 {
 	t_env_var	*head;
 

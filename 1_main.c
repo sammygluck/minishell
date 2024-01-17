@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/15 13:37:10 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 09:32:24 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **env)
 	init_env_vars(&env, &envs);
 	check_arg_count(argc);
 	process_commands(&env, &envs);
-    free_env_list(&envs);
+	free_env_list(&envs);
 	free_char_env(env);
 	return (0);
 }
