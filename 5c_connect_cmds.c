@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:19:37 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 13:21:19 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:38:27 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 {
-	if (!p->pipe_count)
+	if (!p->pipe_count || (p->input_redir && command->cmd_nr == p->cmds_count))
 		return (1);
 	if (p->input_redir && command->cmd_nr != p->cmds_count)
 	{
@@ -35,8 +35,6 @@ int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 		close(pipes[CURRENT][READ]);
 		return (1);
 	}
-	if (p->input_redir && command->cmd_nr == p->cmds_count)
-		return (1);
 	if (command->cmd_nr == 1 || command->cmd_nr != p->cmds_count)
 	{
 		dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
