@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:06 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/14 04:54:55 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 09:22:36 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_env_var	*create_env_var_key_value(t_export *key_value)
 {
 	t_env_var	*env_var;
 
-	//error check if current_env isn't NULL
 	env_var = ft_malloc(sizeof(t_env_var));
 	env_var->name = ft_strdup(key_value->key);
 	env_var->value = ft_strdup(key_value->value);
