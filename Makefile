@@ -32,6 +32,7 @@ SRC  = 1_main.c \
        5e_env_path.c \
        5f_redirections.c \
        5g_heredoc.c \
+       5g_heredoc_utils.c \
        5g_heredoc_var_delete_or_replace.c \
        5g_heredoc_var_expansion.c \
        5g_heredoc_var_expansion_utils.c \

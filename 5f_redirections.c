@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5f_redirections.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 13:30:49 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	redirect_input_from(t_redir *redirection, t_process *p)
@@ -11,32 +23,39 @@ static void	redirect_input_from(t_redir *redirection, t_process *p)
 	close(p->fd_in);
 }
 
+static void	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
+{
+	if (fd_temp != ERROR)
+		close(fd_temp);
+	if (p->fd_in != ERROR)
+		close(p->fd_in);
+	p->fd_in = open_file(temp_file, 0);
+	dup2(p->fd_in, STDIN_FILENO);
+	close(p->fd_in);
+}
+
 int	input_redirect(t_cmd *command, t_process *p)
 {
 	t_redir	*redirection;
-	char	*delimiter;
 
 	redirection = command->redir;
 	while (redirection)
 	{
 		if (redirection->type == SMALLER)
-		{	
+		{
 			p->input_redir = 1;
 			redirect_input_from(redirection, p);
 		}
 		if (redirection->type == D_SMALLER)
 		{
-			p->input_redir = 1;
-			delimiter = heredoc_delimiter_qoutes(redirection->file, p); // ft_malloc if quoted
-			heredoc_handler(delimiter, p);
+			if (!redirection->next || 
+				(redirection->next && redirection->next->type != D_SMALLER))
+				heredoc_redirect(p->heredoc->file, p->heredoc->fd, p);
 		}
-		if (p->quotes && delimiter)
-			free(delimiter);
 		redirection = redirection->next;
 	}
 	return (1);
 }
-
 
 static void	redirect_output_to(t_redir *redirection, t_process *p)
 {
@@ -65,7 +84,3 @@ int	output_redirect(t_cmd *command, t_process *p)
 	}
 	return (1);
 }
-
-//printf("OK - redirect in\n");
-//printf("OK - redirect out\n");
-//printf("the file to redirect: %i\n", command->redir->type);

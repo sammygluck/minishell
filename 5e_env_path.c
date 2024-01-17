@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5e_env_path.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:26:24 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 14:27:57 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**create_paths_array(char *path)
 {
 	int		i;
-	char	**paths; // 2D array with different paths to binaries
+	char	**paths;
 
 	paths = ft_split(path, ':'); //make sure to free this in all cases
 	if (!paths)
@@ -31,9 +43,7 @@ int	retrieve_path_var_env(t_process *p)
 	tmp = getenv("PATH");
 	if (!tmp)
 		return (0);
-	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1)); //make sure to free this in all cases + use ft_malloc instead
-	if (!path)
-		return (0);
+	path = (char *)ft_malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
 	i = 0;
 	while (tmp[i])
 	{

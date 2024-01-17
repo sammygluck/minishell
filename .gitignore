@@ -3,4 +3,4 @@
 minishell
 *.a
 a.out
-temp/.minishell_heredoc_*
+temp/.minishell_heredoc

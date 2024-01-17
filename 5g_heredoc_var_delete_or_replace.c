@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5g_heredoc_var_delete_or_replace.c                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:33:31 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 13:38:53 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var)
+char	*delete_var_name(char *old_word, int *index, \
+			int len_newstr, int len_var)
 {
 	char	*new_word;
 	int		i;
 	int		j;
 
-	new_word = ft_malloc(sizeof(char) * (len_newstr));// Q: extra for null terminator needed?
+	new_word = ft_malloc(sizeof(char) * (len_newstr));
 	i = 0;
 	j = 0;
 	while (old_word[i])
@@ -42,14 +55,16 @@ static char	*copy_var_value(char *new_word, char *var_value, int *j)
 	return (new_word);
 }
 
-char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var)
+char	*replace_var_value(char *old_word, char *var_value, \
+			int *index, int len_newstr, int len_var)
 {
 	char	*new_word;
 	int		i;
 	int		j;
-	
-	new_word = ft_malloc(sizeof(char) * (len_newstr)); // ft_malloc
-	i = j = 0;
+
+	new_word = ft_malloc(sizeof(char) * (len_newstr));
+	i = 0;
+	j = 0;
 	while (old_word[i])
 	{
 		if (old_word[i] == '$' && i == *index)

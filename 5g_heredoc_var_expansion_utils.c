@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5g_heredoc_var_expansion_utils.c                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:35:44 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 13:40:50 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -15,23 +27,17 @@ int	valid_env_var_name(char c)
 		return (1);
 }
 
-/*
-	this function obtains the length of the string s after the $-sign
-	check for every char in the string if it is a valid char
-		a valid char must be alfanumeric (ASCII-text format) and may contain an underscore (_).
-*/
-
 int	env_var_name_length(char *line)
 {
-	int	i; // index to loop through s 
-	int	len; // to obtain the length of a valid env var s 
+	int	i;
+	int	len;
 
 	i = 0;
-	while (line[i] != '$') // if there are leading chars before the $-sign
+	while (line[i] != '$')
 		i++;
-	if (line[i] == '$') // skip the $-sign 
+	if (line[i] == '$')
 		i++;
-	if (line[i] == '?') // check if the next char after $-sign is question mark
+	if (line[i] == '?')
 		return (-1);
 	len = 0;
 	while (line[i])
@@ -68,13 +74,13 @@ char	*retrieve_env_var_value(char *line)
 		return (ft_itoa(g_last_exit_code));
 	start = 0;
 	while (line[start] != '$')
-		start++;	
-	start++; // skip the $-sign char
-	temp = ft_substr(line, start, len); // malloc in ft_substr!!
+		start++;
+	start++;
+	temp = ft_substr(line, start, len);
 	if (!temp)
 		return (NULL);
-	if (getenv(temp)) // check if the env var exists in the env 
-		var_value = ft_strdup(getenv(temp)); // ft_malloc in ft_strdup !!!!
+	if (getenv(temp))
+		var_value = ft_strdup(getenv(temp));
 	else
 		var_value = NULL;
 	free(temp);

@@ -20,7 +20,7 @@
 # define CHILD 0
 # define READ 0
 # define WRITE 1
-# define HEREDOC_TEMP_FILE "./temp/.minishell_heredoc_"
+# define HEREDOC_TEMP_FILE "./temp/.minishell_heredoc"
 
 /******************************************************************************
 *							GLOBAL VARIABLE									  *
@@ -97,18 +97,27 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+typedef	struct s_hdoc
+{
+	char	*file; // a pointer to the last opened file
+	char	*delimiter; // a pointer to the heredoc delimiter
+	int		quotes; // flag for quotes
+	int		fd; // fd of opened file
+} t_hdoc;
+
 typedef	struct	s_process
 {
 	int		fd_in; // the fd of the input file; if any
 	int		fd_out; // the fd of the output file; if any
 	int		status; // to keep track of the status of the last child
-	int		quotes; // heredoc flag to deal with the expander?
 	int		input_redir; // flag for heredoc
 	int		pipe_count;
 	int		cmds_count;
+	int		*pid;
 	char	**paths;
 	char	**envp;
 	char	***env;
+	t_hdoc	*heredoc;
 }	t_process;
 
 typedef struct s_export
@@ -222,7 +231,7 @@ void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
+int		execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
 void	execute_command(t_cmd *command, t_process *p, t_env_var **envs);
 int		execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 
@@ -235,8 +244,9 @@ int	input_redirect(t_cmd *command, t_process *p);
 int	output_redirect(t_cmd *command, t_process *p);
 
 // 5g heredoc functions
-void	heredoc_handler(char *delimiter, t_process *p);
-char	*heredoc_delimiter_qoutes(char *delimiter, t_process *p);
+int		heredoc_check(t_cmd *command, t_process *p);
+void	heredoc_handler(char *delimiter, t_hdoc *hd);
+char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd);
 char	*heredoc_var_expansion(char *word);
 char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
 char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
@@ -244,6 +254,9 @@ char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var);
 char	*retrieve_env_var_value(char *word);
 int		env_var_name_length(char *s);
 int		valid_env_var_name(char c);
+
+// 5g heredoc utils
+int	ft_strcmp(const char *s1, const char *s2);
 
 //6a builtins unset
 int ft_unset(char **argv, char ***env, t_env_var **env_l);
