@@ -249,7 +249,7 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd);
 char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd);
 char	*heredoc_var_expansion(char *word);
 char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
-char	*replace_var_value(char *old_word, char *var_value, int *index, int len_newstr, int len_var);
+char	*replace_var_value(char *old_word, char *var_value, int *index, int len_var);
 char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var);
 char	*retrieve_env_var_value(char *word);
 int		env_var_name_length(char *s);
