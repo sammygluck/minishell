@@ -45,6 +45,15 @@ typedef enum e_symbol
 	D_QUOTE_STRING, // 7
 } t_symbol;
 
+typedef enum e_signal 
+{
+    PROMPT,
+    HEREDOC_CHILD,
+    HEREDOC_PARENT,
+    FORK,
+    PARENT
+} t_signal;
+
 typedef struct s_token 
 {
 	char    *string;
