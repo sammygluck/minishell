@@ -48,7 +48,8 @@ SRC  = 1_main.c \
        6f_builtins_cd_b.c \
        6g_builtins_exit.c \
        6g_builtins_exit_utils.c \
-       7a_signals.c \
+       7a_signals_reg.c \
+       7b_signals_heredoc.c \
        8_shlvl_export.c \
        9_free.c
 

@@ -312,11 +312,14 @@ long truncate_to_exit_code(long long number);
 int validate_and_process_exit_code(char *input_str);
 
 //7 signals
-void	new_prompt(int signal);
-void	interactive(void);
-void	write_newline(int signal);
-void	noninteractive(void);
-void	sigquit_ign(void);
+int	signal_handler(int i);
+void	prompt_signal(int signal);
+void	p_parent_signal(int signal);
+void	p_fork_signal(int signal);
+
+void	heredoc_signal_handler(int i);
+void	h_parent_signal(int signal);
+void	h_child_signal(int signal);
 
 //8 shlvl export
 void shlvl_export(char ***env, t_env_var **env_l);
