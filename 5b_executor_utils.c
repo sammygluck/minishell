@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5b_executor_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 12:35:26 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 12:41:51 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_array(char **array)
 {
 	int	i;
-	
+
 	if (!array)
 		return ;
 	i = 0;
@@ -18,9 +30,9 @@ void	error_message(char *msg)
 	return ;
 }
 
-void exit_error(char *source, int type)
+void	exit_error(char *source, int type)
 {
-	if (type) // system call with ERRNO set
+	if (type)
 		perror(source);
 	else
 		ft_putstr_fd(source, 2);
@@ -29,28 +41,28 @@ void exit_error(char *source, int type)
 
 int	open_file(char *file, int file_type)
 {
-	int fd;
+	int	fd;
 
 	if (file_type == 0)
-		fd = open(file, O_RDONLY); // TO DO: check if right file permissions
+		fd = open(file, O_RDONLY);
 	if (file_type == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644); // TO DO: check if right file permissions
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_type == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644); // TO DO: check if right file permissions
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file_type == 3)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777); // TO DO: check if right file permissions
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == ERROR)
 	{
 		perror(file);
-		exit(1); // Q: exit failure ok?
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
+
 int	is_builtin(char **commands)
 {
 	char	*cmd;
 
-	//printf("OK - is builtin check\n");
 	cmd = *commands;
 	if (!cmd)
 		return (0);

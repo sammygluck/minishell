@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5g_heredoc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 12:33:18 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	heredoc_handler(char *delimiter, t_hdoc *hd)
@@ -6,15 +18,15 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd)
 
 	hd->file = HEREDOC_TEMP_FILE;
 	if (!hd->file)
-		error_message("heredoc file creation error\n"); // TO DO: add the proper error handling?
+		error_message("heredoc file creation error\n");
 	if (!delimiter)
-		error_message("delimiter missing\n"); // TO DO: change to correct error handler
+		error_message("delimiter missing\n");
 	hd->fd = open_file(hd->file, 3);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line) 
-			error_message("heredoc input error\n"); // TO DO: change to correct error handler
+			error_message("heredoc input error\n");
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (!hd->quotes && ft_strchr(line, '$'))
@@ -28,9 +40,9 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd)
 char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd)
 {
 	int		len;
-	char	*new_delimiter; // delimiter w/o quotes
+	char	*new_delimiter;
 
-	len = ft_strlen(delimiter); // Q: heredoc delimiter len check needed?
+	len = ft_strlen(delimiter);
 	if (len && ((delimiter[0] == '\'' && delimiter[len - 1] == '\'') || 
 			(delimiter[0] == '\"' && delimiter[len - 1] == '\"')))
 	{
@@ -45,7 +57,7 @@ static t_hdoc	*init_heredoc_struct(t_process *p)
 {
 	t_hdoc	*hd;
 
-	hd = ft_malloc(sizeof(t_hdoc)); // Q: correct way to handle the error?
+	hd = ft_malloc(sizeof(t_hdoc));
 	hd->file = NULL;
 	hd->delimiter = NULL;
 	hd->quotes = 0;
@@ -67,7 +79,7 @@ int	heredoc_check(t_cmd *command, t_process *p)
 		{
 			if (hd->quotes && hd->delimiter)
 			{
-				hd->quotes = 0; // reset the hd quotes
+				hd->quotes = 0;
 				free(hd->delimiter);
 			}
 			if (hd->fd != ERROR)
@@ -75,7 +87,7 @@ int	heredoc_check(t_cmd *command, t_process *p)
 			if (hd->file)
 				unlink(hd->file);
 			p->input_redir = 1;
-			hd->delimiter = heredoc_delimiter_qoutes(redirection->file, hd); // ft_malloc if quoted
+			hd->delimiter = heredoc_delimiter_qoutes(redirection->file, hd);
 			heredoc_handler(hd->delimiter, hd);
 		}
 		redirection = redirection->next;

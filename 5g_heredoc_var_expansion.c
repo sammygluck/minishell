@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   5g_heredoc_var_expansion.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:41:09 by jsteenpu          #+#    #+#             */
+/*   Updated: 2024/01/17 13:42:38 by jsteenpu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*replace_or_delete_heredoc_var(char *old_line, char *var_value, int *index)
+char	*replace_or_delete_heredoc_var(char *old_line, \
+			char *var_value, int *index)
 {
 	char	*new_line;
 	int		len_var;
@@ -15,7 +28,8 @@ char	*replace_or_delete_heredoc_var(char *old_line, char *var_value, int *index)
 	else
 	{
 		len_new_word = ft_strlen(old_line) - len_var + ft_strlen(var_value);
-		new_line = replace_var_value(old_line, var_value, index, len_new_word, len_var);
+		new_line = replace_var_value(old_line, var_value, \
+			index, len_new_word, len_var);
 	}
 	return (new_line);
 }
