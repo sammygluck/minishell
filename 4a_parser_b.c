@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:20:54 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 11:21:00 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 09:38:59 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_redir	*create_redirection_node(t_token **current)
 
 	if (!(*current)->next)
 	{
-		ft_putendl_fd("Syntax error: missing filename for redirection\n", 2); //this error should be handled in unexpected_token.delete?
+		ft_putendl_fd("Syntax error: missing filename for redirection\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	new_redir = ft_malloc(sizeof(t_redir));

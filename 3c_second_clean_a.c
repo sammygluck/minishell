@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:00:56 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/12 14:09:51 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 09:36:59 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*make_replace_string(t_env_var *env_list, char *to_replace)
 			|| to_replace[1] == '"'))
 		return (ft_strdup("$"));
 	else if (to_replace[0] == '$' && to_replace[1] == '?' && to_replace[2] == 0)
-		return (ft_itoa(g_last_exit_code)); // jst: for echo $? 
+		return (ft_itoa(g_last_exit_code));
 	else
 		return (var_extractor(to_replace, env_list));
 }

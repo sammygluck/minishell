@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 07:56:36 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/15 13:33:58 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 09:37:51 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	find_begin(char *string, int end)
 int	find_end(char *string, int begin)
 {
 	begin++;
-	if (!is_in_single_quote(string, begin) && string[begin] == '?')// jst: for echo $?
+	if (!is_in_single_quote(string, begin) && string[begin] == '?')
 		return (begin + 1);
 	while (is_valid_env_char(string[begin]))
 	{
