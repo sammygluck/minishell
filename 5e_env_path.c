@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:26:24 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 13:27:09 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:27:57 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**create_paths_array(char *path)
 	int		i;
 	char	**paths;
 
-	paths = ft_split(path, ':');
+	paths = ft_split(path, ':'); //make sure to free this in all cases
 	if (!paths)
 		return (NULL);
 	i = 0;

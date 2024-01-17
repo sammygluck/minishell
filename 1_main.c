@@ -58,6 +58,7 @@ void	process_commands(char ***env, t_env_var **envs)
 		free_token_list(&token_head);
 		noninteractive();
 		executor(&parsed, env, envs);
+		free_cmd_list(&parsed);
 		free(input);
 	}
 }

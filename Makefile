@@ -8,9 +8,51 @@ LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
 CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
 
 LIBS = -lreadline
-SRC = $(wildcard *.c)
+SRC  = 1_main.c \
+       1_main_utils_a.c \
+       2_lexer.c \
+       2b_lexer_tokens.c \
+       2c_lexer_token_utils.c \
+       2d_helper_functions.c \
+       2e_unexpected_token.c \
+       3a_expander_main.c \
+       3b_first_clean.c \
+       3c_second_clean_a.c \
+       3c_second_clean_b.c \
+       3d_third_clean.c \
+       3e_expander_utils_env_handler.c \
+       3f_expander_utils_in_quote_helper.c \
+       4a_parser_a.c \
+       4a_parser_b.c \
+       4b_realloc_array.c \
+       5a_executor.c \
+       5b_executor_utils.c \
+       5c_connect_cmds.c \
+       5d_execute_cmd.c \
+       5e_env_path.c \
+       5f_redirections.c \
+       5g_heredoc.c \
+       5g_heredoc_var_delete_or_replace.c \
+       5g_heredoc_var_expansion.c \
+       5g_heredoc_var_expansion_utils.c \
+       6a_builtins_unset.c \
+       6a_builtins_unset_utils.c \
+       6b_builtins_pwd.c \
+       6c_builtins_env.c \
+       6d_builtins_echo.c \
+       6e_builtins_export.c \
+       6e_builtins_export_utils_a.c \
+       6e_builtins_export_utils_b.c \
+       6f_builtins_cd_a.c \
+       6f_builtins_cd_b.c \
+       6g_builtins_exit.c \
+       6g_builtins_exit_utils.c \
+       7a_signals.c \
+       8_shlvl_export.c \
+       9_free.c
+
 OBJ = $(SRC:.c=.o)
-HEADERS = $(wildcard *.h)
+HEADERS = minishell.h
 RM = rm -f
 
 # external projects

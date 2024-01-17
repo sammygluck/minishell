@@ -52,6 +52,7 @@ int	error_unexpected_token(t_token *lexer_head)
 		ft_putendl_fd("'", 2);
 		if (error_string)
 			free(error_string);
+		g_last_exit_code = 258;
 		return (1);
 	}
 	else

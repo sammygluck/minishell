@@ -83,7 +83,7 @@ void    free_cmd_list(t_cmd **head)
         if (old_head->argv)
             free_char_env(old_head->argv);
         if (old_head->redir)
-            free_redirection_list(&old_head->redir); //double check the param input
+            free_redirection_list(&old_head->redir);
 		if (old_head)
 			free(old_head);
 		old_head = new_head;

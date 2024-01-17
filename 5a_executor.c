@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 12:32:07 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:29:52 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		current_cmd = current_cmd->next;
 	}
 	parent_wait(p);
+	free(p);
 }
