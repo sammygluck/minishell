@@ -23,12 +23,12 @@ t_env_var	*create_env_var_key_value(t_export *key_value)
 	return (env_var);
 }
 
-void	update(t_export *key_value, char ***env, t_env_var **env_list, int append)
+void	update(t_export *key_value, char ***env, t_env_var **env_list)
 {
 	t_env_var	*new_node;
 
 	new_node = NULL;
-	if (!arg_exists_and_updated(key_value, env_list, append))
+	if (!arg_exists_and_updated(key_value, env_list))
 	{
 		new_node = create_env_var_key_value(key_value);
 		add_env_var(env_list, new_node);
@@ -57,7 +57,7 @@ int	is_right_format(char *string)
 {
 	if (!valid_identifiers(string))
 		return (0);
-	if (!has_equal_sign(string) && !has_plus_equal_sign(string))
+	if (!has_equal_sign(string))
 		return (0);
 	return (1);
 }
@@ -69,45 +69,24 @@ int	valid_identifiers(char *string)
 	i = 0;
 	if (!string || string[0] == '\0')
 	{
-		print_export_error(0);
+		ft_putstr_fd("minishell: export: Error: Empty string or null pointer\n", 2);
 		return (0);
 	}
 	// Check first character
 	if (!is_alpha_under(string[i]))
 	{
-		print_export_error(1);
+		ft_putstr_fd("minishell: export: Error: First character is not a valid identifier\n", 2);
 		return (0);
 	}
 	i++;
-	while (string[i] && !is_valid_sep(string, i))
+	while (string[i] && string[i] != '=')
 	{
 		if (!is_alpha_under(string[i]) && !ft_isdigit(string[i]))
 		{
-			print_export_error(2);
+			ft_putstr_fd("minishell: export: Error: Invalid character in identifier\n", 2);
 			return (0);
 		}
 		i++;
 	}
 	return (1);
-}
-
-int	is_valid_sep(char *s, int i)
-{
-	if (s[i] == '=')
-		return (1);
-	else if (s[i] == '+' && s[i + 1] == '=')
-		return (1);
-	else
-		return (0);
-}
-
-void print_export_error(int i)
-{
-	ft_putstr_fd("minishell: export: Error: ", 2);
-	if (i == 0)
-		ft_putendl_fd("Empty string or null pointer", 2);
-	else if (i == 1)
-		ft_putendl_fd("First character is not a valid identifier", 2);
-	else if (i == 2)
-		ft_putendl_fd("Invalid character in identifier", 2);
 }

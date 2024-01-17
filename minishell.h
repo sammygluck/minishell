@@ -280,15 +280,19 @@ int only_n(char *string);
 //6e builtins export
 int ft_export(char **argv, char ***env, t_env_var **list);
 t_env_var *create_env_var_key_value(t_export *key_value);
-void update(t_export *key_value, char ***env, t_env_var **env_list);
+void	update(t_export *key_value, char ***env, t_env_var **env_list, int append);
 void modified_ft_env(t_env_var *env);
 int is_right_format(char *string);
 int valid_identifiers(char *string);
 int has_equal_sign(char *string);
+int has_plus_equal_sign(char *string);
 int is_alpha_under(char c);
-int arg_exists_and_updated(t_export *key_value, t_env_var **env_list);
-void extract_key_value(char *string, t_export *key_value);
+int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append);
+void	extract_key_value(char *string, t_export *key_value, int *append);
 void free_key_value(t_export *key_value);
+int	is_valid_sep(char *s, int i);
+void print_export_error(int i);
+
 
 //6f builtins cd
 int ft_cd(char **argv, char ***env, t_env_var **env_head);

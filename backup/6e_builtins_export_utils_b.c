@@ -26,20 +26,6 @@ int	has_equal_sign(char *string)
 	return (0);
 }
 
-int has_plus_equal_sign(char *string)
-{
-	int	i;
-
-	i = 0;
-	while(string[i])
-	{
-		if (string[i] == '+' && string[i + 1] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 int	is_alpha_under(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
@@ -48,10 +34,9 @@ int	is_alpha_under(char c)
 		return (0);
 }
 
-int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append)
+int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list)
 {
 	t_env_var	*head;
-	char *temp;
 
 	head = *env_list;
 	while (head)
@@ -60,18 +45,9 @@ int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append
 		{
 			if (!strncmp(key_value->key, head->name, ft_strlen(head->name)))
 			{
-				if (append && head->value)
-				{
-					temp = ft_strjoin(head->value, key_value->value);
+				if (head->value)
 					free(head->value);
-					head->value = temp;
-				}
-				else
-				{
-					if (head->value)
-						free(head->value);
-					head->value = ft_strdup(key_value->value);
-				}
+				head->value = ft_strdup(key_value->value);
 				return (1);
 			}
 		}
@@ -80,28 +56,16 @@ int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append
 	return (0);
 }
 
-void	extract_key_value(char *string, t_export *key_value, int *append)
+void	extract_key_value(char *string, t_export *key_value)
 {
 	int	i;
 
 	i = 0;
 	free_key_value(key_value);
-	while (string[i])
-	{
-		if (string[i] == '+' && string[i + 1] == '=')
-		{
-			*append = 1;
-			break ;
-		}
-		if (string[i] == '=')
-			break ;
+	while (string[i] && string[i] != '=')
 		i++;
-	}
 	key_value->key = ft_strndup(string, i);
-	if (*append)
-		i += 2;
-	else
-		i++;
+	i++;
 	key_value->value = ft_strdup(&string[i]);
 }
 

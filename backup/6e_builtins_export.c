@@ -16,7 +16,6 @@ int	ft_export(char **argv, char ***env, t_env_var **list)
 {
 	t_export	key_value;
 	int			i;
-	int			append;
 
 	i = 1;
 	key_value.key = NULL;
@@ -30,11 +29,10 @@ int	ft_export(char **argv, char ***env, t_env_var **list)
 		modified_ft_env(*list);
 	while (argv[i])
 	{
-		append = 0;
 		if (is_right_format(argv[i]))
 		{
-			extract_key_value(argv[i], &key_value, &append);
-			update(&key_value, env, list, append);
+			extract_key_value(argv[i], &key_value);
+			update(&key_value, env, list);
 		}
 		i++;
 	}
