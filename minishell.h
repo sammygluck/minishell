@@ -194,7 +194,7 @@ void		free_env_list(t_env_var **head);
 void		free_redirection_list(t_redir **head);
 void		free_cmd_list(t_cmd **head);
 void		print_env(char **env);
-void		heredoc_handler(char *delimiter, t_hdoc *hd);
+void		heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs);
 char		*ft_readline(void);
 char		*token_string(int type, int *i);
 char		*word_string(char *string, int *i);
@@ -212,14 +212,14 @@ char		*extract_var_value(char *current_env);
 char		**realloc_array(char **argv, int argc);
 char		**create_paths_array(char *path);
 char		*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd);
-char		*heredoc_var_expansion(char *word);
+char		*heredoc_var_expansion(char *word, t_env_var **envs);
 char		*replace_or_delete_heredoc_var(char *old_word,
 				char *var_value, int *index);
 char		*replace_var_value(char *old_word, char *var_value,
 				int *index, int len_var);
 char		*delete_var_name(char *old_word, int *index,
 				int len_newstr, int len_var);
-char		*retrieve_env_var_value(char *word);
+char		*retrieve_env_var_value(char *word, t_env_var **envs);
 char		**mirror_list_to_array(t_env_var *list);
 char		*ft_env_join(char const *s1, char const *s2);
 char		*get_env_value(t_env_var *env, char *string);
@@ -249,7 +249,7 @@ int			execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 int			retrieve_path_var_env(t_process *p);
 int			input_redirect(t_cmd *command, t_process *p);
 int			output_redirect(t_cmd *command, t_process *p);
-int			heredoc_check(t_cmd *command, t_process *p);
+int			heredoc_check(t_cmd *command, t_process *p, t_env_var **envs);
 int			env_var_name_length(char *s);
 int			valid_env_var_name(char c);
 int			ft_strcmp(const char *s1, const char *s2);

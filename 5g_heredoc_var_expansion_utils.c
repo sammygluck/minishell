@@ -62,7 +62,7 @@ int	env_var_name_length(char *line)
 	if not found, it returns NULL.
 */
 
-char	*retrieve_env_var_value(char *line)
+char	*retrieve_env_var_value(char *line, t_env_var **envs)
 {
 	int		len;
 	int		start;
@@ -79,10 +79,7 @@ char	*retrieve_env_var_value(char *line)
 	temp = ft_substr(line, start, len);
 	if (!temp)
 		return (NULL);
-	if (getenv(temp))
-		var_value = ft_strdup(getenv(temp));
-	else
-		var_value = NULL;
+	var_value = get_env_value(*envs, temp);
 	free(temp);
 	return (var_value);
 }
