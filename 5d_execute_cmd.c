@@ -100,6 +100,7 @@ pid_t	execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_va
 		exit_error("fork", 1);
 	if (child == 0)
 	{
+		//printf("the commmand to execute: %s\n", command->argv[0]);
 		if (input_redirect(command, p) && connect_commands(command, pipes, p) &&
 			output_redirect(command, p))
 			execute_command(command, p, envs);

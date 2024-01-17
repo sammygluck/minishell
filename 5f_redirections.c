@@ -34,7 +34,7 @@ int	input_redirect(t_cmd *command, t_process *p)
 			p->input_redir = 1;
 			redirect_input_from(redirection, p);
 		}
-		if (redirection->type == D_SMALLER && !redirection->next)
+		if (redirection->type == D_SMALLER && redirection->next->type != D_SMALLER)
 			heredoc_redirect(p->heredoc->file, p->heredoc->fd, p);
 		redirection = redirection->next;
 	}

@@ -92,9 +92,8 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		current_cmd = current_cmd->next;
 	}
 	parent_wait(child, p);
-	if (p->heredoc->file)
-		unlink(p->heredoc->file);
 }
 
+//printf("the input redirect in main: %i\n", p->input_redir);
 // printf("the command to execute: %s\n", current_cmd->argv[0]);
 //printf("Exit status of the child was %d\n", g_last_exit_code);
