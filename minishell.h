@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:27:00 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/17 13:38:35 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -33,84 +45,84 @@ extern int	g_last_exit_code;
 
 typedef int fds[2];
 
-typedef enum e_symbol 
+typedef enum e_symbol
 {
-	STRING,		// 0 
-	D_GREATER,	// 1 - redirection '>>'
-	D_SMALLER,	// 2 - redirection '<<'
-	PIPE,		// 3
-	GREATER,	// 4 - redirection '>'
-	SMALLER,	// 5 - redirection '<'
-	S_QUOTE_STRING, // 6
-	D_QUOTE_STRING, // 7
-} t_symbol;
+	STRING,
+	D_GREATER,
+	D_SMALLER,
+	PIPE,
+	GREATER,
+	SMALLER,
+	S_QUOTE_STRING,
+	D_QUOTE_STRING,
+}	t_symbol;
 
-typedef enum e_signal 
+typedef enum e_signal
 {
-    PROMPT,
-    HEREDOC_CHILD,
-    HEREDOC_PARENT,
-    FORK,
-    PARENT
-} t_signal;
+	PROMPT,
+	HEREDOC_CHILD,
+	HEREDOC_PARENT,
+	FORK,
+	PARENT
+}	t_signal;
 
-typedef struct s_token 
+typedef struct s_token
 {
-	char    *string;
-	int     type;
-	struct s_token *next;
-	struct s_token *previous;
-}   t_token;
+	struct s_token	*next;
+	struct s_token	*previous;
+	char			*string;
+	int				type;
+}	t_token;
 
-typedef struct s_begin_end 
+typedef struct s_begin_end
 {
-	int begin;
-	int end;
-} t_begin_end;
+	int	begin;
+	int	end;
+}	t_begin_end;
 
 typedef struct s_quote
 {
-	int in_quote;
-	char    quote_type;
-} t_quote;
+	char	quote_type;
+	int		in_quote;
+}	t_quote;
 
-typedef struct s_env_var 
+typedef struct s_env_var
 {
-	char *name;
-	char *value;
-	struct s_env_var *next;
-} t_env_var;
+	struct s_env_var	*next;
+	char				*name;
+	char				*value;
+}	t_env_var;
 
-typedef struct s_redir 
+typedef struct s_redir
 {
-	int type;
-	char *file;
-	struct s_redir *next; 
-} t_redir;
+	struct s_redir	*next;
+	char			*file;
+	int				type;
+}	t_redir;
 
 typedef struct s_cmd
 {
-	int argc;
-	char **argv;
-	t_redir *redir;
-	int cmd_nr;
-	struct s_cmd *next;
-} t_cmd;
+	struct s_cmd	*next;
+	t_redir			*redir;
+	char			**argv;
+	int				argc;
+	int				cmd_nr;
+}	t_cmd;
 
-typedef	struct s_hdoc
+typedef struct s_hdoc
 {
-	char	*file; // a pointer to the last opened file
-	char	*delimiter; // a pointer to the heredoc delimiter
-	int		quotes; // flag for quotes
-	int		fd; // fd of opened file
-} t_hdoc;
+	char	*file;
+	char	*delimiter;
+	int		quotes;
+	int		fd;
+}	t_hdoc;
 
-typedef	struct	s_process
+typedef struct s_process
 {
-	int		fd_in; // the fd of the input file; if any
-	int		fd_out; // the fd of the output file; if any
-	int		status; // to keep track of the status of the last child
-	int		input_redir; // flag for heredoc
+	int		fd_in;
+	int		fd_out;
+	int		status;
+	int		input_redir;
 	int		pipe_count;
 	int		cmds_count;
 	int		*pid;
@@ -122,10 +134,9 @@ typedef	struct	s_process
 
 typedef struct s_export
 {
-    char *key;
-    char *value;
-} t_export;
-
+	char	*key;
+	char	*value;
+}	t_export;
 
 /******************************************************************************
 *								FUNCTIONS									  *
