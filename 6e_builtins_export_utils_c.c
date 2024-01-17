@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   6e_builtins_export_utils_c.c                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 13:23:47 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/17 13:23:48 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_right_format(char *string)
@@ -33,12 +45,12 @@ int	has_equal_sign(char *string)
 	return (0);
 }
 
-int has_plus_equal_sign(char *string)
+int	has_plus_equal_sign(char *string)
 {
 	int	i;
 
 	i = 0;
-	while(string[i])
+	while (string[i])
 	{
 		if (string[i] == '+' && string[i + 1] == '=')
 			return (1);
