@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	heredoc_signal_handler(int i)
+void	heredoc_signal_handler(int i)
 {
 	struct sigaction	act;
 

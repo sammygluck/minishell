@@ -47,7 +47,8 @@ void	modified_ft_env(t_env_var *env)//parameters + check again if works
 	head = env;
 	while (head)
 	{
-		printf("declare -x %s=\"%s\"\n", head->name, head->value);
+		if (head->value != NULL)
+			printf("declare -x %s=\"%s\"\n", head->name, head->value);
 		head = head->next;
 	}
 	return ;

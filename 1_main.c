@@ -48,7 +48,6 @@ void	process_commands(char ***env, t_env_var **envs)
 
 	while (1)
 	{
-		interactive();
 		input = ft_readline();
 		if (!input)
 			continue ;
@@ -56,7 +55,6 @@ void	process_commands(char ***env, t_env_var **envs)
 		expander(&token_head, *envs);
 		parsed = parser(token_head);
 		free_token_list(&token_head);
-		noninteractive();
 		executor(&parsed, env, envs);
 		free_cmd_list(&parsed);
 		free(input);
