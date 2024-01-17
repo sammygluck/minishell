@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 13:30:49 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:48:49 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	input_redirect(t_cmd *command, t_process *p)
 		}
 		if (redirection->type == D_SMALLER)
 		{
-			if (!redirection->next || 
-				(redirection->next && redirection->next->type != D_SMALLER))
+			if (!redirection->next
+				|| (redirection->next && redirection->next->type != D_SMALLER))
 				heredoc_redirect(p->heredoc->file, p->heredoc->fd, p);
 		}
 		redirection = redirection->next;
