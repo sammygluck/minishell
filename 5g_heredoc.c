@@ -24,9 +24,13 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd)
 	hd->fd = open_file(hd->file, 3);
 	while (1)
 	{
+		heredoc_signal_handler(HEREDOC_CHILD);
 		line = readline("> ");
-		if (!line) 
+		if (!line)
+		{
 			error_message("heredoc input error\n");
+			break ;
+		} 
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (!hd->quotes && ft_strchr(line, '$'))

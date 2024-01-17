@@ -49,6 +49,7 @@ void	process_commands(char ***env, t_env_var **envs)
 
 	while (1)
 	{
+		signal_handler(PROMPT);
 		input = ft_readline();
 		if (!input)
 			continue ;

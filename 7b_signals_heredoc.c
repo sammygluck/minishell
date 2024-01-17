@@ -43,6 +43,6 @@ void	h_child_signal(int signal)
 	{
 		g_last_exit_code = 130;
 		ft_putstr_fd("\n", 1);
-		exit(130);
+		//exit(130);
 	}
 }

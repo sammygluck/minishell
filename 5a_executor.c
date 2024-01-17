@@ -101,6 +101,7 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
 		heredoc_check(current_cmd, p);
+		signal_handler(PARENT);
 		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv))
 			g_last_exit_code = execute_builtin(current_cmd, p, envs);
 		else

@@ -60,8 +60,7 @@ void	p_parent_signal(int signal)
 	else if (signal == SIGQUIT)
 	{
 		g_last_exit_code = 131;
-		ft_putstr_fd("Quit: 3", 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("Quit\n", 1);
 	}
 }
 

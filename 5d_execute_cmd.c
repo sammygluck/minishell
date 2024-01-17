@@ -115,6 +115,7 @@ int	execute_cmd_in_child(t_cmd *command, fds pipes[2], \
 		exit_error("fork", 1);
 	if (p->pid[i] == 0)
 	{
+		signal_handler(FORK);
 		if (input_redirect(command, p) && connect_commands(command, pipes, p) \
 			&& output_redirect(command, p))
 			execute_command(command, p, envs);
