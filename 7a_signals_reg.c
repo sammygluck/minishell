@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   7a_signals_reg.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 09:49:52 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/17 09:50:12 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	signal_handler(int i)
 {
 	struct sigaction	act;
 
-    ft_memset(&act, 0, sizeof(act));
+	ft_memset(&act, 0, sizeof(act));
 	if (i == PROMPT)
 	{
 		act.sa_handler = &prompt_signal;
@@ -61,5 +73,3 @@ void	p_fork_signal(int signal)
 		g_last_exit_code = 131;
 	exit(g_last_exit_code);
 }
-
-

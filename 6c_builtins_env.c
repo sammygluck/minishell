@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:32:24 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/04 11:32:30 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 09:46:41 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_env(t_env_var **env_l)
 	t_env_var	*head;
 
 	head = *env_l;
-	if (!env_l) //also check if there are arguments and failure on more parameters should they come up
+	if (!env_l || !head)
 	{
 		ft_putstr_fd("no env variables\n", 2);
 		return (1);

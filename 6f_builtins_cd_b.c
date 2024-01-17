@@ -6,26 +6,27 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:32:03 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 10:05:42 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 09:48:17 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//comment recheck !getcwd actions
 int	ft_chdir(const char *path, char ***env, t_env_var **env_head)
 {
 	char	old_pwd[PATH_MAX];
 	char	new_pwd[PATH_MAX];
 
 	if (!getcwd(old_pwd, PATH_MAX))
-		old_pwd[0] = '\0'; //must I error out instead?
+		old_pwd[0] = '\0';
 	if (chdir(path) != 0)
 	{
-		perror("minishell: cd"); // Improved error handling
+		perror("minishell: cd");
 		return (1);
 	}
 	if (!getcwd(new_pwd, PATH_MAX))
-		new_pwd[0] = '\0'; //perror("minishell: cd"); //exit here or return 1
+		new_pwd[0] = '\0';
 	pwd_export(new_pwd, env, env_head);
 	oldpwd_export(old_pwd, env, env_head);
 	return (0);
