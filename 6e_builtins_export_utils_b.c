@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:26 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/14 04:56:03 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 12:38:38 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	has_equal_sign(char *string)
 	return (0);
 }
 
-int has_plus_equal_sign(char *string)
+int	has_plus_equal_sign(char *string)
 {
 	int	i;
 
 	i = 0;
-	while(string[i])
+	while (string[i])
 	{
 		if (string[i] == '+' && string[i + 1] == '=')
 			return (1);
@@ -48,10 +48,11 @@ int	is_alpha_under(char c)
 		return (0);
 }
 
-int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append)
+int	arg_exists_and_updated(t_export *key_value,
+		t_env_var **env_list, int append)
 {
+	char		*temp;
 	t_env_var	*head;
-	char *temp;
 
 	head = *env_list;
 	while (head)

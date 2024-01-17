@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:06 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:24:35 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/17 12:37:26 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_env_var	*create_env_var_key_value(t_export *key_value)
 	return (env_var);
 }
 
-void	update(t_export *key_value, char ***env, t_env_var **env_list, int append)
+void	update(t_export *key_value, char ***env,
+		t_env_var **env_list, int append)
 {
 	t_env_var	*new_node;
 
@@ -72,7 +73,6 @@ int	valid_identifiers(char *string)
 		print_export_error(0);
 		return (0);
 	}
-	// Check first character
 	if (!is_alpha_under(string[i]))
 	{
 		print_export_error(1);
@@ -101,7 +101,7 @@ int	is_valid_sep(char *s, int i)
 		return (0);
 }
 
-void print_export_error(int i)
+void	print_export_error(int i)
 {
 	ft_putstr_fd("minishell: export: Error: ", 2);
 	if (i == 0)
