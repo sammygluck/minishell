@@ -88,7 +88,7 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 {
 	t_cmd		*current_cmd;
 	t_process	*p;
-	static fds	pipes[2];
+	static t_fds	pipes[2];
 	int			std_fds[2];
 
 	if (!command || !*command)

@@ -31,7 +31,7 @@ extern int	g_last_exit_code;
 *								STRUCTS									      *
 ******************************************************************************/
 
-typedef int fds[2];
+typedef int t_fds[2];
 
 typedef enum e_symbol 
 {
@@ -226,12 +226,12 @@ int		open_file(char *file, int file_type);
 int		is_builtin(char **commands);
 
 // 5c connect commands with dup2
-int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);
-void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p);
+int		connect_commands(t_cmd *command, t_fds pipes[2], t_process *p);
+void	close_pipe_ends(t_cmd *command, t_fds pipes[2], t_process *p);
 void	swap(int **pipes);
 
 // 5d execute command function
-int		execute_cmd_in_child(t_cmd *command, fds pipes[2], t_process *p,  t_env_var **envs);
+int		execute_cmd_in_child(t_cmd *command, t_fds pipes[2], t_process *p,  t_env_var **envs);
 void	execute_command(t_cmd *command, t_process *p, t_env_var **envs);
 int		execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 
