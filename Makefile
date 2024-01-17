@@ -44,6 +44,7 @@ SRC  = 1_main.c \
        6e_builtins_export.c \
        6e_builtins_export_utils_a.c \
        6e_builtins_export_utils_b.c \
+       6e_builtins_export_utils_c.c \
        6f_builtins_cd_a.c \
        6f_builtins_cd_b.c \
        6g_builtins_exit.c \

@@ -53,15 +53,6 @@ void	modified_ft_env(t_env_var *env)
 	return ;
 }
 
-int	is_right_format(char *string)
-{
-	if (!valid_identifiers(string))
-		return (0);
-	if (!has_equal_sign(string) && !has_plus_equal_sign(string))
-		return (0);
-	return (1);
-}
-
 int	valid_identifiers(char *string)
 {
 	int	i;
@@ -72,7 +63,6 @@ int	valid_identifiers(char *string)
 		print_export_error(0);
 		return (0);
 	}
-	// Check first character
 	if (!is_alpha_under(string[i]))
 	{
 		print_export_error(1);
@@ -91,15 +81,7 @@ int	valid_identifiers(char *string)
 	return (1);
 }
 
-int	is_valid_sep(char *s, int i)
-{
-	if (s[i] == '=')
-		return (1);
-	else if (s[i] == '+' && s[i + 1] == '=')
-		return (1);
-	else
-		return (0);
-}
+
 
 void print_export_error(int i)
 {

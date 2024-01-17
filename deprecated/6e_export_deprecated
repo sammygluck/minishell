@@ -1,0 +1,64 @@
+
+
+// int	ft_export(char **argv, char ***env, t_env_var **list)
+// {
+// 	t_export	key_value;
+// 	int			i;
+// 	int			append;
+
+// 	i = 1;
+// 	key_value.key = NULL;
+// 	key_value.value = NULL;
+// 	if (!argv)
+// 	{
+// 		ft_putstr_fd("minishell: export: fatal error\n", 2);
+// 		exit(EXIT_FAILURE);//option return (1)
+// 	}
+// 	if (!argv[1])
+// 		modified_ft_env(*list);
+// 	while (argv[i])
+// 	{
+// 		append = 0;
+// 		if (is_right_format(argv[i]))
+// 		{
+// 			extract_key_value(argv[i], &key_value, &append);
+// 			update(&key_value, env, list, append);
+// 		}
+// 		i++;
+// 	}
+// 	free_key_value(&key_value);
+// 	return (0);
+// }
+
+
+// int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append)
+// {
+// 	t_env_var	*head;
+// 	char *temp;
+
+// 	head = *env_list;
+// 	while (head)
+// 	{
+// 		if (ft_strlen(key_value->key) == ft_strlen(head->name))
+// 		{
+// 			if (!strncmp(key_value->key, head->name, ft_strlen(head->name)))
+// 			{
+// 				if (append && head->value)
+// 				{
+// 					temp = ft_strjoin(head->value, key_value->value);
+// 					free(head->value);
+// 					head->value = temp;
+// 				}
+// 				else
+// 				{
+// 					if (head->value)
+// 						free(head->value);
+// 					head->value = ft_strdup(key_value->value);
+// 				}
+// 				return (1);
+// 			}
+// 		}
+// 		head = head->next;
+// 	}
+// 	return (0);
+// }

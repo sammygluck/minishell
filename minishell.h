@@ -279,6 +279,9 @@ int only_n(char *string);
 
 //6e builtins export
 int ft_export(char **argv, char ***env, t_env_var **list);
+int ft_export_init(char **argv, t_env_var **list, t_export *key_value);
+int ft_export_process_args(char **argv, char ***env, t_env_var **list, t_export *key_value);
+
 t_env_var *create_env_var_key_value(t_export *key_value);
 void	update(t_export *key_value, char ***env, t_env_var **env_list, int append);
 void modified_ft_env(t_env_var *env);
@@ -288,6 +291,8 @@ int has_equal_sign(char *string);
 int has_plus_equal_sign(char *string);
 int is_alpha_under(char c);
 int	arg_exists_and_updated(t_export *key_value, t_env_var **env_list, int append);
+int update_env_value(t_export *key_value, t_env_var *env_var, int append);
+int compare_key_length(t_export *key_value, t_env_var *env_var);
 void	extract_key_value(char *string, t_export *key_value, int *append);
 void free_key_value(t_export *key_value);
 int	is_valid_sep(char *s, int i);
