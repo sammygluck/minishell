@@ -30,7 +30,12 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd)
 		{
 			error_message("heredoc input error\n");
 			break ;
-		} 
+		}
+		if (g_last_exit_code == -1)
+		{
+			g_last_exit_code = 130;
+			break;
+		}
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (!hd->quotes && ft_strchr(line, '$'))

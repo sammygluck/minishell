@@ -41,7 +41,7 @@ void	h_child_signal(int signal)
 {
 	if (signal == SIGINT)
 	{
-		g_last_exit_code = 130;
+		g_last_exit_code = -1;
 		ft_putstr_fd("\n", 1);
 		//exit(130);
 	}
