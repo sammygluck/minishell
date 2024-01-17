@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 12:33:18 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:07:15 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd)
 		if (g_last_exit_code == -1)
 		{
 			g_last_exit_code = 130;
-			break;
+			break ;
 		}
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;

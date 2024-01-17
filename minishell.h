@@ -35,14 +35,14 @@ typedef int fds[2];
 
 typedef enum e_symbol 
 {
-	STRING,		// 0 
-	D_GREATER,	// 1 - redirection '>>'
-	D_SMALLER,	// 2 - redirection '<<'
-	PIPE,		// 3
-	GREATER,	// 4 - redirection '>'
-	SMALLER,	// 5 - redirection '<'
-	S_QUOTE_STRING, // 6
-	D_QUOTE_STRING, // 7
+	STRING,
+	D_GREATER,
+	D_SMALLER,
+	PIPE,
+	GREATER,
+	SMALLER,
+	S_QUOTE_STRING,
+	D_QUOTE_STRING,
 } t_symbol;
 
 typedef enum e_signal 
@@ -99,18 +99,18 @@ typedef struct s_cmd
 
 typedef	struct s_hdoc
 {
-	char	*file; // a pointer to the last opened file
-	char	*delimiter; // a pointer to the heredoc delimiter
-	int		quotes; // flag for quotes
-	int		fd; // fd of opened file
+	char	*file;
+	char	*delimiter;
+	int		quotes;
+	int		fd;
 } t_hdoc;
 
 typedef	struct	s_process
 {
-	int		fd_in; // the fd of the input file; if any
-	int		fd_out; // the fd of the output file; if any
-	int		status; // to keep track of the status of the last child
-	int		input_redir; // flag for heredoc
+	int		fd_in;
+	int		fd_out;
+	int		status;
+	int		input_redir;
 	int		pipe_count;
 	int		cmds_count;
 	int		*pid;
@@ -218,12 +218,18 @@ char **realloc_array(char **argv, int argc);
 // 5a executor functions
 void	executor(t_cmd **command, char ***env, t_env_var **envs);
 
-// 5b executor utils functions
+// 5b executor utils functions part 1
 void	free_array(char **array);
 void	error_message(char *msg);
 void	exit_error(char *source, int type);
 int		open_file(char *file, int file_type);
 int		is_builtin(char **commands);
+
+// 5b executor utils functions part 2
+void	save_stdin_out(int *save_fd);
+void	reset_std(int *save_fd, t_process *p);
+void	free_executor(t_process *p);
+
 
 // 5c connect commands with dup2
 int		connect_commands(t_cmd *command, fds pipes[2], t_process *p);
@@ -248,8 +254,8 @@ int		heredoc_check(t_cmd *command, t_process *p);
 void	heredoc_handler(char *delimiter, t_hdoc *hd);
 char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd);
 char	*heredoc_var_expansion(char *word);
-char	*replace_or_delete_heredoc_var(char *old_word, char *var_value, int *index);
-char	*replace_var_value(char *old_word, char *var_value, int *index, int len_var);
+char	*replace_or_delete_heredoc_var(char *old_line, char *var_value, int *index);
+char	*replace_var_value(char *old_line, char *var_value, int *index, int len_var);
 char	*delete_var_name(char *old_word, int *index, int len_newstr, int len_var);
 char	*retrieve_env_var_value(char *word);
 int		env_var_name_length(char *s);

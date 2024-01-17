@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 14:29:52 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:26:22 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,6 @@ static void	parent_wait(t_process *p)
 	waitpid(p->pid[i], &p->status, 0);
 	if (WIFEXITED(p->status))
 		g_last_exit_code = WEXITSTATUS(p->status);
-}
-
-static void	save_stdin_out(int *save_fd)
-{
-	save_fd[0] = dup(STDIN_FILENO);
-	save_fd[1] = dup(STDOUT_FILENO);
-}
-
-static void	reset_std(int *save_fd, t_process *p)
-{
-	if (p->input_redir)
-		p->input_redir = 0;
-	if (p->heredoc->fd != ERROR)
-		close(p->heredoc->fd);
-	dup2(save_fd[0], STDIN_FILENO);
-	close(save_fd[0]);
-	dup2(save_fd[1], STDOUT_FILENO);
-	close(save_fd[1]);
 }
 
 static t_process	*init_process_struct(char ***env)
@@ -112,5 +94,5 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		current_cmd = current_cmd->next;
 	}
 	parent_wait(p);
-	free(p);
+	free_executor(p);
 }
