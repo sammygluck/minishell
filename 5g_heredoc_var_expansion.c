@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:09 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 13:42:38 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:58:31 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ char	*replace_or_delete_heredoc_var(char *old_line, \
 		new_line = delete_var_name(old_line, index, len_new_word, len_var);
 	}
 	else
-	{
-		len_new_word = ft_strlen(old_line) - len_var + ft_strlen(var_value);
 		new_line = replace_var_value(old_line, var_value, \
-			index, len_new_word, len_var);
-	}
+			index, len_var);
 	return (new_line);
 }
 
