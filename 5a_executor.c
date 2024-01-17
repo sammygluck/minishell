@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 18:26:22 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:54:06 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,32 @@ static void	parent_wait(t_process *p)
 	waitpid(p->pid[i], &p->status, 0);
 	if (WIFEXITED(p->status))
 		g_last_exit_code = WEXITSTATUS(p->status);
+}
+
+static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
+{
+	t_cmd		*current_cmd;
+	static fds	pipes[2];
+	int			std_fds[2];
+
+	current_cmd = *command;
+	while (current_cmd)
+	{
+		save_stdin_out(std_fds);
+		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
+			exit_error("pipe", 1);
+		heredoc_check(current_cmd, p);
+		signal_handler(PARENT);
+		if (!p->pipe_count && current_cmd->argv \
+				&& is_builtin(current_cmd->argv))
+			g_last_exit_code = execute_builtin(current_cmd, p, envs);
+		else
+			execute_cmd_in_child(current_cmd, pipes, p, envs);
+		close_pipe_ends(current_cmd, pipes, p);
+		swap((int **)pipes);
+		reset_std(std_fds, p);
+		current_cmd = current_cmd->next;
+	}
 }
 
 static t_process	*init_process_struct(char ***env)
@@ -68,31 +94,12 @@ static t_process	*executor_prep(t_cmd **command, char ***env)
 
 void	executor(t_cmd **command, char ***env, t_env_var **envs)
 {
-	t_cmd		*current_cmd;
 	t_process	*p;
-	static fds	pipes[2];
-	int			std_fds[2];
 
 	if (!command || !*command)
 		return ;
 	p = executor_prep(command, env);
-	current_cmd = *command;
-	while (current_cmd)
-	{
-		save_stdin_out(std_fds);
-		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
-			exit_error("pipe", 1);
-		heredoc_check(current_cmd, p);
-		signal_handler(PARENT);
-		if (!p->pipe_count && current_cmd->argv && is_builtin(current_cmd->argv))
-			g_last_exit_code = execute_builtin(current_cmd, p, envs);
-		else
-			execute_cmd_in_child(current_cmd, pipes, p, envs);
-		close_pipe_ends(current_cmd, pipes, p);
-		swap((int **)pipes);
-		reset_std(std_fds, p);
-		current_cmd = current_cmd->next;
-	}
+	executor_loop(command, envs, p);
 	parent_wait(p);
 	free_executor(p);
 }
