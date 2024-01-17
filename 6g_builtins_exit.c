@@ -19,7 +19,7 @@ int	ft_exit(char **argv)
 	if (!argv)
 		exit(EXIT_FAILURE);
 	if (!argv[1])
-		final_exit(0);//implement when global exit status is done
+		final_exit(g_last_exit_code);
 	else if (argv[1] && argv[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
