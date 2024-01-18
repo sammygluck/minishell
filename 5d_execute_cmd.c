@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 13:46:19 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:56:04 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 	int	ret;
 
 	ret = 1;
-	if (p->pipe_count == 0)
-	{
-		input_redirect(command, p);
-		output_redirect(command, p);
-	}
 	if (ft_strncmp(command->argv[0], "echo", ft_strlen("echo")) == 0)
 		ret = ft_echo(command->argv);
 	else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5b_executor_utils.c                                :+:      :+:    :+:   */
+/*   5b_executor_utils_1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:35:26 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 12:41:51 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:46:14 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	open_file(char *file, int file_type)
 	if (fd == ERROR)
 	{
 		perror(file);
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
 	return (fd);
 }

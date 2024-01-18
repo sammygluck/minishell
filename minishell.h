@@ -125,6 +125,7 @@ typedef struct s_process
 	int		input_redir;
 	int		pipe_count;
 	int		cmds_count;
+	int		builtin;
 	int		*pid;
 	char	**paths;
 	char	**envp;
@@ -252,6 +253,7 @@ int			execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 int			retrieve_path_var_env(t_process *p);
 int			input_redirect(t_cmd *command, t_process *p);
 int			output_redirect(t_cmd *command, t_process *p);
+int			builtin_redir_io_check(t_cmd *command, t_process *p, t_env_var **envs);
 int			heredoc_check(t_cmd *command, t_process *p, t_env_var **envs);
 int			env_var_name_length(char *s);
 int			valid_env_var_name(char c);

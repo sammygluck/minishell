@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/18 09:05:05 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:22:16 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 		signal_handler(PARENT);
 		if (!p->pipe_count && current_cmd->argv \
 				&& is_builtin(current_cmd->argv))
-			g_last_exit_code = execute_builtin(current_cmd, p, envs);
+		{
+			if (builtin_redir_io_check(current_cmd, p, envs) == -1)
+				break ;
+		}
 		else
 			execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
@@ -66,6 +69,7 @@ static t_process	*init_process_struct(char ***env)
 	p->input_redir = 0; 
 	p->pipe_count = 0;
 	p->cmds_count = 0;
+	p->builtin = 0;
 	p->pid = NULL;
 	p->paths = NULL;
 	p->envp = *env;
