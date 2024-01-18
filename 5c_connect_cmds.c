@@ -24,7 +24,7 @@
 	It returns 1 to indicate success.
 */
 
-int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
+int	connect_commands(t_cmd *command, t_fds pipes[2], t_process *p)
 {
 	if (!p->pipe_count || (p->input_redir && command->cmd_nr == p->cmds_count))
 		return (1);
@@ -61,7 +61,7 @@ int	connect_commands(t_cmd *command, fds pipes[2], t_process *p)
 			it closes the write end of the current pipe.
 */
 
-void	close_pipe_ends(t_cmd *command, fds pipes[2], t_process *p)
+void	close_pipe_ends(t_cmd *command, t_fds pipes[2], t_process *p)
 {
 	if (p->pipe_count)
 	{

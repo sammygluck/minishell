@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	heredoc_handler(char *delimiter, t_hdoc *hd)
+void	heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs)
 {
 	char	*line;
 
@@ -39,7 +39,7 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd)
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (!hd->quotes && ft_strchr(line, '$'))
-			line = heredoc_var_expansion(line);
+			line = heredoc_var_expansion(line, envs);
 		ft_putendl_fd(line, hd->fd);
 		free(line);
 	}
@@ -75,7 +75,7 @@ static t_hdoc	*init_heredoc_struct(t_process *p)
 	return (hd);
 }
 
-int	heredoc_check(t_cmd *command, t_process *p)
+int	heredoc_check(t_cmd *command, t_process *p, t_env_var **envs)
 {
 	t_redir	*redirection;
 	t_hdoc	*hd;
@@ -97,7 +97,7 @@ int	heredoc_check(t_cmd *command, t_process *p)
 				unlink(hd->file);
 			p->input_redir = 1;
 			hd->delimiter = heredoc_delimiter_qoutes(redirection->file, hd);
-			heredoc_handler(hd->delimiter, hd);
+			heredoc_handler(hd->delimiter, hd, envs);
 		}
 		redirection = redirection->next;
 	}

@@ -31,7 +31,7 @@ char	*replace_or_delete_heredoc_var(char *old_line, \
 	return (new_line);
 }
 
-char	*heredoc_var_expansion(char *line)
+char	*heredoc_var_expansion(char *line, t_env_var **envs)
 {
 	t_begin_end	values;
 	char		*var_value;
@@ -42,7 +42,7 @@ char	*heredoc_var_expansion(char *line)
 	{
 		if (line[i] == '$' && line[i + 1] != '\0' && !ft_isspace(line[i + 1]))
 		{
-			var_value = retrieve_env_var_value(line);
+			var_value = retrieve_env_var_value(line, envs);
 			if (line[i + 1] == '?')
 			{
 				values.begin = i;

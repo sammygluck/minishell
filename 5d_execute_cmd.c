@@ -103,7 +103,7 @@ void	execute_command(t_cmd *command, t_process *p, t_env_var **envs)
 	}
 }
 
-int	execute_cmd_in_child(t_cmd *command, fds pipes[2], \
+int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 		t_process *p, t_env_var **envs)
 {
 	static int	i;
