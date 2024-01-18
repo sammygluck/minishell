@@ -28,7 +28,7 @@ int	signal_handler(int i)
 		act.sa_handler = &p_parent_signal;
 		
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		// signal(SIGQUIT, SIG_IGN);
 	// 	sigaction(SIGINT, &act, NULL);
 		sigaction(SIGQUIT, &act, NULL);
 	}
