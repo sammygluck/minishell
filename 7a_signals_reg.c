@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   7a_signals_reg.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:49:52 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:50:12 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/18 09:15:48 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	prompt_signal(int signal)
 void	p_parent_signal(int signal)
 {
 	if (signal == SIGINT)
-	{	
+	{
 		g_last_exit_code = 130;
 		ft_putstr_fd("\n", 1);
 	}

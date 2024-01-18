@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2b_lexer_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:08:43 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:33:37 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/18 09:16:49 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	find_word_end(char *string, int start_index, t_quote *q_struct)
 		is_in_quote(string[j], q_struct);
 		if (!q_struct->in_quote && (is_token(string, j) || is_space(string[j])))
 			break ;
-	j++;
+		j++;
 	}
 	return (j);
 }

@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/18 08:47:25 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:05:05 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static void	parent_wait(t_process *p)
 
 static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 {
-	t_cmd		*current_cmd;
-	static fds	pipes[2];
-	int			std_fds[2];
+	t_cmd			*current_cmd;
+	static t_fds	pipes[2];
+	int				std_fds[2];
 
 	current_cmd = *command;
 	while (current_cmd)
@@ -41,7 +41,7 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		heredoc_check(current_cmd, p);
+		heredoc_check(current_cmd, p, envs);
 		signal_handler(PARENT);
 		if (!p->pipe_count && current_cmd->argv \
 				&& is_builtin(current_cmd->argv))
