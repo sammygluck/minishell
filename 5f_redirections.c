@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 14:48:49 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/18 08:47:52 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	redirect_input_from(t_redir *redirection, t_process *p)
 {
-	if (p->fd_in)
+	if (p->fd_in != ERROR)
 		close(p->fd_in);
 	p->fd_in = open_file(redirection->file, 0);
 	if (p->fd_in == ERROR)
@@ -59,7 +59,7 @@ int	input_redirect(t_cmd *command, t_process *p)
 
 static void	redirect_output_to(t_redir *redirection, t_process *p)
 {
-	if (p->fd_out)
+	if (p->fd_out != ERROR)
 		close(p->fd_out);
 	if (redirection && redirection->type == GREATER)
 		p->fd_out = open_file(redirection->file, 1);

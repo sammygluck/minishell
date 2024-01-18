@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/18 09:17:38 by jsteenpu          #+#    #+#              #
+#    Updated: 2024/01/18 09:19:48 by jsteenpu         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # current project
 NAME = minishell
 CC = gcc
@@ -26,7 +38,8 @@ SRC  = 1_main.c \
        4a_parser_b.c \
        4b_realloc_array.c \
        5a_executor.c \
-       5b_executor_utils.c \
+       5b_executor_utils_1.c \
+       5b_executor_utils_2.c \
        5c_connect_cmds.c \
        5d_execute_cmd.c \
        5e_env_path.c \

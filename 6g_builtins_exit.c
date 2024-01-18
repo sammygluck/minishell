@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6g_builtins_exit.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:42:55 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 10:07:14 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/18 09:15:25 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	ft_exit(char **argv)
 
 void	final_exit(int exit_number)
 {
-	// cleanup?
 	printf("exit\n");
 	exit(exit_number);
 }

@@ -6,22 +6,16 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 12:33:18 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:09:36 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs)
+static void	heredoc_handler_loop(char *delimiter, t_hdoc *hd, t_env_var **envs)
 {
 	char	*line;
 
-	hd->file = HEREDOC_TEMP_FILE;
-	if (!hd->file)
-		error_message("heredoc file creation error\n");
-	if (!delimiter)
-		error_message("delimiter missing\n");
-	hd->fd = open_file(hd->file, 3);
 	while (1)
 	{
 		heredoc_signal_handler(HEREDOC_CHILD);
@@ -34,7 +28,7 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs)
 		if (g_last_exit_code == -1)
 		{
 			g_last_exit_code = 130;
-			break;
+			break ;
 		}
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
@@ -44,6 +38,17 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs)
 		free(line);
 	}
 	free(line);
+}
+
+void	heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs)
+{
+	hd->file = HEREDOC_TEMP_FILE;
+	if (!hd->file)
+		error_message("heredoc file creation error\n");
+	if (!delimiter)
+		error_message("delimiter missing\n");
+	hd->fd = open_file(hd->file, 3);
+	heredoc_handler_loop(delimiter, hd, envs);
 }
 
 char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd)
