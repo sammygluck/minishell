@@ -61,7 +61,6 @@ void	p_parent_signal(int signal)
 	}
 	else if (signal == SIGQUIT)
 	{
-		ft_putstr_fd("Quit\n", 2);
 		g_last_exit_code = 131;
 	}
 }
@@ -75,6 +74,7 @@ void	p_fork_signal(int signal)
 	}
 	else if (signal == SIGQUIT)
 	{
+		ft_putstr_fd("Quit\n", 2);
 		g_last_exit_code = 131;
 	}
 	exit(g_last_exit_code);
