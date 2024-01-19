@@ -123,6 +123,7 @@ typedef struct s_process
 	int		fd_out;
 	int		status;
 	int		input_redir;
+	int		output_redir;
 	int		pipe_count;
 	int		cmds_count;
 	int		builtin;
@@ -247,6 +248,7 @@ int			is_redirection_token(t_token *token);
 int			open_file(char *file, int file_type);
 int			is_builtin(char **commands);
 int			connect_commands(t_cmd *command, t_fds pipes[2], t_process *p);
+void		connect_io(t_process *p);
 int			execute_cmd_in_child(t_cmd *command, t_fds pipes[2],
 				t_process *p, t_env_var **envs);
 int			execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);

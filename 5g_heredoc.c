@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/18 09:09:36 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:06:15 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs)
 	if (!delimiter)
 		error_message("delimiter missing\n");
 	hd->fd = open_file(hd->file, 3);
+	if (hd->fd == ERROR)
+		exit_error(hd->file, 1);
 	heredoc_handler_loop(delimiter, hd, envs);
 }
 

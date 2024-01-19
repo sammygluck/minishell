@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:25:30 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 18:42:05 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:46:31 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	reset_std(int *save_fd, t_process *p)
 {
 	if (p->input_redir)
 		p->input_redir = 0;
+	if (p->output_redir)
+		p->output_redir = 0;
 	if (p->heredoc->fd != ERROR)
 		close(p->heredoc->fd);
 	dup2(save_fd[0], STDIN_FILENO);

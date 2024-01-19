@@ -6,11 +6,26 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:19:37 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 19:38:27 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:43:39 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	connect_io(t_process *p)
+{
+	if (p->input_redir)
+	{
+		dup2(p->fd_in, STDIN_FILENO);
+		close(p->fd_in);
+	}
+	if (p->output_redir)
+	{
+		dup2(p->fd_out, STDOUT_FILENO);
+		close(p->fd_out);
+	}
+}
+
 
 /*
 	This function is to connect the commands via pipes using dup2.

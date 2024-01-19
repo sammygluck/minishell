@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:35:26 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/18 09:46:14 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:42:55 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ int	open_file(char *file, int file_type)
 	if (file_type == 3)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == ERROR)
-	{
 		perror(file);
-		//exit(EXIT_FAILURE);
-	}
 	return (fd);
 }
 

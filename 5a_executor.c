@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/18 10:22:16 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:48:40 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@ int	g_last_exit_code;
 static void	parent_wait(t_process *p)
 {
 	int	i;
+	int	status;
 
 	i = 0;
 	while (i < p->cmds_count)
 	{
-		waitpid(p->pid[i], &p->status, 0);
+		waitpid(p->pid[i], &status, 0);
 		i++;
 	}
-	waitpid(p->pid[i], &p->status, 0);
-	if (WIFEXITED(p->status))
-		g_last_exit_code = WEXITSTATUS(p->status);
+	waitpid(p->pid[i], &status, 0);
+	if (WIFEXITED(status))
+		g_last_exit_code = WEXITSTATUS(status);
 }
 
 static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
@@ -46,8 +47,9 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 		if (!p->pipe_count && current_cmd->argv \
 				&& is_builtin(current_cmd->argv))
 		{
-			if (builtin_redir_io_check(current_cmd, p, envs) == -1)
+			if (builtin_redir_io_check(current_cmd, p, envs) == ERROR)
 				break ;
+			g_last_exit_code = execute_builtin(current_cmd, p, envs);
 		}
 		else
 			execute_cmd_in_child(current_cmd, pipes, p, envs);
