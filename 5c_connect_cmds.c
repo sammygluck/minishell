@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:19:37 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/19 17:43:39 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:12:26 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	connect_commands(t_cmd *command, t_fds pipes[2], t_process *p)
 		dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
 		close(pipes[PREVIOUS][READ]);
 		close(pipes[PREVIOUS][WRITE]);
+		//close(pipes[CURRENT][WRITE]);
+		//close(pipes[CURRENT][READ]);
 	}
 	return (1);
 }

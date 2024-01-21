@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/19 17:48:40 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:25:06 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		heredoc_check(current_cmd, p, envs);
+		heredoc_check(current_cmd, pipes, p, envs);
 		signal_handler(PARENT);
 		if (!p->pipe_count && current_cmd->argv \
 				&& is_builtin(current_cmd->argv))
@@ -104,6 +104,7 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 
 	if (!command || !*command)
 		return ;
+	g_last_exit_code = 0; // TODO: is this correct?? 
 	p = executor_prep(command, env);
 	executor_loop(command, envs, p);
 	parent_wait(p);
