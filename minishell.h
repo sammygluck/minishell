@@ -288,4 +288,8 @@ int			validate_and_process_exit_code(char *input_str);
 int			signal_handler(int i);
 long long	str_to_longlong_with_overflow_check(char *str, int *overflow);
 long		truncate_to_exit_code(long long number);
+
+void print_arguments(char **argv, int start_index, int flag_n);
+int process_flags(char **argv, int *flag_n);
+
 #endif

@@ -12,30 +12,49 @@
 
 #include "minishell.h"
 
-int	ft_echo(char **argv)
-{
-	int	flag_n;
-	int	i;
 
-	if (!argv || !*argv)
-		exit(EXIT_FAILURE);
-	flag_n = 0;
-	i = 1;
-	if (argv[i] && only_n(argv[i]))
-	{
-		flag_n = 1;
-		i++;
-	}
-	while (argv[i])
-	{
-		ft_putstr_fd(argv[i], 1);
-		if (argv[i + 1])
-			ft_putstr_fd(" ", 1);
-		i++;
-	}
-	if (!flag_n)
-		ft_putstr_fd("\n", 1);
-	return (0);
+int process_flags(char **argv, int *flag_n)
+{
+    int i;
+
+    *flag_n = 0;
+    i = 1;
+    while (argv[i])
+    {
+        if (only_n(argv[i]))
+            *flag_n = 1;
+        else
+            break;
+        i++;
+    }
+    return (i);
+}
+
+void print_arguments(char **argv, int start_index, int flag_n)
+{
+    while (argv[start_index])
+    {
+        ft_putstr_fd(argv[start_index], 1);
+        if (argv[start_index + 1])
+            ft_putstr_fd(" ", 1);
+        start_index++;
+    }
+    if (!flag_n)
+        ft_putstr_fd("\n", 1);
+}
+
+int ft_echo(char **argv)
+{
+    int flag_n;
+    int start_index;
+
+    if (!argv || !*argv)
+        exit(EXIT_FAILURE);
+
+    start_index = process_flags(argv, &flag_n);
+    print_arguments(argv, start_index, flag_n);
+
+    return (0);
 }
 
 int	only_n(char *string)
