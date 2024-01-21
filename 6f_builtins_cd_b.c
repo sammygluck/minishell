@@ -26,10 +26,32 @@ int	ft_chdir(const char *path, char ***env, t_env_var **env_head)
 		return (1);
 	}
 	if (!getcwd(new_pwd, PATH_MAX))
-		new_pwd[0] = '\0';
+		return (ft_fallback_to_home(env, env_head));
 	pwd_export(new_pwd, env, env_head);
 	oldpwd_export(old_pwd, env, env_head);
 	return (0);
+}
+
+int ft_fallback_to_home(char ***env, t_env_var **env_head) 
+{
+    char *home = get_env_value(*env_head, "HOME");
+    char new_pwd[PATH_MAX];
+
+    if (home && chdir(home) == 0) 
+	{
+        strncpy(new_pwd, home, PATH_MAX);
+        free(home);
+    } 
+	else 
+	{
+        // If home is not set, consider error handling or fallback to root ("/")
+        perror("minishell: cd: error finding valid directory");
+        return (1);
+    }
+
+    pwd_export(new_pwd, env, env_head);
+    oldpwd_export("", env, env_head);
+    return (0);
 }
 
 char	*get_env_value(t_env_var *env, char *string)

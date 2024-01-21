@@ -16,6 +16,7 @@ int	signal_handler(int i)
 {
 	struct sigaction	act;
 
+	rl_catch_signals = 0;
 	ft_memset(&act, 0, sizeof(act));
 	if (i == PROMPT)
 	{

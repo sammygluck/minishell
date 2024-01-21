@@ -32,7 +32,7 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 	else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)
 		ret = ft_cd(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd")) == 0)
-		ret = ft_pwd(command->argv);
+		ret = ft_pwd(envs);
 	else if (ft_strncmp(command->argv[0], "export", ft_strlen("export")) == 0)
 		ret = ft_export(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "unset", ft_strlen("unset")) == 0)
