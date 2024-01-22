@@ -6,71 +6,57 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/21 16:48:46 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:55:08 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_handler_loop(char *delimiter, t_fds pipes[2], t_process *p, t_env_var **envs)
+static void	heredoc_handler_loop(t_process *p, t_env_var **envs)
 {
 	char	*line;
+	char	*delimiter;
 
+	delimiter = p->heredoc->delimiter;
 	while (1)
 	{
 		heredoc_signal_handler(HEREDOC_CHILD);
 		line = readline("> ");
-		if (!line)
+		if (!line || g_last_exit_code == -1) // Q: mag dit??
 		{
 			g_last_exit_code = 130;
-			//error_message("heredoc input error\n");
 			break ;
 		}
-		// if (g_last_exit_code == -1)
-		// {
-		// 	g_last_exit_code = 130;
-		// 	break ;
-		// }
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (!p->heredoc->quotes && ft_strchr(line, '$'))
 			line = heredoc_var_expansion(line, envs);
-		if (!p->pipe_count)
-			ft_putendl_fd(line, p->heredoc->fd);
-		else
-			ft_putendl_fd(line, pipes[CURRENT][WRITE]);
+		ft_putendl_fd(line, p->heredoc->fd);
 		free(line);
 	}
 	free(line);
+	exit(EXIT_SUCCESS);
 }
 
-static void	heredoc_handler(char *delimiter, t_fds pipes[2], t_process *p, t_env_var **envs)
+static int	heredoc_handler(t_process *p, t_env_var **envs)
 {
 	int		child;
-	int		status; //status of child
-	t_hdoc	*hd;
+	int		status;
 
 	heredoc_signal_handler(HEREDOC_PARENT);
-	hd = p->heredoc;
-	hd->file = HEREDOC_TEMP_FILE;
-	if (!hd->file)
-		error_message("heredoc file creation error\n");
-	if (!delimiter)
-		error_message("delimiter missing\n");
-	hd->fd = open_file(hd->file, 3);
-	if (hd->fd == ERROR)
-		exit_error(hd->file, 1);
+	p->heredoc->file = HEREDOC_TEMP_FILE;
+	p->heredoc->fd = open_file(p->heredoc->file, 3);
+	if (p->heredoc->fd == ERROR)
+		exit_error(p->heredoc->file, 1);
 	child = fork();
 	if (child == ERROR)
 		exit_error("fork in heredoc", 1);
 	if (child == 0)
-	{
-		heredoc_handler_loop(delimiter, pipes, p, envs);
-		exit(EXIT_SUCCESS);
-	}
+		heredoc_handler_loop(p, envs);
 	waitpid(child, &status, 0);
 	if (WIFEXITED(status))
 		g_last_exit_code = WEXITSTATUS(status);
+	return (g_last_exit_code);
 }
 
 char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd)
@@ -89,6 +75,20 @@ char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd)
 	return (delimiter);
 }
 
+void	remove_prev_file_ref(t_hdoc *hd)
+{
+	if (!hd)
+		return ;
+	if (hd->quotes && hd->delimiter)
+	{
+		hd->quotes = 0;
+		free(hd->delimiter);
+	}
+	if (hd->fd != ERROR)
+		close(hd->fd);
+	if (hd->file)
+		unlink(hd->file);
+}
 static t_hdoc	*init_heredoc_struct(t_process *p)
 {
 	t_hdoc	*hd;
@@ -102,7 +102,7 @@ static t_hdoc	*init_heredoc_struct(t_process *p)
 	return (hd);
 }
 
-int	heredoc_check(t_cmd *command, t_fds pipes[2], t_process *p, t_env_var **envs)
+int	heredoc_check(t_cmd *command, t_process *p, t_env_var **envs)
 {
 	t_redir	*redirection;
 	t_hdoc	*hd;
@@ -113,18 +113,17 @@ int	heredoc_check(t_cmd *command, t_fds pipes[2], t_process *p, t_env_var **envs
 	{
 		if (redirection->type == D_SMALLER)
 		{
-			if (hd->quotes && hd->delimiter)
-			{
-				hd->quotes = 0;
-				free(hd->delimiter);
-			}
-			if (hd->fd != ERROR)
-				close(hd->fd);
-			if (hd->file)
-				unlink(hd->file);
+			remove_prev_file_ref(hd);
 			p->input_redir = 1;
 			hd->delimiter = heredoc_delimiter_qoutes(redirection->file, hd);
-			heredoc_handler(hd->delimiter, pipes, p, envs);
+			heredoc_handler(p, envs);
+			if (g_last_exit_code == 130)
+			{
+				//free ??
+				// close pipe?
+				// reset tools?
+				return (0);
+			}
 		}
 		redirection = redirection->next;
 	}

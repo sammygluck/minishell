@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/21 17:25:06 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:55:53 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,26 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 		save_stdin_out(std_fds);
 		if (p->pipe_count && pipe(pipes[CURRENT]) == ERROR)
 			exit_error("pipe", 1);
-		heredoc_check(current_cmd, pipes, p, envs);
+		if (!heredoc_check(current_cmd, p, envs))
+			break ;
 		signal_handler(PARENT);
 		if (!p->pipe_count && current_cmd->argv \
 				&& is_builtin(current_cmd->argv))
 		{
-			if (builtin_redir_io_check(current_cmd, p, envs) == ERROR)
+			p->builtin = 1;
+			if (!redirection_check(current_cmd, p))
+			{
+				g_last_exit_code = 1;
 				break ;
+			}
+			connect_io(p);
 			g_last_exit_code = execute_builtin(current_cmd, p, envs);
 		}
 		else
 			execute_cmd_in_child(current_cmd, pipes, p, envs);
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
-		reset_std(std_fds, p);
+		reset_std_redirection(std_fds, p);
 		current_cmd = current_cmd->next;
 	}
 }
@@ -64,7 +70,7 @@ static t_process	*init_process_struct(char ***env)
 {
 	t_process	*p;
 
-	p = ft_malloc(sizeof(t_process)); 
+	p = ft_malloc(sizeof(t_process));
 	p->fd_in = -1; 
 	p->fd_out = -1; 
 	p->status = -1;

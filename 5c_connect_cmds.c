@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:19:37 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/21 16:12:26 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:50:58 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	connect_io(t_process *p)
 {
 	if (p->input_redir)
 	{
-		dup2(p->fd_in, STDIN_FILENO);
+		dup2(p->fd_in, STDIN_FILENO); // TO D0: add protection
 		close(p->fd_in);
 	}
 	if (p->output_redir)
 	{
-		dup2(p->fd_out, STDOUT_FILENO);
+		dup2(p->fd_out, STDOUT_FILENO); // TO DO: add protection
 		close(p->fd_out);
 	}
 }
@@ -41,11 +41,10 @@ void	connect_io(t_process *p)
 
 int	connect_commands(t_cmd *command, t_fds pipes[2], t_process *p)
 {
-	if (!p->pipe_count || (p->input_redir && command->cmd_nr == p->cmds_count))
+	if (!p->pipe_count ) //|| (p->input_redir && command->cmd_nr == p->cmds_count))
 		return (1);
-	if (p->input_redir && command->cmd_nr != p->cmds_count)
+	if (p->input_redir && command->cmd_nr == p->cmds_count)
 	{
-		dup2(pipes[CURRENT][WRITE], STDOUT_FILENO);
 		close(pipes[CURRENT][WRITE]);
 		close(pipes[CURRENT][READ]);
 		return (1);
@@ -60,9 +59,8 @@ int	connect_commands(t_cmd *command, t_fds pipes[2], t_process *p)
 	{
 		dup2(pipes[PREVIOUS][READ], STDIN_FILENO);
 		close(pipes[PREVIOUS][READ]);
-		close(pipes[PREVIOUS][WRITE]);
-		//close(pipes[CURRENT][WRITE]);
-		//close(pipes[CURRENT][READ]);
+		close(pipes[CURRENT][WRITE]);
+		close(pipes[CURRENT][READ]);
 	}
 	return (1);
 }

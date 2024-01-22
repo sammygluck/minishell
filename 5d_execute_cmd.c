@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/19 19:10:14 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:21:30 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,33 +112,10 @@ int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 	{
 		signal_handler(FORK);
 		connect_commands(command, pipes, p);
-		//output_redirect(command, p);
-		input_redirect(command, p);
+		redirection_check(command, p);
 		connect_io(p);
 		execute_command(command, p, envs);
 	}
 	i++;
 	return (EXIT_SUCCESS);
 }
-
-
-// int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
-// 		t_process *p, t_env_var **envs)
-// {
-// 	static int	i;
-
-// 	if (command->cmd_nr == 1 && i != 0)
-// 		i = 0;
-// 	p->pid[i] = fork();
-// 	if (p->pid[i] == ERROR)
-// 		exit_error("fork", 1);
-// 	if (p->pid[i] == 0)
-// 	{
-// 		signal_handler(FORK);
-// 		if (input_redirect(command, p) && connect_commands(command, pipes, p) \
-// 			&& output_redirect(command, p))
-// 			execute_command(command, p, envs);
-// 	}
-// 	i++;
-// 	return (EXIT_SUCCESS);
-// }

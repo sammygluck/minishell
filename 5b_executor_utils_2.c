@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:25:30 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/19 17:46:31 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:28:55 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	save_stdin_out(int *save_fd)
 	save_fd[1] = dup(STDOUT_FILENO);
 }
 
-void	reset_std(int *save_fd, t_process *p)
+void	reset_std_redirection(int *save_fd, t_process *p)
 {
 	if (p->input_redir)
 		p->input_redir = 0;
@@ -41,6 +41,6 @@ void	free_executor(t_process *p)
 	if (p->pid)
 		free(p->pid);
 	if (p->heredoc)
-		free (p->heredoc);
-	free (p);
+		free(p->heredoc);
+	free(p);
 }
