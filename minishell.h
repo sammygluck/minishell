@@ -260,6 +260,7 @@ int			ft_unset(char **argv, char ***env, t_env_var **env_l);
 int			arg_in_env(char *string, t_env_var **env_list);
 int			ft_pwd(t_env_var **envs);
 int			ft_env(t_env_var **env_l);
+int check_path_var(t_env_var **env_l);
 int			ft_echo(char **argv);
 int			only_n(char *string);
 int			ft_export(char **argv, char ***env, t_env_var **list);
