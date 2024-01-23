@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/22 15:21:30 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:31:59 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 		signal_handler(FORK);
 		connect_commands(command, pipes, p);
 		redirection_check(command, p);
-		connect_io(p);
+		connect_redirections(p);
 		execute_command(command, p, envs);
 	}
 	i++;

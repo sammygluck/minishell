@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:25:30 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/22 17:28:55 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:15:19 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,23 @@ void	reset_std_redirection(int *save_fd, t_process *p)
 	close(save_fd[1]);
 }
 
-void	free_executor(t_process *p)
+void	parent_wait(t_process *p)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < p->cmds_count)
+	{
+		waitpid(p->pid[i], &status, 0);
+		i++;
+	}
+	waitpid(p->pid[i], &status, 0);
+	if (WIFEXITED(status))
+		g_last_exit_code = WEXITSTATUS(status);
+}
+
+void	free_process(t_process *p)
 {
 	if (!p)
 		return ;
@@ -41,6 +57,16 @@ void	free_executor(t_process *p)
 	if (p->pid)
 		free(p->pid);
 	if (p->heredoc)
+	{
+		if (p->heredoc->fd != ERROR)
+			close(p->heredoc->fd);
+		if (p->heredoc->quotes && p->heredoc->delimiter)
+		{
+			p->heredoc->quotes = 0;
+			free(p->heredoc->delimiter);
+		}
 		free(p->heredoc);
+	}
+	//remove_prev_file_ref(p->heredoc);
 	free(p);
 }

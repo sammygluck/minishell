@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/22 19:43:33 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:38:12 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	redirect_input_from(t_redir *redirection, t_process *p)
 {
-
 	if (p->fd_in != ERROR)
 		close(p->fd_in);
 	p->fd_in = open_file(redirection->file, 0);
@@ -44,7 +43,7 @@ static int	redirect_output_to(t_redir *redirection, t_process *p)
 		p->fd_out = open_file(redirection->file, 2);
 	if (p->fd_out == ERROR && p->builtin)
 		return (0);
-	else if ((p->fd_out == ERROR && !p->builtin)) // command is executed in child
+	else if ((p->fd_out == ERROR && !p->builtin))
 		exit(EXIT_FAILURE);
 	p->output_redir = 1;
 	return (1);

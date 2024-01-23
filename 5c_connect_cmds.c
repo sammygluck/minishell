@@ -6,26 +6,27 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:19:37 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/22 19:50:58 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:45:38 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	connect_io(t_process *p)
+void	connect_redirections(t_process *p)
 {
 	if (p->input_redir)
 	{
-		dup2(p->fd_in, STDIN_FILENO); // TO D0: add protection
+		if (dup2(p->fd_in, STDIN_FILENO) == ERROR)
+			perror("dup2 input_redirect");
 		close(p->fd_in);
 	}
 	if (p->output_redir)
 	{
-		dup2(p->fd_out, STDOUT_FILENO); // TO DO: add protection
+		if (dup2(p->fd_out, STDOUT_FILENO) == ERROR)
+			perror("dup2 output_redirect");
 		close(p->fd_out);
 	}
 }
-
 
 /*
 	This function is to connect the commands via pipes using dup2.
@@ -41,7 +42,7 @@ void	connect_io(t_process *p)
 
 int	connect_commands(t_cmd *command, t_fds pipes[2], t_process *p)
 {
-	if (!p->pipe_count ) //|| (p->input_redir && command->cmd_nr == p->cmds_count))
+	if (!p->pipe_count)
 		return (1);
 	if (p->input_redir && command->cmd_nr == p->cmds_count)
 	{

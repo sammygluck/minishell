@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/22 19:55:08 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:28:01 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	heredoc_handler_loop(t_process *p, t_env_var **envs)
 	{
 		heredoc_signal_handler(HEREDOC_CHILD);
 		line = readline("> ");
-		if (!line || g_last_exit_code == -1) // Q: mag dit??
+		if (!line || g_last_exit_code == -1) // TODO: mag dit??
 		{
 			g_last_exit_code = 130;
 			break ;
@@ -47,7 +47,7 @@ static int	heredoc_handler(t_process *p, t_env_var **envs)
 	p->heredoc->file = HEREDOC_TEMP_FILE;
 	p->heredoc->fd = open_file(p->heredoc->file, 3);
 	if (p->heredoc->fd == ERROR)
-		exit_error(p->heredoc->file, 1);
+		exit_error(p->heredoc->file, 1); // TODO: change exit
 	child = fork();
 	if (child == ERROR)
 		exit_error("fork in heredoc", 1);
@@ -59,41 +59,13 @@ static int	heredoc_handler(t_process *p, t_env_var **envs)
 	return (g_last_exit_code);
 }
 
-char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd)
-{
-	int		len;
-	char	*new_delimiter;
-
-	len = ft_strlen(delimiter);
-	if (len && ((delimiter[0] == '\'' && delimiter[len - 1] == '\'') || 
-			(delimiter[0] == '\"' && delimiter[len - 1] == '\"')))
-	{
-		hd->quotes = 1;
-		new_delimiter = third_clean(delimiter);
-		return (new_delimiter);
-	}
-	return (delimiter);
-}
-
-void	remove_prev_file_ref(t_hdoc *hd)
-{
-	if (!hd)
-		return ;
-	if (hd->quotes && hd->delimiter)
-	{
-		hd->quotes = 0;
-		free(hd->delimiter);
-	}
-	if (hd->fd != ERROR)
-		close(hd->fd);
-	if (hd->file)
-		unlink(hd->file);
-}
 static t_hdoc	*init_heredoc_struct(t_process *p)
 {
 	t_hdoc	*hd;
 
-	hd = ft_malloc(sizeof(t_hdoc));
+	hd = malloc(sizeof(t_hdoc));
+	if (!hd)
+		return (NULL);
 	hd->file = NULL;
 	hd->delimiter = NULL;
 	hd->quotes = 0;
@@ -109,6 +81,8 @@ int	heredoc_check(t_cmd *command, t_process *p, t_env_var **envs)
 
 	redirection = command->redir;
 	hd = init_heredoc_struct(p);
+	if (!hd)
+		return (0);
 	while (redirection)
 	{
 		if (redirection->type == D_SMALLER)
@@ -118,12 +92,7 @@ int	heredoc_check(t_cmd *command, t_process *p, t_env_var **envs)
 			hd->delimiter = heredoc_delimiter_qoutes(redirection->file, hd);
 			heredoc_handler(p, envs);
 			if (g_last_exit_code == 130)
-			{
-				//free ??
-				// close pipe?
-				// reset tools?
 				return (0);
-			}
 		}
 		redirection = redirection->next;
 	}

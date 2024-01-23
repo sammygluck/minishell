@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/22 19:55:53 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:43:02 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 int	g_last_exit_code;
 
-static void	parent_wait(t_process *p)
+static int	handle_command(t_cmd *command, t_fds pipes[2], \
+				t_env_var **envs, t_process *p)
 {
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < p->cmds_count)
+	if (!p->pipe_count && command->argv \
+			&& is_builtin(command->argv))
 	{
-		waitpid(p->pid[i], &status, 0);
-		i++;
+		p->builtin = 1;
+		if (!redirection_check(command, p))
+		{
+			g_last_exit_code = 1;
+			return (0);
+		}
+		connect_redirections(p);
+		g_last_exit_code = execute_builtin(command, p, envs);
 	}
-	waitpid(p->pid[i], &status, 0);
-	if (WIFEXITED(status))
-		g_last_exit_code = WEXITSTATUS(status);
+	else
+		execute_cmd_in_child(command, pipes, p, envs);
+	return (1);
 }
 
 static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
@@ -45,20 +49,8 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 		if (!heredoc_check(current_cmd, p, envs))
 			break ;
 		signal_handler(PARENT);
-		if (!p->pipe_count && current_cmd->argv \
-				&& is_builtin(current_cmd->argv))
-		{
-			p->builtin = 1;
-			if (!redirection_check(current_cmd, p))
-			{
-				g_last_exit_code = 1;
-				break ;
-			}
-			connect_io(p);
-			g_last_exit_code = execute_builtin(current_cmd, p, envs);
-		}
-		else
-			execute_cmd_in_child(current_cmd, pipes, p, envs);
+		if (!handle_command(current_cmd, pipes, envs, p))
+			break ;
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
 		reset_std_redirection(std_fds, p);
@@ -73,8 +65,8 @@ static t_process	*init_process_struct(char ***env)
 	p = ft_malloc(sizeof(t_process));
 	p->fd_in = -1; 
 	p->fd_out = -1; 
-	p->status = -1;
-	p->input_redir = 0; 
+	p->input_redir = 0;
+	p->output_redir = 0; 
 	p->pipe_count = 0;
 	p->cmds_count = 0;
 	p->builtin = 0;
@@ -86,7 +78,7 @@ static t_process	*init_process_struct(char ***env)
 	return (p);
 }
 
-static t_process	*executor_prep(t_cmd **command, char ***env)
+t_process	*executor_prep(t_cmd **command, char ***env)
 {
 	t_process	*p;
 	t_cmd		*current_cmd;
@@ -100,7 +92,8 @@ static t_process	*executor_prep(t_cmd **command, char ***env)
 			p->pipe_count++;
 		current_cmd = current_cmd->next;
 	}
-	p->pid = ft_malloc(sizeof(pid_t) * p->cmds_count);
+	if (p->cmds_count)
+		p->pid = ft_malloc(sizeof(pid_t) * p->cmds_count);
 	return (p);
 }
 
@@ -114,5 +107,5 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 	p = executor_prep(command, env);
 	executor_loop(command, envs, p);
 	parent_wait(p);
-	free_executor(p);
+	free_process(p);
 }
