@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 11:31:59 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:18:52 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	execute_builtin(t_cmd *command, t_process *p, t_env_var **envs)
 	else if (ft_strncmp(command->argv[0], "cd", ft_strlen("cd")) == 0)
 		ret = ft_cd(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd")) == 0)
-		ret = ft_pwd(command->argv);
+		ret = ft_pwd(envs);
 	else if (ft_strncmp(command->argv[0], "export", ft_strlen("export")) == 0)
 		ret = ft_export(command->argv, p->env, envs);
 	else if (ft_strncmp(command->argv[0], "unset", ft_strlen("unset")) == 0)
@@ -101,7 +101,8 @@ void	execute_command(t_cmd *command, t_process *p, t_env_var **envs)
 int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 		t_process *p, t_env_var **envs)
 {
-	static int	i;
+	static int			i;
+	struct sigaction	act;
 
 	if (command->cmd_nr == 1 && i != 0)
 		i = 0;
@@ -110,7 +111,7 @@ int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 		exit_error("fork", 1);
 	if (p->pid[i] == 0)
 	{
-		signal_handler(FORK);
+		signal_handler(FORK, &act);
 		connect_commands(command, pipes, p);
 		redirection_check(command, p);
 		connect_redirections(p);

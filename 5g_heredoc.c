@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 11:28:01 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:53:21 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	heredoc_handler_loop(t_process *p, t_env_var **envs)
 		ft_putendl_fd(line, p->heredoc->fd);
 		free(line);
 	}
-	free(line);
+	if (line)
+		free(line);
 	exit(EXIT_SUCCESS);
 }
 

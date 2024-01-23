@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 11:38:12 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:19:05 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	redirect_output_to(t_redir *redirection, t_process *p)
 		return (0);
 	else if ((p->fd_out == ERROR && !p->builtin))
 		exit(EXIT_FAILURE);
+	printf("the redirection output fd: %i\n", p->fd_out);
 	p->output_redir = 1;
 	return (1);
 }

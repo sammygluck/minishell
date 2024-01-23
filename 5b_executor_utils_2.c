@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:25:30 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 11:15:19 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:29:02 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	free_process(t_process *p)
 {
 	if (!p)
 		return ;
+	if (p->fd_in != ERROR)
+		close (p->fd_in);
+	if (p->fd_out != ERROR)
+		close(p->fd_out);
 	if (p->paths)
 		free_array(p->paths);
 	if (p->pid)

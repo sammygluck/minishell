@@ -19,7 +19,8 @@ int	ft_cd(char **argv, char ***env, t_env_var **env_head)
 		ft_putstr_fd("minishell: error: ft_cd\n", 2);
 		return (1);
 	}
-	if (!argv[1] || (!ft_strncmp(argv[1], "--", 2) && ft_strlen(argv[1]) == 2))
+	if (!argv[1] || ((!ft_strncmp(argv[1], "--", 2) && ft_strlen(argv[1]) == 2))
+	|| (!ft_strncmp(argv[1], "~", 1) && ft_strlen(argv[1]) == 1))
 		return (cd_home(env, env_head));
 	else if (!ft_strncmp(argv[1], "-", 1) && ft_strlen(argv[1]) == 1)
 		return (cd_oldpwd(env, env_head));

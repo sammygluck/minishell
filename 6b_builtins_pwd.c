@@ -12,16 +12,34 @@
 
 #include "minishell.h"
 
-int	ft_pwd(char **argv)
+int	ft_pwd(t_env_var **envs)
 {
-	char	buffer[PATH_MAX];
+	char	*buffer;
 
-	(void) argv;
-	if (!getcwd(buffer, PATH_MAX))
+	if (!envs)
+		exit(EXIT_FAILURE);
+	buffer = get_env_value(*envs, "PWD");
+	if (!buffer)
 	{
-		perror("pwd error");
+		perror("pwd error");// different error message
 		return (1);
 	}
 	printf("%s\n", buffer);
+	if (buffer)
+		free(buffer);
 	return (0);
 }
+
+// int	ft_pwd(char **argv)
+// {
+// 	char	buffer[PATH_MAX];
+
+// 	(void) argv;
+// 	if (!getcwd(buffer, PATH_MAX))
+// 	{
+// 		perror("pwd error");
+// 		return (1);
+// 	}
+// 	printf("%s\n", buffer);
+// 	return (0);
+// }
