@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 11:43:02 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 17:36:26 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ static void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p)
 			break ;
 		signal_handler(PARENT);
 		if (!handle_command(current_cmd, pipes, envs, p))
+		{
+			reset_std_redirection(std_fds, p);
 			break ;
+		}
 		close_pipe_ends(current_cmd, pipes, p);
 		swap((int **)pipes);
 		reset_std_redirection(std_fds, p);

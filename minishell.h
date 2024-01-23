@@ -293,7 +293,7 @@ int ft_fallback_to_home(char ***env, t_env_var **env_head);
 int			ft_exit(char **argv);
 int			convert_to_number(char *str, long long *number, int sign);
 int			validate_and_process_exit_code(char *input_str);
-int			signal_handler(int i, struct sigaction *act);
+int			signal_handler(int i);
 long long	str_to_longlong_with_overflow_check(char *str, int *overflow);
 long		truncate_to_exit_code(long long number);
 

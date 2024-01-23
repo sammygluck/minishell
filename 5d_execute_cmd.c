@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 14:18:52 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/23 17:20:12 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 		t_process *p, t_env_var **envs)
 {
 	static int			i;
-	struct sigaction	act;
 
 	if (command->cmd_nr == 1 && i != 0)
 		i = 0;
@@ -111,7 +110,7 @@ int	execute_cmd_in_child(t_cmd *command, t_fds pipes[2], \
 		exit_error("fork", 1);
 	if (p->pid[i] == 0)
 	{
-		signal_handler(FORK, &act);
+		signal_handler(FORK);
 		connect_commands(command, pipes, p);
 		redirection_check(command, p);
 		connect_redirections(p);
