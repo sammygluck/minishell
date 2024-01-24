@@ -16,7 +16,7 @@ int	is_right_format(char *string)
 {
 	if (!valid_identifiers(string))
 		return (0);
-	if (!has_equal_sign(string) || !has_plus_equal_sign(string))
+	if (!has_equal_sign(string) && !has_plus_equal_sign(string))
 		return (0);
 	return (1);
 }
