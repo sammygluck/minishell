@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/24 13:12:31 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:17:50 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	process_commands(char ***env, t_env_var **envs)
 		token_head = tokenizer(input);
 		//print_tokens(token_head);
 		expander(&token_head, *envs);
-		print_tokens(token_head);
+		//print_tokens(token_head);
 		parsed = parser(token_head);
-		print_command_table(parsed);
+		//print_command_table(parsed);
 		free_token_list(&token_head);
 		executor(&parsed, env, envs);
 		free_cmd_list(&parsed);

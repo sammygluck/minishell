@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:12:33 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/24 12:21:38 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:20:52 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	add_token_to_list(t_token **token_list, t_token *token)
 		return ;
 	}
 	head = *token_list;
-	printf("the address the head: %p\n", head);
 	while (head->next)
 		head = head->next;
 	head->next = token;
