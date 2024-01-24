@@ -294,4 +294,15 @@ long		truncate_to_exit_code(long long number);
 void print_arguments(char **argv, int start_index, int flag_n);
 int process_flags(char **argv, int *flag_n);
 
+t_token *expander_tokens(char *str);
+t_token *tokenize_string(char *str, char *token_str, int *token_idx);
+t_token *add_new_token(t_token *head, char **token_str, int *token_idx);
+t_token *create_new_token(char *str);
+void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes);
+void process_token_list(t_token **head);
+int	mini_find_word_end(char *string, int start_index, t_quote *q_struct);
+char	*mini_word_string(char *string, int *i);
+t_token	*mini_tokenizer(char *string);
+int	mini_add_token(char *string, int *i, int type, t_token **head);
+
 #endif
