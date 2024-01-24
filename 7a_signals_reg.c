@@ -27,8 +27,9 @@ int	signal_handler(int i)
 	if (i == PARENT)
 	{
 		act.sa_handler = &p_parent_signal;
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
 	}
 	if (i == FORK)
 	{
@@ -78,5 +79,5 @@ void	p_fork_signal(int signal)
 	exit(g_last_exit_code);
 }
 //two optional lines to replace in case
-		// sigaction(SIGINT, &act, NULL);
-		// sigaction(SIGQUIT, &act, NULL);
+		// signal(SIGINT, SIG_IGN);
+		// signal(SIGQUIT, SIG_IGN);
