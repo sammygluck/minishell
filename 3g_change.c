@@ -14,7 +14,9 @@ void process_token_list(t_token **head)
     while (current != NULL) 
     {
         next_token = current->next;
-        if (current->type == 6) {
+        if (current->type == 6 && current->previous
+			&& current->previous->type != D_SMALLER)
+        {
             new_tokens = mini_tokenizer(current->string);
             last_new_token = new_tokens;
             while (last_new_token != NULL && last_new_token->next != NULL)
