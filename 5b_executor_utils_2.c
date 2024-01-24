@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:25:30 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 12:29:02 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:54:55 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,5 @@ void	free_process(t_process *p)
 		}
 		free(p->heredoc);
 	}
-	//remove_prev_file_ref(p->heredoc);
 	free(p);
 }
