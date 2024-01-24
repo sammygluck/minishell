@@ -55,6 +55,7 @@ void	process_commands(char ***env, t_env_var **envs)
 			continue ;
 		token_head = tokenizer(input);
 		expander(&token_head, *envs);
+		process_token_list(&token_head);
 		parsed = parser(token_head);
 		free_token_list(&token_head);
 		executor(&parsed, env, envs);

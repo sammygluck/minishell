@@ -28,6 +28,26 @@ void	expander(t_token **token_head, t_env_var *env_head)
 	}
 }
 
+char	*process_token_string(char *str, t_env_var *env_head)
+{
+	char	*new_string;
+
+	new_string = initial_clean(str);
+	free(str);
+	str = new_string;
+	new_string = expanded(str, env_head);
+	if (new_string)
+		str = new_string;
+	//create new token
+	//squeeze token in list
+
+	// new_string = third_clean(str);
+	// free(str);
+	// return (new_string);
+
+	return (str);
+}
+
 /*
 A. SQUEEZE NODE IN BETWEEN
 1. deal with old one
@@ -45,20 +65,3 @@ B. NEW NODE CREATION
 	b. the token is a string token type
 	c. 
 */
-
-char	*process_token_string(char *str, t_env_var *env_head)
-{
-	char	*new_string;
-
-	new_string = initial_clean(str);
-	free(str);
-	str = new_string;
-	new_string = expanded(str, env_head);
-	if (new_string)
-		str = new_string;
-	//create new token
-	//squeeze token in list
-	new_string = third_clean(str);
-	free(str);
-	return (new_string);
-}

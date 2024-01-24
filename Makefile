@@ -34,6 +34,7 @@ SRC  = 1_main.c \
        3d_third_clean.c \
        3e_expander_utils_env_handler.c \
        3f_expander_utils_in_quote_helper.c \
+       3g_change.c \
        4a_parser_a.c \
        4a_parser_b.c \
        4b_realloc_array.c \
@@ -65,7 +66,8 @@ SRC  = 1_main.c \
        7a_signals_reg.c \
        7b_signals_heredoc.c \
        8_shlvl_export.c \
-       9_free.c
+       9_free.c \
+       10_mini_lexer.c \
 
 OBJ = $(SRC:.c=.o)
 HEADERS = minishell.h

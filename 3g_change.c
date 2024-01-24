@@ -4,86 +4,75 @@
 PROTOTYPE FOR NEW FIXING THE EVAL ISSUE
 */
 
-t_token *expander_tokens(char *str)
+#include "minishell.h"
+
+// Function Prototypes
+t_token *expander_tokens(char *str);
+t_token *tokenize_string(char *str, char *token_str, int *token_idx);
+t_token *add_new_token(t_token *head, char **token_str, int *token_idx);
+t_token *create_new_token(char *str);
+void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes);
+void process_token_list(t_token **head);
+
+void process_token_list(t_token **head) 
 {
-    char *token_str;
-    int token_idx;
-    int in_quote;
-    t_token *head;
+    t_token *current = *head;
+    t_token *next_token;
+    t_token *new_tokens;
+    t_token *last_new_token;
 
-    token_str = malloc(sizeof(char) * (strlen(str) + 1));
-    token_idx = 0;
-    in_quote = 0;
-    head = NULL;
-
-    head = tokenize_string(str, token_str, &token_idx, &in_quote);
-
-    if (token_idx != 0)  // Add the last token if there is one
-        head = add_new_token(head, &token_str, &token_idx);
-
-    free(token_str);
-    return head;
-}
-
-t_token *tokenize_string(char *str, char *token_str, int *token_idx)
-{
-    int i;
-    t_token *head;
-    t_token *current;
-
-
-    i = 0;
-    head = NULL;
-    current = NULL;
-    while (str[i] != '\0')
+    while (current != NULL) 
     {
-        if (ft_isspace(str[i]) && !is_in_any_quote(str, i))
+        next_token = current->next;
+        if (current->type == 6) 
         {
-            if (*token_idx != 0)
-            {
-                 if (head == NULL)
-                {
-                    head = add_new_token(NULL, &token_str, token_idx);
-                    current = head;
-                }
-                else
-                    current = add_new_token(current, &token_str, token_idx);
-            }
+            new_tokens = mini_tokenizer(current->string);
+            last_new_token = new_tokens;
+            while (last_new_token != NULL && last_new_token->next != NULL)
+                last_new_token = last_new_token->next;
+            replace_node(head, current, new_tokens);
+            // Set next_token to the node after the last new token
+            next_token = (last_new_token != NULL) ? last_new_token->next : NULL;
         }
-        else
-        {
-            token_str[*token_idx] = str[i];
-            (*token_idx)++;
-        }
-        i++;
+        current = next_token;
     }
-    return head;
 }
-
-
-t_token *add_new_token(t_token *head, char **token_str, int *token_idx)
+void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes) 
 {
-    t_token *new_token;
+    t_token *last_new_node;
 
-    (*token_str)[*token_idx] = '\0';
-    new_token = create_new_token(*token_str);
-    *token_idx = 0;
-
-    if (!head)
-        return new_token;
-    else
-        head->next = new_token;
-
-    return new_token;
+    if (new_nodes == NULL)
+        return;
+    last_new_node = new_nodes;
+    while (last_new_node->next != NULL)
+        last_new_node = last_new_node->next;
+    // Handling the case where the head is the node to be replaced
+    if (*head == node_to_replace) 
+    {
+         // Link the last new node to the next of the node to be replaced
+        last_new_node->next = node_to_replace->next;
+        // Update the previous pointer of the next node, if it exists
+        if (node_to_replace->next != NULL)
+            node_to_replace->next->previous = last_new_node;
+        // Change the head to the new nodes
+        *head = new_nodes;
+        new_nodes->previous = NULL;
+    } 
+    else 
+    {
+        // Link the previous node of node_to_replace to new_nodes
+        if (node_to_replace->previous != NULL) 
+        {
+            node_to_replace->previous->next = new_nodes;
+            new_nodes->previous = node_to_replace->previous;
+        }
+        // Link the last new node to the next of the node to be replaced
+        last_new_node->next = node_to_replace->next;
+        // Update the previous pointer of the next node, if it exists
+        if (node_to_replace->next != NULL)
+            node_to_replace->next->previous = last_new_node;
+    }
+    free(node_to_replace->string);
+    free(node_to_replace);
 }
 
-t_token *create_new_token(char *str)
-{
-    t_token *new_token;
-
-    new_token = ft_malloc(sizeof(t_token));
-    new_token->string = ft_strdup(str);
-    new_token->next = NULL;
-    new_token->previous = NULL;
-    return (new_token);
-}
