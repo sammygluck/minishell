@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:00 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 14:43:10 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/24 15:11:34 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ t_env_var	*environment_var_handler(char **env);
 t_env_var	*create_env_var(char *current_env);
 t_token		*tokenizer(char *string);
 t_token		*create_token(char *string, int type);
-t_token *find_last_node(t_token *head);
-t_token	*mini_tokenizer(char *string);
+t_token		*find_last_node(t_token *head);
+t_token		*mini_tokenizer(char *string);
 t_redir		*create_redirection_node(t_token **current);
 t_cmd		*parser(t_token *lexer_head);
 t_cmd		*parse_command(t_token **current, int cmd_nr);
@@ -172,7 +172,7 @@ void		error_message(char *msg);
 void		exit_error(char *source, int type);
 void		save_stdin_out(int *save_fd);
 void		free_process(t_process *p);
-void	reset_std_redirection(int *save_fd, t_process *p);
+void		reset_std_redirection(int *save_fd, t_process *p);
 void		close_pipe_ends(t_cmd *command, t_fds pipes[2], t_process *p);
 void		swap(int **pipes);
 void		execute_command(t_cmd *command, t_process *p, t_env_var **envs);
@@ -203,11 +203,13 @@ void		print_env(char **env);
 void		connect_redirections(t_process *p);
 void		remove_prev_file_ref(t_hdoc *hd);
 void		parent_wait(t_process *p);
-void print_arguments(char **argv, int start_index, int flag_n);
-void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes);
-void insert_new_nodes(t_token **head, t_token *node_to_replace, t_token *new_nodes, t_token *last_new_node);
-void process_token_list(t_token **head);
-void free_node(t_token *node);
+void		print_arguments(char **argv, int start_index, int flag_n);
+void		replace_node(t_token **head, t_token *node_to_replace,
+				t_token *new_nodes);
+void		insert_new_nodes(t_token **head, t_token *node_to_replace,
+				t_token *new_nodes, t_token *last_new_node);
+void		process_token_list(t_token **head);
+void		free_node(t_token *node);
 //void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p);
 //void		heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs);
 char		*ft_readline(void);
@@ -239,7 +241,7 @@ char		**mirror_list_to_array(t_env_var *list);
 char		*ft_env_join(char const *s1, char const *s2);
 char		*get_env_value(t_env_var *env, char *string);
 char		*return_env_value(char *string, t_env_var *env_l);
-char	*mini_word_string(char *string, int *i);
+char		*mini_word_string(char *string, int *i);
 int			add_token(char *string, int *i, int type, t_token **head);
 int			find_word_end(char *string, int start_index, t_quote *q_struct);
 int			check_quote_error(t_quote *q_struct);
@@ -274,7 +276,7 @@ int			ft_unset(char **argv, char ***env, t_env_var **env_l);
 int			arg_in_env(char *string, t_env_var **env_list);
 int			ft_pwd(t_env_var **envs);
 int			ft_env(t_env_var **env_l);
-int check_path_var(t_env_var **env_l);
+int			check_path_var(t_env_var **env_l);
 int			ft_echo(char **argv);
 int			only_n(char *string);
 int			ft_export(char **argv, char ***env, t_env_var **list);
@@ -297,20 +299,16 @@ int			cd_too_many_args(void);
 int			cd_oldpwd(char ***env, t_env_var **env_head);
 int			cd_home(char ***env, t_env_var **env_head);
 int			ft_chdir(const char *path, char ***env, t_env_var **env_head);
-int ft_fallback_to_home(char ***env, t_env_var **env_head);
+int			ft_fallback_to_home(char ***env, t_env_var **env_head);
 int			ft_exit(char **argv);
 int			convert_to_number(char *str, long long *number, int sign);
 int			validate_and_process_exit_code(char *input_str);
 int			signal_handler(int i);
-int process_flags(char **argv, int *flag_n);
-int	mini_add_token(char *string, int *i, int type, t_token **head);
-int	mini_find_word_end(char *string, int start_index, t_quote *q_struct);
+int			process_flags(char **argv, int *flag_n);
+int			mini_add_token(char *string, int *i, int type, t_token **head);
+int			mini_find_word_end(char *string, int start_index,
+				t_quote *q_struct);
 long long	str_to_longlong_with_overflow_check(char *str, int *overflow);
 long		truncate_to_exit_code(long long number);
-
-
-
-
-
 
 #endif
