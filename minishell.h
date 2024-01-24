@@ -150,6 +150,10 @@ t_redir		*create_redirection_node(t_token **current);
 t_cmd		*parser(t_token *lexer_head);
 t_cmd		*parse_command(t_token **current, int cmd_nr);
 t_cmd		*init_cmd(int cmd_nr);
+
+void	add_expanded_token_to_list(t_token **token_list, t_token *new, t_token *node_to_replace);
+void	var_expansion_split(t_token **token_head, t_token *node_to_replace, t_env_var *env_head);
+void	print_tokens(t_token *token_head);
 void		init_env_vars(char ***env, t_env_var **envs);
 void		check_arg_count(int argc);
 void		process_commands(char ***env, t_env_var **envs);

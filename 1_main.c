@@ -6,11 +6,14 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:13:18 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:32:24 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/24 13:12:31 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void print_tokens(t_token *token_head);
+static void print_command_table(t_cmd *cmd);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -54,8 +57,11 @@ void	process_commands(char ***env, t_env_var **envs)
 		if (!input)
 			continue ;
 		token_head = tokenizer(input);
+		//print_tokens(token_head);
 		expander(&token_head, *envs);
+		print_tokens(token_head);
 		parsed = parser(token_head);
+		print_command_table(parsed);
 		free_token_list(&token_head);
 		executor(&parsed, env, envs);
 		free_cmd_list(&parsed);
@@ -80,4 +86,39 @@ char	*ft_readline(void)
 	}
 	add_history(input);
 	return (input);
+}
+
+void	print_tokens(t_token *token_head)
+{
+	printf("Token Table:\n");
+	printf("-------------------------------------------------\n");
+	while (token_head != NULL) 
+	{
+		printf("Token string: %s\n", token_head->string);
+		printf("Token type: %d\n", token_head->type);
+		printf("Token current: \t%p\n", token_head);
+		printf("Token previous: \t%p\n", token_head->previous);
+		printf("Token next: \t%p\n", token_head->next);
+		token_head = token_head->next;
+	}
+	printf("\n--------------------------------\n");
+}
+
+
+static void print_command_table(t_cmd *cmd) 
+{
+	printf("Command Table:\n");
+	printf("-------------------------------------------------\n");
+	while (cmd != NULL) 
+	{
+		printf("Command Number: %d\n", cmd->cmd_nr);
+		printf("Arguments Count: %d\n", cmd->argc);
+		printf("Arguments: ");
+		for (int i = 0; i < cmd->argc; ++i) {
+			printf("[\"%s\"] ", cmd->argv[i]);
+		}
+		cmd = cmd->next;
+	}
+	printf("\n-------------------------------------------------\n");
+	printf("\n");
 }
