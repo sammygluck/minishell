@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/24 19:55:47 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:59:12 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	redirect_input_from(t_redir *redirection, t_process *p)
 	return (1);
 }
 
-static void	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
+static int	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
 {
 	if (fd_temp != ERROR)
 		close(fd_temp);
@@ -35,6 +35,7 @@ static void	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
 		return (0);
 	else if (p->fd_in == ERROR && !p->builtin)
 		exit(EXIT_FAILURE);
+	return (1);
 }
 
 static int	redirect_output_to(t_redir *redirection, t_process *p)
@@ -70,7 +71,8 @@ int	redirection_check(t_cmd *command, t_process *p)
 		{
 			if (!redirection->next
 				|| (redirection->next && redirection->next->type != D_SMALLER))
-				heredoc_redirect(p->heredoc->file, p->heredoc->fd, p);
+				if (!heredoc_redirect(p->heredoc->file, p->heredoc->fd, p))
+					return (0);
 		}
 		if (redirection->type == GREATER || redirection->type == D_GREATER)
 			if (!redirect_output_to(redirection, p))

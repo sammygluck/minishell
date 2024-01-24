@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/24 19:53:32 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:02:54 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	execute_local_binary(t_cmd *command, t_process *p)
 	cmd = command->argv[0];
 	if (access(cmd, F_OK | X_OK) == ERROR)
 	{
-		printf("ok\n");
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(command->argv[0], 2);
 		perror(" ");
