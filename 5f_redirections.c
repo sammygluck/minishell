@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:29:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 18:09:08 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:55:47 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ static void	heredoc_redirect(char *temp_file, int fd_temp, t_process *p)
 		close(fd_temp);
 	if (p->fd_in != ERROR)
 		close(p->fd_in);
-	p->fd_in = open_file(temp_file, 0); // TO DO: add protection
+	p->fd_in = open_file(temp_file, 0);
+	if (p->fd_in == ERROR && p->builtin)
+		return (0);
+	else if (p->fd_in == ERROR && !p->builtin)
+		exit(EXIT_FAILURE);
 }
 
 static int	redirect_output_to(t_redir *redirection, t_process *p)

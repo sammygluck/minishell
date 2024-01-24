@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/24 19:06:46 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:54:40 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 
 	if (!command || !*command)
 		return ;
-	g_last_exit_code = 0; // TODO: is this correct?? 
+	g_last_exit_code = 0;
 	p = executor_prep(command, env);
 	executor_loop(command, envs, p);
 	parent_wait(p);

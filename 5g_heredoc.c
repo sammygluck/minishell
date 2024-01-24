@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:33:04 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 14:53:21 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:56:02 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	heredoc_handler(t_process *p, t_env_var **envs)
 	p->heredoc->file = HEREDOC_TEMP_FILE;
 	p->heredoc->fd = open_file(p->heredoc->file, 3);
 	if (p->heredoc->fd == ERROR)
-		exit_error(p->heredoc->file, 1); // TODO: change exit
+		exit_error(p->heredoc->file, 1);
 	child = fork();
 	if (child == ERROR)
 		exit_error("fork in heredoc", 1);
