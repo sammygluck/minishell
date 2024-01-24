@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/24 19:54:40 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:44:33 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ static t_process	*init_process_struct(char ***env)
 	t_process	*p;
 
 	p = ft_malloc(sizeof(t_process));
-	p->fd_in = -1; 
-	p->fd_out = -1; 
+	p->fd_in = -1;
+	p->fd_out = -1;
 	p->input_redir = 0;
-	p->output_redir = 0; 
+	p->output_redir = 0;
 	p->pipe_count = 0;
 	p->cmds_count = 0;
 	p->builtin = 0;

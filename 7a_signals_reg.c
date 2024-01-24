@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:49:52 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/18 09:15:48 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:03:15 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ int	signal_handler(int i)
 	}
 	if (i == PARENT)
 	{
-		act.sa_handler = &p_parent_signal;	
+		act.sa_handler = &p_parent_signal;
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		// sigaction(SIGINT, &act, NULL);
-		// sigaction(SIGQUIT, &act, NULL);
 	}
 	if (i == FORK)
 	{
@@ -79,3 +77,6 @@ void	p_fork_signal(int signal)
 	}
 	exit(g_last_exit_code);
 }
+//two optional lines to replace in case
+		// sigaction(SIGINT, &act, NULL);
+		// sigaction(SIGQUIT, &act, NULL);

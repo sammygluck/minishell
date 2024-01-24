@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:32:24 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:46:41 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/24 15:05:13 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	ft_env(t_env_var **env_l)
 	return (0);
 }
 
-int check_path_var(t_env_var **env_l)
+int	check_path_var(t_env_var **env_l)
 {
-	char *value;
+	char	*value;
 
 	value = get_env_value(*env_l, "PATH");
 	if (!value)
@@ -49,5 +49,4 @@ int check_path_var(t_env_var **env_l)
 	}
 	else
 		return (1);
-
 }

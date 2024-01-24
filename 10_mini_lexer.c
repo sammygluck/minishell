@@ -1,9 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   10_mini_lexer.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/24 14:41:43 by sgluck            #+#    #+#             */
+/*   Updated: 2024/01/24 14:42:59 by sgluck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	mini_find_word_end(char *string, int start_index, t_quote *q_struct);
-char	*mini_word_string(char *string, int *i);
-t_token	*mini_tokenizer(char *string);
-int	mini_add_token(char *string, int *i, int type, t_token **head);
+#include "minishell.h"
 
 t_token	*mini_tokenizer(char *string)
 {
@@ -32,23 +39,23 @@ int	mini_add_token(char *string, int *i, int type, t_token **head)
 {
 	t_token	*token;
 	char	*string_to_add;
-    char    *cleaned;
+	char	*cleaned;
 
-
-    string_to_add = mini_word_string(string, i);
+	string_to_add = mini_word_string(string, i);
 	if (!string_to_add)
 	{
 		ft_putstr_fd("Error: creating string_to_add in mini_lexer failed\n", 2);
 		*i = ft_strlen(string) + 1;
 		return (1);
 	}
-    cleaned = third_clean(string_to_add);
+	cleaned = third_clean(string_to_add);
 	token = create_token(cleaned, type);
 	add_token_to_list(head, token);
 	free(string_to_add);
-    free(cleaned);
+	free(cleaned);
 	return (0);
 }
+
 char	*mini_word_string(char *string, int *i)
 {
 	t_quote	q_struct;
@@ -67,6 +74,7 @@ char	*mini_word_string(char *string, int *i)
 	*i = j;
 	return (result);
 }
+
 int	mini_find_word_end(char *string, int start_index, t_quote *q_struct)
 {
 	int	j;
