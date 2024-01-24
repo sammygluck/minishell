@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:57:47 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 14:47:44 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/24 15:00:49 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_export_process_args(char **argv, char ***env,
 		t_env_var **list, t_export *key_value)
 {
 	int	i;
-	int ret_value;
+	int	ret_value;
 	int	append;
 
 	i = 0;

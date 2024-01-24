@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:09:00 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/07 10:05:00 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/24 14:43:57 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_cd(char **argv, char ***env, t_env_var **env_head)
 		return (1);
 	}
 	if (!argv[1] || ((!ft_strncmp(argv[1], "--", 2) && ft_strlen(argv[1]) == 2))
-	|| (!ft_strncmp(argv[1], "~", 1) && ft_strlen(argv[1]) == 1))
+		|| (!ft_strncmp(argv[1], "~", 1) && ft_strlen(argv[1]) == 1))
 		return (cd_home(env, env_head));
 	else if (!ft_strncmp(argv[1], "-", 1) && ft_strlen(argv[1]) == 1)
 		return (cd_oldpwd(env, env_head));

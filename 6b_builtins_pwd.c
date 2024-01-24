@@ -6,7 +6,7 @@
 /*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:30:10 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 09:45:11 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/24 15:01:21 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_pwd(t_env_var **envs)
 	buffer = get_env_value(*envs, "PWD");
 	if (!buffer)
 	{
-		perror("pwd error");// different error message
+		perror("pwd error");
 		return (1);
 	}
 	printf("%s\n", buffer);

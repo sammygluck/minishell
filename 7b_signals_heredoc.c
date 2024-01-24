@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:50:33 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/24 16:17:08 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:03:53 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	heredoc_signal_handler(int i)
 {
 	struct sigaction	act;
+
 	rl_catch_signals = 1;
 	ft_memset(&act, 0, sizeof(act));
 	if (i == HEREDOC_PARENT)
@@ -33,7 +34,6 @@ void	heredoc_signal_handler(int i)
 
 void	h_parent_signal(int signal)
 {
-	
 	if (signal == SIGINT)
 		g_last_exit_code = 130;
 }

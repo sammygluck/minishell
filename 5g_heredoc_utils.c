@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:31:39 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 11:28:22 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:04:38 by sgluck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ char	*heredoc_delimiter_qoutes(char *delimiter, t_hdoc *hd)
 	char	*new_delimiter;
 
 	len = ft_strlen(delimiter);
-	if (len && ((delimiter[0] == '\'' && delimiter[len - 1] == '\'') || 
-			(delimiter[0] == '\"' && delimiter[len - 1] == '\"')))
+	if (len && ((delimiter[0] == '\'' && delimiter[len - 1] == '\'')
+			|| (delimiter[0] == '\"' && delimiter[len - 1] == '\"')))
 	{
 		hd->quotes = 1;
 		new_delimiter = third_clean(delimiter);
