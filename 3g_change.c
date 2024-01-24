@@ -1,42 +1,34 @@
 #include "minishell.h"
 
-/*
-PROTOTYPE FOR NEW FIXING THE EVAL ISSUE
-*/
-
-#include "minishell.h"
-
-// Function Prototypes
-t_token *expander_tokens(char *str);
-t_token *tokenize_string(char *str, char *token_str, int *token_idx);
-t_token *add_new_token(t_token *head, char **token_str, int *token_idx);
-t_token *create_new_token(char *str);
 void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes);
 void process_token_list(t_token **head);
 
 void process_token_list(t_token **head) 
 {
-    t_token *current = *head;
+    t_token *current;
     t_token *next_token;
     t_token *new_tokens;
     t_token *last_new_token;
 
+    current = *head;
     while (current != NULL) 
     {
         next_token = current->next;
-        if (current->type == 6) 
-        {
+        if (current->type == 6) {
             new_tokens = mini_tokenizer(current->string);
             last_new_token = new_tokens;
             while (last_new_token != NULL && last_new_token->next != NULL)
                 last_new_token = last_new_token->next;
             replace_node(head, current, new_tokens);
-            // Set next_token to the node after the last new token
-            next_token = (last_new_token != NULL) ? last_new_token->next : NULL;
+            if (last_new_token != NULL)
+                next_token = last_new_token->next;
+            else
+                next_token = NULL;
         }
         current = next_token;
     }
 }
+
 void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes) 
 {
     t_token *last_new_node;
