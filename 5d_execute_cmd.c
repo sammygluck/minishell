@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/23 18:08:45 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:09:37 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,13 @@ static void	execute_local_binary(t_cmd *command, t_process *p)
 		ft_putstr_fd(command->argv[0], 2);
 		perror(" ");
 	}
-	if (execve(cmd, command->argv, p->envp) == ERROR)
-		exit (127);
+	else if (execve(cmd, command->argv, p->envp) == ERROR)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(command->argv[0], 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit (126);
+	}
 	exit (127);
 }
 
