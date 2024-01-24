@@ -30,7 +30,7 @@ int	signal_handler(int i)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		// sigaction(SIGINT, &act, NULL);
-		 sigaction(SIGQUIT, &act, NULL);
+		// sigaction(SIGQUIT, &act, NULL);
 	}
 	if (i == FORK)
 	{
@@ -57,6 +57,7 @@ void	p_parent_signal(int signal)
 {
 	if (signal == SIGINT)
 	{
+		ft_putstr_fd("\n", 1);
 		g_last_exit_code = 130;
 	}
 	else if (signal == SIGQUIT)
@@ -70,7 +71,6 @@ void	p_fork_signal(int signal)
 {
 	if (signal == SIGINT)
 	{
-		ft_putstr_fd("\n", 1);
 		g_last_exit_code = 130;
 	}
 	else if (signal == SIGQUIT)
