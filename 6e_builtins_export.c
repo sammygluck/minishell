@@ -39,9 +39,11 @@ int	ft_export_process_args(char **argv, char ***env,
 		t_env_var **list, t_export *key_value)
 {
 	int	i;
+	int ret_value;
 	int	append;
 
 	i = 0;
+	ret_value = 0;
 	while (argv[i])
 	{
 		append = 0;
@@ -50,8 +52,10 @@ int	ft_export_process_args(char **argv, char ***env,
 			extract_key_value(argv[i], key_value, &append);
 			update(key_value, env, list, append);
 		}
+		else
+			ret_value = 1;
 		i++;
 	}
 	free_key_value(key_value);
-	return (0);
+	return (ret_value);
 }
