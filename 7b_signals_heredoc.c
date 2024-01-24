@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:50:33 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/21 16:38:58 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:17:08 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ void	h_child_signal(int signal)
 		g_last_exit_code = -1;
 		ft_putstr_fd("\n", 1);
 		exit (130);
+		//exit(131); Q: which one is the correct one
 	}
 }

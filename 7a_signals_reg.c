@@ -16,6 +16,7 @@ int	signal_handler(int i)
 {
 	struct sigaction	act;
 
+	rl_catch_signals = 0;
 	ft_memset(&act, 0, sizeof(act));
 	if (i == PROMPT)
 	{
@@ -25,9 +26,11 @@ int	signal_handler(int i)
 	}
 	if (i == PARENT)
 	{
-		act.sa_handler = &p_parent_signal;
-		sigaction(SIGINT, &act, NULL);
-		sigaction(SIGQUIT, &act, NULL);
+		act.sa_handler = &p_parent_signal;	
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		// sigaction(SIGINT, &act, NULL);
+		 sigaction(SIGQUIT, &act, NULL);
 	}
 	if (i == FORK)
 	{
@@ -55,20 +58,24 @@ void	p_parent_signal(int signal)
 	if (signal == SIGINT)
 	{
 		g_last_exit_code = 130;
-		ft_putstr_fd("\n", 1);
 	}
 	else if (signal == SIGQUIT)
 	{
-		g_last_exit_code = 131;
 		ft_putstr_fd("Quit\n", 1);
+		g_last_exit_code = 131;
 	}
 }
 
 void	p_fork_signal(int signal)
 {
 	if (signal == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
 		g_last_exit_code = 130;
+	}
 	else if (signal == SIGQUIT)
+	{
 		g_last_exit_code = 131;
+	}
 	exit(g_last_exit_code);
 }
