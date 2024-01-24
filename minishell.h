@@ -147,6 +147,8 @@ t_env_var	*environment_var_handler(char **env);
 t_env_var	*create_env_var(char *current_env);
 t_token		*tokenizer(char *string);
 t_token		*create_token(char *string, int type);
+t_token *find_last_node(t_token *head);
+t_token	*mini_tokenizer(char *string);
 t_redir		*create_redirection_node(t_token **current);
 t_cmd		*parser(t_token *lexer_head);
 t_cmd		*parse_command(t_token **current, int cmd_nr);
@@ -198,6 +200,14 @@ void		free_env_list(t_env_var **head);
 void		free_redirection_list(t_redir **head);
 void		free_cmd_list(t_cmd **head);
 void		print_env(char **env);
+void		connect_redirections(t_process *p);
+void		remove_prev_file_ref(t_hdoc *hd);
+void		parent_wait(t_process *p);
+void print_arguments(char **argv, int start_index, int flag_n);
+void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes);
+void insert_new_nodes(t_token **head, t_token *node_to_replace, t_token *new_nodes, t_token *last_new_node);
+void process_token_list(t_token **head);
+void free_node(t_token *node);
 //void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p);
 //void		heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs);
 char		*ft_readline(void);
@@ -229,6 +239,7 @@ char		**mirror_list_to_array(t_env_var *list);
 char		*ft_env_join(char const *s1, char const *s2);
 char		*get_env_value(t_env_var *env, char *string);
 char		*return_env_value(char *string, t_env_var *env_l);
+char	*mini_word_string(char *string, int *i);
 int			add_token(char *string, int *i, int type, t_token **head);
 int			find_word_end(char *string, int start_index, t_quote *q_struct);
 int			check_quote_error(t_quote *q_struct);
@@ -248,14 +259,11 @@ int			is_redirection_token(t_token *token);
 int			open_file(char *file, int file_type);
 int			is_builtin(char **commands);
 int			connect_commands(t_cmd *command, t_fds pipes[2], t_process *p);
-void		connect_redirections(t_process *p);
 int			execute_cmd_in_child(t_cmd *command, t_fds pipes[2],
 				t_process *p, t_env_var **envs);
 int			execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 int			retrieve_path_var_env(t_process *p);
 int			redirection_check(t_cmd *command, t_process *p);
-void		remove_prev_file_ref(t_hdoc *hd);
-void		parent_wait(t_process *p);
 //int			output_redirect(t_cmd *command, t_process *p);
 //int			builtin_redir_io_check(t_cmd *command, t_process *p, t_env_var **envs);
 int			heredoc_check(t_cmd *command, t_process *p, t_env_var **envs);
@@ -294,20 +302,15 @@ int			ft_exit(char **argv);
 int			convert_to_number(char *str, long long *number, int sign);
 int			validate_and_process_exit_code(char *input_str);
 int			signal_handler(int i);
+int process_flags(char **argv, int *flag_n);
+int	mini_add_token(char *string, int *i, int type, t_token **head);
+int	mini_find_word_end(char *string, int start_index, t_quote *q_struct);
 long long	str_to_longlong_with_overflow_check(char *str, int *overflow);
 long		truncate_to_exit_code(long long number);
 
-void print_arguments(char **argv, int start_index, int flag_n);
-int process_flags(char **argv, int *flag_n);
 
-void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes);
-void insert_new_nodes(t_token **head, t_token *node_to_replace, t_token *new_nodes, t_token *last_new_node);
-t_token *find_last_node(t_token *head);
-void process_token_list(t_token **head);
-void free_node(t_token *node);
-int	mini_find_word_end(char *string, int start_index, t_quote *q_struct);
-char	*mini_word_string(char *string, int *i);
-t_token	*mini_tokenizer(char *string);
-int	mini_add_token(char *string, int *i, int type, t_token **head);
+
+
+
 
 #endif
