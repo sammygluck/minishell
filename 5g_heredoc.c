@@ -22,11 +22,8 @@ static void	heredoc_handler_loop(t_process *p, t_env_var **envs)
 	{
 		heredoc_signal_handler(HEREDOC_CHILD);
 		line = readline("> ");
-		if (!line || g_last_exit_code == -1) // TODO: mag dit??
-		{
-			g_last_exit_code = 130;
+		if (!line)
 			break ;
-		}
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (!p->heredoc->quotes && ft_strchr(line, '$'))
