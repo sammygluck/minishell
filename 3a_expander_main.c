@@ -21,8 +21,7 @@ void	expander(t_token **token_head, t_env_var *env_head)
 	head = *token_head;
 	while (head)
 	{
-		if (head->type == 6 && head->previous
-			&& head->previous->type != D_SMALLER)
+		if ((head->type == 6 && head->previous == NULL) || (head->type == 6 && head->previous && head->previous->type != D_SMALLER))
 			head->string = process_token_string(head->string, env_head); //head->previous
 		head = head->next;
 	}

@@ -14,8 +14,7 @@ void process_token_list(t_token **head)
     while (current != NULL) 
     {
         next_token = current->next;
-        if (current->type == 6 && current->previous
-			&& current->previous->type != D_SMALLER)
+        if ((current->type == 6 && current->previous == NULL) || (current->type == 6 && current->previous && current->previous->type != D_SMALLER))
         {
             new_tokens = mini_tokenizer(current->string);
             last_new_token = new_tokens;
@@ -43,26 +42,20 @@ void replace_node(t_token **head, t_token *node_to_replace, t_token *new_nodes)
     // Handling the case where the head is the node to be replaced
     if (*head == node_to_replace) 
     {
-         // Link the last new node to the next of the node to be replaced
         last_new_node->next = node_to_replace->next;
-        // Update the previous pointer of the next node, if it exists
         if (node_to_replace->next != NULL)
             node_to_replace->next->previous = last_new_node;
-        // Change the head to the new nodes
         *head = new_nodes;
         new_nodes->previous = NULL;
     } 
     else 
     {
-        // Link the previous node of node_to_replace to new_nodes
         if (node_to_replace->previous != NULL) 
         {
             node_to_replace->previous->next = new_nodes;
             new_nodes->previous = node_to_replace->previous;
         }
-        // Link the last new node to the next of the node to be replaced
         last_new_node->next = node_to_replace->next;
-        // Update the previous pointer of the next node, if it exists
         if (node_to_replace->next != NULL)
             node_to_replace->next->previous = last_new_node;
     }
