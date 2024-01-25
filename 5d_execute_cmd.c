@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/24 20:02:54 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:18:34 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,15 @@ static void	execute_local_binary(t_cmd *command, t_process *p)
 	cmd = command->argv[0];
 	if (access(cmd, F_OK | X_OK) == ERROR)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command->argv[0], 2);
+		exec_error_message(command->argv[0], "");
 		perror(" ");
+		free_process(p);
 		exit (126);
 	}
 	else if (execve(cmd, command->argv, p->envp) == ERROR)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command->argv[0], 2);
-		ft_putstr_fd(": is a directory\n", 2);
+		exec_error_message(command->argv[0], ": is a directory\n");
+		free_process(p);
 		exit (126);
 	}
 	exit (127);
@@ -77,35 +76,39 @@ static void	execute_env_binary(t_cmd *command, t_process *p)
 		if (access(tmp, F_OK | X_OK) == 0)
 		{
 			execve(tmp, command->argv, p->envp);
+			free_process(p);
 			exit (EXIT_SUCCESS);
 		}
 		free(tmp);
 		i++;
 	}
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command->argv[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
+	exec_error_message(command->argv[0], ": command not found\n");
+	free_process(p);
 	exit (127);
 }
 
 void	execute_command(t_cmd *command, t_process *p, t_env_var **envs)
 {
 	if (!command)
+	{
+		free_process(p);
 		exit (EXIT_FAILURE);
+	}
 	if (command->argv && ft_strchr(command->argv[0], '/'))
 		execute_local_binary(command, p);
 	if (command->argv && is_builtin(command->argv))
 	{
 		g_last_exit_code = execute_builtin(command, p, envs);
-		if (g_last_exit_code == 1)
-			exit(EXIT_FAILURE);
-		else
-			exit (EXIT_SUCCESS);
+		free_process(p);
+		exit(g_last_exit_code);
 	}
 	else
 	{
 		if (!retrieve_path_var_env(p))
+		{
+			free_process(p);
 			exit(EXIT_FAILURE);
+		}
 		execute_env_binary(command, p);
 	}
 }

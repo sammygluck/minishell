@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:26:24 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 20:28:53 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:40:22 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	retrieve_path_var_env(t_process *p)
 	tmp = getenv("PATH");
 	if (!tmp)
 		return (0);
-	path = (char *)ft_malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
+	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
+	if (!path)
+		return (0);
 	i = 0;
 	while (tmp[i])
 	{
