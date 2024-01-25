@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:49:52 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/24 15:03:15 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/25 09:24:39 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	signal_handler(int i)
 	if (i == PARENT)
 	{
 		act.sa_handler = &p_parent_signal;
-
 		sigaction(SIGINT, &act, NULL);
 		sigaction(SIGQUIT, &act, NULL);
 	}
