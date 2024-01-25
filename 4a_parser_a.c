@@ -44,7 +44,8 @@ t_cmd	*parse_command(t_token **current, int cmd_nr)
 			parse_redirection(current, command);
 		else
 		{
-			add_argument_to_command(command, (*current)->string);
+			if ((*current)->string[0] != '\0')
+				add_argument_to_command(command, (*current)->string);
 			*current = (*current)->next;
 		}
 	}
