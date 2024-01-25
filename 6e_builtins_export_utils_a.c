@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:00:06 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/24 20:06:20 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:49:36 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	print_export_error(int i)
 	if (i == 0)
 		ft_putendl_fd("Empty string or null pointer", 2);
 	else if (i == 1)
-		ft_putendl_fd("First character is not a valid identifier", 2);
+		ft_putendl_fd("not a valid identifier", 2);
 	else if (i == 2)
 		ft_putendl_fd("not a valid identifier", 2);
 }

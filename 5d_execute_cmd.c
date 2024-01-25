@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:43:31 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/25 10:18:34 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:56:58 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,21 @@ static void	execute_local_binary(t_cmd *command, t_process *p)
 	if (!command)
 		return ;
 	cmd = command->argv[0];
+	if (access(cmd, F_OK) == ERROR)
+	{
+		exec_error_message(command->argv[0], " ", p);
+		perror(" ");
+		exit (127);
+	}
 	if (access(cmd, F_OK | X_OK) == ERROR)
 	{
-		exec_error_message(command->argv[0], "");
+		exec_error_message(command->argv[0], "", p);
 		perror(" ");
-		free_process(p);
 		exit (126);
 	}
 	else if (execve(cmd, command->argv, p->envp) == ERROR)
 	{
-		exec_error_message(command->argv[0], ": is a directory\n");
-		free_process(p);
+		exec_error_message(command->argv[0], ": is a directory\n", p);
 		exit (126);
 	}
 	exit (127);
@@ -76,14 +80,12 @@ static void	execute_env_binary(t_cmd *command, t_process *p)
 		if (access(tmp, F_OK | X_OK) == 0)
 		{
 			execve(tmp, command->argv, p->envp);
-			free_process(p);
 			exit (EXIT_SUCCESS);
 		}
 		free(tmp);
 		i++;
 	}
-	exec_error_message(command->argv[0], ": command not found\n");
-	free_process(p);
+	exec_error_message(command->argv[0], ": command not found\n", p);
 	exit (127);
 }
 

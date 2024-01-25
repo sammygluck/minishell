@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:25:30 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/25 09:56:05 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:10:15 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ void	parent_wait(t_process *p)
 		g_last_exit_code = WEXITSTATUS(status);
 }
 
-void	exec_error_message(char *command, char *message)
+void	exec_error_message(char *command, char *message, t_process *p)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(message, 2);
+	free_process(p);
 }
 
 void	free_process(t_process *p)

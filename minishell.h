@@ -166,7 +166,7 @@ void		add_argument_to_command(t_cmd *command, char *arg);
 void		append_command(t_cmd **commands, t_cmd *new_cmd);
 void		parse_redirection(t_token **current, t_cmd *command);
 void		append_redirection(t_cmd *command, t_redir *new_redir);
-void		exec_error_message(char *command, char *message);
+void		exec_error_message(char *command, char *message, t_process *p);
 void		executor(t_cmd **command, char ***env, t_env_var **envs);
 void		free_array(char **array);
 void		error_message(char *msg);
