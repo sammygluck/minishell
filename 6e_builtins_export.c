@@ -42,7 +42,7 @@ int	ft_export_process_args(char **argv, char ***env,
 	int	ret_value;
 	int	append;
 
-	i = 0;
+	i = 1;
 	ret_value = 0;
 	while (argv[i])
 	{
