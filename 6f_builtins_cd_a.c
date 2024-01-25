@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6f_builtins_cd_a.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgluck <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:09:00 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/24 14:43:57 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/25 10:27:26 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_cd(char **argv, char ***env, t_env_var **env_head)
 int	cd_too_many_args(void)
 {
 	ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
-	return (1);
+	return (0);
 }
 
 int	cd_oldpwd(char ***env, t_env_var **env_head)

@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:26:24 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/17 20:28:53 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:35:02 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,14 @@ char	**create_paths_array(char *path)
 	char	**paths;
 
 	paths = ft_split(path, ':');
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
+		if (!paths[i])
+			return (NULL);
 		i++;
 	}
 	return (paths);
@@ -36,7 +40,9 @@ int	retrieve_path_var_env(t_process *p)
 	tmp = getenv("PATH");
 	if (!tmp)
 		return (0);
-	path = (char *)ft_malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
+	path = (char *)malloc(sizeof(char) * ((int)ft_strlen(tmp) + 1));
+	if (!path)
+		return (0);
 	i = 0;
 	while (tmp[i])
 	{

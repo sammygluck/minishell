@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:32:00 by jsteenpu          #+#    #+#             */
-/*   Updated: 2024/01/24 14:44:33 by sgluck           ###   ########.fr       */
+/*   Updated: 2024/01/25 10:27:11 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ static t_process	*init_process_struct(char ***env)
 {
 	t_process	*p;
 
-	p = ft_malloc(sizeof(t_process));
+	p = malloc(sizeof(t_process));
+	if (!p)
+		return (NULL);
 	p->fd_in = -1;
 	p->fd_out = -1;
 	p->input_redir = 0;
@@ -87,6 +89,8 @@ t_process	*executor_prep(t_cmd **command, char ***env)
 	t_cmd		*current_cmd;
 
 	p = init_process_struct(env);
+	if (!p)
+		return (NULL);
 	current_cmd = *command;
 	while (current_cmd)
 	{
@@ -96,7 +100,11 @@ t_process	*executor_prep(t_cmd **command, char ***env)
 		current_cmd = current_cmd->next;
 	}
 	if (p->cmds_count)
-		p->pid = ft_malloc(sizeof(pid_t) * p->cmds_count);
+	{
+		p->pid = malloc(sizeof(pid_t) * p->cmds_count);
+		if (!p->pid)
+			return (NULL);
+	}
 	return (p);
 }
 
@@ -108,6 +116,11 @@ void	executor(t_cmd **command, char ***env, t_env_var **envs)
 		return ;
 	g_last_exit_code = 0;
 	p = executor_prep(command, env);
+	if (!p)
+	{
+		free_process(p);
+		return ;
+	}
 	executor_loop(command, envs, p);
 	parent_wait(p);
 	free_process(p);

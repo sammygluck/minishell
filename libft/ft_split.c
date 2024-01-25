@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 17:21:08 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/17 13:25:45 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:33:50 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**cpy(char **tab_str, char const *str, char charset)
 	while (++i < ft_wordcount(str, charset))
 	{
 		j = 0;
-		tab_str[i] = ft_malloc(ft_next_word_count(str, charset, s) + 1);
+		tab_str[i] = malloc(ft_next_word_count(str, charset, s) + 1);
 		if (!tab_str[i])
 			return (ft_free(tab_str, i));
 		while (str[s] != '\0' && str[s] == charset)
@@ -93,7 +93,7 @@ char	**ft_split(char const *str, char charset)
 	if (str == 0)
 		return (0);
 	len = ft_wordcount(str, charset);
-	tab_str = (char **)ft_malloc(sizeof(char *) * (len + 1));
+	tab_str = (char **)malloc(sizeof(char *) * (len + 1));
 	if (tab_str == NULL)
 		return (NULL);
 	return (cpy(tab_str, str, charset));

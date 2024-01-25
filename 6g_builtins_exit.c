@@ -6,7 +6,7 @@
 /*   By: jsteenpu <jsteenpu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:42:55 by sgluck            #+#    #+#             */
-/*   Updated: 2024/01/18 09:15:25 by jsteenpu         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:26:01 by jsteenpu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ int	ft_exit(char **argv)
 		else
 		{
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-			ft_putstr_fd(argv[1], STDERR_FILENO);
 			ft_putstr_fd("numeric argument required\n", STDERR_FILENO);
-			final_exit(2);
+			final_exit(255);
 		}
 	}
 	return (0);

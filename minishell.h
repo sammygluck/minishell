@@ -166,6 +166,7 @@ void		add_argument_to_command(t_cmd *command, char *arg);
 void		append_command(t_cmd **commands, t_cmd *new_cmd);
 void		parse_redirection(t_token **current, t_cmd *command);
 void		append_redirection(t_cmd *command, t_redir *new_redir);
+void		exec_error_message(char *command, char *message, t_process *p);
 void		executor(t_cmd **command, char ***env, t_env_var **envs);
 void		free_array(char **array);
 void		error_message(char *msg);
@@ -210,8 +211,6 @@ void		insert_new_nodes(t_token **head, t_token *node_to_replace,
 				t_token *new_nodes, t_token *last_new_node);
 void		process_token_list(t_token **head);
 void		free_node(t_token *node);
-//void	executor_loop(t_cmd **command, t_env_var **envs, t_process *p);
-//void		heredoc_handler(char *delimiter, t_hdoc *hd, t_env_var **envs);
 char		*ft_readline(void);
 char		*token_string(int type, int *i);
 char		*word_string(char *string, int *i);
@@ -266,8 +265,6 @@ int			execute_cmd_in_child(t_cmd *command, t_fds pipes[2],
 int			execute_builtin(t_cmd *command, t_process *p, t_env_var **envs);
 int			retrieve_path_var_env(t_process *p);
 int			redirection_check(t_cmd *command, t_process *p);
-//int			output_redirect(t_cmd *command, t_process *p);
-//int			builtin_redir_io_check(t_cmd *command, t_process *p, t_env_var **envs);
 int			heredoc_check(t_cmd *command, t_process *p, t_env_var **envs);
 int			env_var_name_length(char *s);
 int			valid_env_var_name(char c);
